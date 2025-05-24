@@ -7,6 +7,7 @@
   <Import Project="Traits.props" />
   <Import Project="Workarounds.props" />
   <Import Project="Product.props" />
+  <Import Project="Language.props" />
 
   <!-- =================================================================== -->
 
@@ -24,6 +25,7 @@
   <!-- =================================================================== -->
 
   <Import Project="Analysis.props" />
+  <Import Project="Targeting.props" />
   <Import Project="NuGet.props" />
   <Import Project="AssemblySignature.props" />
   <Import Project="Polyfills.props" />

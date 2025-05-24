@@ -1,4 +1,8 @@
-﻿# Gapotchenko Shield for XDG Directories
+﻿# Gapotchenko.Shields.Xdg.Directories
+
+Implements XDG Base Directory and XDG User Directories specifications.
+
+## Summary
 
 freedesktop.org, formerly X Desktop Group (XDG), is a project to work on
 interoperability and shared base technology for desktop environments provided
@@ -12,17 +16,15 @@ located.
 
 XDG Base Directories are regulated by [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html).
 
-This functionality is provided by `Gapotchenko.Shields.Xdg.Directories.Base`
-module.
+This functionality is provided by `Gapotchenko.Shields.Xdg.Directories.Base` module.
 
 ## XDG User Directories
 
-XDG User Directories are regulated by `xdg-user-dirs` command-line
-utility. The informal overview is available at https://wiki.archlinux.org/title/XDG_user_directories.
+XDG User Directories are regulated by `xdg-user-dirs` command-line utility.
+The informal overview is available at https://wiki.archlinux.org/title/XDG_user_directories.
 
-This functionality is provided by `Gapotchenko.Shields.Xdg.Directories.User`
-module.
+This functionality is provided by `Gapotchenko.Shields.Xdg.Directories.User` module.
 
 ## Reference Implementations
 
-  - https://github.com/adrg/xdg
+  - https://github.com/adrg/xdg (golang)

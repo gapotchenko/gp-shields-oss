@@ -43,7 +43,7 @@ partial struct XdgBaseDirectory
     {
         get
         {
-            var name = Name;
+            string name = Name;
             if (name.Length == 0)
                 return null;
 
@@ -63,7 +63,7 @@ partial struct XdgBaseDirectory
 
             [return: NotNullIfNotNull(nameof(value))]
             static IReadOnlyList<string>? SplitValues(string? value) =>
-                value?.Split(new[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
+                value?.Split([Path.PathSeparator], StringSplitOptions.RemoveEmptyEntries);
         }
     }
 
@@ -87,14 +87,14 @@ partial struct XdgBaseDirectory
     {
         get
         {
-            var name = Name;
+            string name = Name;
             if (name.Length == 0)
                 return null;
 
             var cache = m_ValueCache;
             lock (cache)
             {
-                if (cache.TryGetValue(name, out var value))
+                if (cache.TryGetValue(name, out string? value))
                     return value;
 
                 if (!IsKnown)
@@ -117,7 +117,7 @@ partial struct XdgBaseDirectory
     {
         var pal = PalServices.Adapter;
 
-        var value =
+        string? value =
             name switch
             {
                 "XDG_DATA_HOME" => pal.GetDataHome(),

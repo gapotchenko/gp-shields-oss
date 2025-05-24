@@ -3,16 +3,6 @@
   <!-- Language Configuration -->
   <PropertyGroup>
     <LangVersion>13.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Using Include="System.Diagnostics" />
-    <Using Include="System.Diagnostics.CodeAnalysis" />
-    <Using Include="System.Runtime.InteropServices" />
-    <Using Include="System.Runtime.Versioning" />
-    <Using Include="System.FormattableString" Static="true" />
-  </ItemGroup>
 
 </Project>

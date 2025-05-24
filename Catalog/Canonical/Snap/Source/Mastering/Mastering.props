@@ -1,18 +1,12 @@
 ﻿<Project>
 
-  <Import Project="Product.props" />
-  <Import Project="Version.props" />
-  <Import Project="Language.props" />
-  <Import Project="Analysis.props" />
-  <Import Project="Targeting.props" />
-  <Import Project="NuGet.props" />
-
   <PropertyGroup>
     <MasteringDir>$(MSBuildThisFileDirectory)</MasteringDir>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <CLSCompliant Condition=" '$(MasteringProjectKind)' == 'module' ">true</CLSCompliant>
-  </PropertyGroup>
+  <Import Project="Product.props" />
+  <Import Project="Version.props" />
+  <Import Project="Language.props" />
+  <Import Project="NuGet.props" />
 
 </Project>

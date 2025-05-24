@@ -2,7 +2,7 @@
 
   <!-- NuGet Information -->
   <PropertyGroup>
-    <PackageTags>canonical snap shield</PackageTags>
+    <PackageTags>$(PackageTags) canonical snap</PackageTags>
   </PropertyGroup>
 
 </Project>

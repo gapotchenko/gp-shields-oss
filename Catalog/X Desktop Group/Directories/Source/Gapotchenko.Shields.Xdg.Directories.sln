@@ -14,11 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Misc", "03. Misc", "{6F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{E5F2F87D-1B00-4538-BD83-825AE40FBCF1}"
 	ProjectSection(SolutionItems) = preProject
-		Mastering\Analysis.props = Mastering\Analysis.props
 		Mastering\Language.props = Mastering\Language.props
 		Mastering\NuGet.props = Mastering\NuGet.props
 		Mastering\Product.props = Mastering\Product.props
-		Mastering\Targeting.props = Mastering\Targeting.props
 		Mastering\Version.props = Mastering\Version.props
 	EndProjectSection
 EndProject

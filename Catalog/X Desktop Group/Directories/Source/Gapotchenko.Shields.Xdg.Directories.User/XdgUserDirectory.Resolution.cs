@@ -28,14 +28,14 @@ partial struct XdgUserDirectory
     {
         get
         {
-            var name = Name;
+            string name = Name;
             if (name.Length == 0)
                 return null;
 
             var cache = m_ValueCache;
             lock (cache)
             {
-                if (cache.TryGetValue(name, out var value))
+                if (cache.TryGetValue(name, out string? value))
                     return value;
 
                 if (!IsKnown)
@@ -72,7 +72,7 @@ partial struct XdgUserDirectory
     {
         var pal = PalServices.Adapter;
 
-        var value =
+        string? value =
             name switch
             {
                 "XDG_DESKTOP_DIR" => pal.GetDesktopDirectory(),
