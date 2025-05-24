@@ -1,0 +1,8 @@
+﻿<Project>
+
+  <!-- Language Configuration -->
+  <PropertyGroup>
+    <LangVersion>13.0</LangVersion>
+  </PropertyGroup>
+
+</Project>

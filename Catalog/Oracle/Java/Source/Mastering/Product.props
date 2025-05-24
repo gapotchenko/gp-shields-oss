@@ -1,0 +1,8 @@
+<Project>
+
+  <!-- Product Information -->
+  <PropertyGroup>
+    <Product>Gapotchenko.Shields.Java</Product>
+  </PropertyGroup>
+
+</Project>

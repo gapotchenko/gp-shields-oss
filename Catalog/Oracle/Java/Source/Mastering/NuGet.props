@@ -1,0 +1,8 @@
+<Project>
+
+  <!-- NuGet Specification -->
+  <PropertyGroup>
+    <PackageTags>$(PackageTags) java</PackageTags>
+  </PropertyGroup>
+
+</Project>

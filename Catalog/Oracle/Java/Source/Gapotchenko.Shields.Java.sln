@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Java.Deployment", "Gapotchenko.Shields.Java.Deployment\Gapotchenko.Shields.Java.Deployment.csproj", "{25CC63FC-FE9D-4A16-91C0-037A040E941D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Java.Harness", "Gapotchenko.Shields.Java.Harness\Gapotchenko.Shields.Java.Harness.csproj", "{031BE05E-3C70-4542-BCAB-38A1242AE081}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Java.Configuration", "Gapotchenko.Shields.Java.Configuration\Gapotchenko.Shields.Java.Configuration.csproj", "{19AC111E-0F14-4D73-8254-B12C8D2222A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{4CF11003-3E47-4A4C-A605-6BA054689045}"
+	ProjectSection(SolutionItems) = preProject
+		Mastering\Analysis.props = Mastering\Analysis.props
+		Mastering\Language.props = Mastering\Language.props
+		Mastering\NuGet.props = Mastering\NuGet.props
+		Mastering\Targeting.props = Mastering\Targeting.props
+		Mastering\Version.props = Mastering\Version.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Components", "01. Components", "{C29F714E-7DBD-4AF5-81D8-BF06A63104B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Modules", "02. Modules", "{E26A6DB0-3D2F-4FFE-AF2A-8ADEA2785BAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Misc", "03. Misc", "{8CCA1B7A-03D3-4C05-BC99-51EFE97863D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Harness", "Harness", "{9343D2B6-B2A2-44E6-BC99-1E265AF94C2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25CC63FC-FE9D-4A16-91C0-037A040E941D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25CC63FC-FE9D-4A16-91C0-037A040E941D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25CC63FC-FE9D-4A16-91C0-037A040E941D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25CC63FC-FE9D-4A16-91C0-037A040E941D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{031BE05E-3C70-4542-BCAB-38A1242AE081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{031BE05E-3C70-4542-BCAB-38A1242AE081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{031BE05E-3C70-4542-BCAB-38A1242AE081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{031BE05E-3C70-4542-BCAB-38A1242AE081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19AC111E-0F14-4D73-8254-B12C8D2222A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19AC111E-0F14-4D73-8254-B12C8D2222A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19AC111E-0F14-4D73-8254-B12C8D2222A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19AC111E-0F14-4D73-8254-B12C8D2222A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{25CC63FC-FE9D-4A16-91C0-037A040E941D} = {E26A6DB0-3D2F-4FFE-AF2A-8ADEA2785BAF}
+		{031BE05E-3C70-4542-BCAB-38A1242AE081} = {9343D2B6-B2A2-44E6-BC99-1E265AF94C2E}
+		{19AC111E-0F14-4D73-8254-B12C8D2222A2} = {E26A6DB0-3D2F-4FFE-AF2A-8ADEA2785BAF}
+		{4CF11003-3E47-4A4C-A605-6BA054689045} = {8CCA1B7A-03D3-4C05-BC99-51EFE97863D1}
+		{9343D2B6-B2A2-44E6-BC99-1E265AF94C2E} = {8CCA1B7A-03D3-4C05-BC99-51EFE97863D1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6EE0D96-ECC9-491F-8614-8FDEA5A6E6A9}
+	EndGlobalSection
+EndGlobal
