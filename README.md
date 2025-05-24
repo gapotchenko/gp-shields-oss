@@ -1,11 +1,11 @@
 # Gapotchenko Shields OSS
 
-Gapotchenko Shields OSS is a catalog of .NET open source software components that help your project integrate with various complementary technologies more productively and with less errors.
+Gapotchenko Shields OSS is a curated catalog of open-source .NET components that simplify integration with complementary technologies in your project.
 
 ## Overview
 
-Many software projects rely on external technologies for specific features or integrations.
-However, working with these technologies — especially if they are immature or underspecified — can be difficult and error-prone.
-A technology shield simplifies this process by providing reliable, ready-to-use components allowing you to access a specific technology with ease.
+Many software projects depend on external technologies to enable specific features or integrations.
+However, working with these technologies — especially when they are immature or poorly documented — can be challenging and prone to errors.
+A technology shield addresses this by offering reliable, ready-to-use components that make integrating with these technologies easier and more robust.
 
 ## Shield catalog
