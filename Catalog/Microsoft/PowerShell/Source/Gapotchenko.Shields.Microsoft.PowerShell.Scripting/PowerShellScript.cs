@@ -8,7 +8,7 @@ using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.Shields.Microsoft.PowerShell.Deployment;
 using System.Text;
 
-namespace Gapotchenko.Shields.Microsoft.PowerShell.Script;
+namespace Gapotchenko.Shields.Microsoft.PowerShell.Scripting;
 
 /// <summary>
 /// Provides functionality for PowerShell scripts creation and execution.
@@ -118,14 +118,12 @@ public static class PowerShellScript
     public static string QuoteString(string? value)
     {
         if (value is null)
-        {
             return Null;
-        }
         else
         {
             var sb = new StringBuilder();
             sb.AppendLine("@\"");
-            foreach (var ch in value)
+            foreach (char ch in value)
             {
                 if (ch is '"' or '$' or '`')
                     sb.Append('`');

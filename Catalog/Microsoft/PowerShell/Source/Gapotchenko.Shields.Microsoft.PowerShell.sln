@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Harness", "Harness", "{A1B2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Microsoft.PowerShell.Harness", "Gapotchenko.Shields.Microsoft.PowerShell.Harness\Gapotchenko.Shields.Microsoft.PowerShell.Harness.csproj", "{CC4CC40D-4F5A-4D5C-B379-948292AC10E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.Microsoft.PowerShell.Script", "Gapotchenko.Shields.Microsoft.PowerShell.Script\Gapotchenko.Shields.Microsoft.PowerShell.Script.csproj", "{3B258404-A3A1-4368-A68E-753CC4C8483F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.Microsoft.PowerShell.Scripting", "Gapotchenko.Shields.Microsoft.PowerShell.Scripting\Gapotchenko.Shields.Microsoft.PowerShell.Scripting.csproj", "{3B258404-A3A1-4368-A68E-753CC4C8483F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

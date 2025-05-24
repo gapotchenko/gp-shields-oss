@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gapotchenko.Shields.Microsoft.PowerShell.Deployment\Gapotchenko.Shields.Microsoft.PowerShell.Deployment.csproj" />
-    <ProjectReference Include="..\Gapotchenko.Shields.Microsoft.PowerShell.Script\Gapotchenko.Shields.Microsoft.PowerShell.Script.csproj" />
+    <ProjectReference Include="..\Gapotchenko.Shields.Microsoft.PowerShell.Scripting\Gapotchenko.Shields.Microsoft.PowerShell.Scripting.csproj" />
   </ItemGroup>
 
 </Project>

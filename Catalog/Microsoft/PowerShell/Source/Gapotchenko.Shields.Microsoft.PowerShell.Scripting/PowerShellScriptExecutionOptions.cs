@@ -4,7 +4,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
 
-namespace Gapotchenko.Shields.Microsoft.PowerShell.Script;
+namespace Gapotchenko.Shields.Microsoft.PowerShell.Scripting;
 
 /// <summary>
 /// Defines the options for PowerShell script execution.

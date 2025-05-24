@@ -1,6 +1,6 @@
 ﻿using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Microsoft.PowerShell.Deployment;
-using Gapotchenko.Shields.Microsoft.PowerShell.Script;
+using Gapotchenko.Shields.Microsoft.PowerShell.Scripting;
 using System.Text;
 
 namespace Gapotchenko.Shields.Microsoft.PowerShell.Harness;
@@ -54,7 +54,7 @@ class Program
             $Result = [System.Windows.MessageBox]::Show("Hello from PowerShell script Привіт")
             """;
 
-        var s =
+        string s =
             """
             Hello from PowerShell script
             Привіт
