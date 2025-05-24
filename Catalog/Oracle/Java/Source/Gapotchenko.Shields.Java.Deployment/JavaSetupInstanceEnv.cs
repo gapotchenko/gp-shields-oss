@@ -10,7 +10,7 @@ sealed class JavaSetupInstanceEnv(string homePath) : JavaSetupInstanceFS(homePat
 {
     public static JavaSetupInstanceEnv? TryCreate()
     {
-        var javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
+        string? javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
         if (!Directory.Exists(javaHome))
             return null;
 

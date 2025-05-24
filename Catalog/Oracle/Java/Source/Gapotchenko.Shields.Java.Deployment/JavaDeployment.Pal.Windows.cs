@@ -35,7 +35,7 @@ partial class JavaDeployment
                 {
                     if (jdkKey != null)
                     {
-                        foreach (var jdkVersionKeyName in jdkKey.GetSubKeyNames())
+                        foreach (string jdkVersionKeyName in jdkKey.GetSubKeyNames())
                         {
                             if (!Version.TryParse(jdkVersionKeyName, out var version))
                                 continue;
@@ -47,7 +47,7 @@ partial class JavaDeployment
                             if (jdkVersionKey == null)
                                 continue;
 
-                            var homePath = jdkVersionKey.GetValue("JavaHome") as string;
+                            string? homePath = jdkVersionKey.GetValue("JavaHome") as string;
 
                             var instance = JavaSetupInstanceFS.TryCreate(homePath, JavaProduct.IDs.SE.Sdk);
                             if (instance != null)
@@ -77,7 +77,7 @@ partial class JavaDeployment
 
             static IEnumerable<IJavaSetupInstance> EnumerateSetupInstancesFromRegistryKey_v1_8(RegistryKey jdkKey, Interval<Version> versions, string productIDHint)
             {
-                foreach (var jdkVersionKeyName in jdkKey.GetSubKeyNames())
+                foreach (string jdkVersionKeyName in jdkKey.GetSubKeyNames())
                 {
                     if (!(jdkVersionKeyName.Contains('_') && Version.TryParse(jdkVersionKeyName.Replace('_', '.'), out var version)))
                         continue;
@@ -89,7 +89,7 @@ partial class JavaDeployment
                     if (jdkVersionKey == null)
                         continue;
 
-                    var homePath = jdkVersionKey.GetValue("JavaHome") as string;
+                    string? homePath = jdkVersionKey.GetValue("JavaHome") as string;
 
                     var instance = JavaSetupInstanceFS.TryCreate(homePath, productIDHint);
                     if (instance != null)

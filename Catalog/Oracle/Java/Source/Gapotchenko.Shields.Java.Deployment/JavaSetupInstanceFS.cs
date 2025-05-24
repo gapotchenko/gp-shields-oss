@@ -32,7 +32,7 @@ class JavaSetupInstanceFS : IJavaSetupInstance
             m_ReleaseManifest.Value ??
             throw new InvalidDataException("Java instance has no release manifest.");
 
-        var s =
+        string s =
             releaseManifest["JAVA_VERSION"] ??
             throw new InvalidDataException("Java release manifest does not define version.");
 

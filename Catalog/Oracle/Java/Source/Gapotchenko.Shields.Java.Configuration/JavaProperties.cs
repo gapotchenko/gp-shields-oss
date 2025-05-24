@@ -29,7 +29,7 @@ public sealed class JavaProperties : IEnumerable<KeyValuePair<string, string>>
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            m_Map.TryGetValue(name, out var value);
+            m_Map.TryGetValue(name, out string? value);
             return value;
         }
         set
