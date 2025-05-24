@@ -1,0 +1,8 @@
+<Project>
+
+  <!-- NuGet Information -->
+  <PropertyGroup>
+    <PackageTags>canonical snap shield</PackageTags>
+  </PropertyGroup>
+
+</Project>

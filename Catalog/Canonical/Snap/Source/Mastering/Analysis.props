@@ -1,0 +1,7 @@
+<Project>
+
+  <PropertyGroup>
+    <AnalysisMode Condition=" '$(MasteringProjectKind)' == 'module' ">all</AnalysisMode>
+  </PropertyGroup>
+
+</Project>

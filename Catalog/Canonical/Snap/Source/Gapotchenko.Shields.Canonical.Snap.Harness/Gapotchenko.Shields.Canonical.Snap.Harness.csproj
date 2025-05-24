@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gapotchenko.Shields.Canonical.Snap.Deployment\Gapotchenko.Shields.Canonical.Snap.Deployment.csproj" />
+    <ProjectReference Include="..\Gapotchenko.Shields.Canonical.Snap.Management\Gapotchenko.Shields.Canonical.Snap.Management.csproj" />
+    <ProjectReference Include="..\Gapotchenko.Shields.Canonical.Snap.Resolution\Gapotchenko.Shields.Canonical.Snap.Resolution.csproj" />
+  </ItemGroup>
+
+</Project>
