@@ -1,4 +1,4 @@
-﻿# Gapotchenko.Shields.Xdg.Directories
+﻿# Gapotchenko Shield for XDG Directories
 
 Implements XDG Base Directory and XDG User Directories specifications.
 
