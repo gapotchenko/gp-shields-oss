@@ -1,4 +1,4 @@
-# Catalog of Shields
+# Shield Catalog
 
 - Canonical
     - [Snap](Canonical/Snap) - software packaging and deployment system
