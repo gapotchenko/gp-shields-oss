@@ -1,6 +1,6 @@
 # Gapotchenko Shields
 
-Gapotchenko Shields is a catalog of software components that help your project integrate with various complementary technologies more productively.
+Gapotchenko Shields is a catalog of .NET software components that help your project integrate with various complementary technologies more productively.
 
 ## Overview
 
