@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Components", "01. Components", "{ED394780-033A-403E-95D8-519C4EBC27DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Modules", "02. Modules", "{01EBE76B-B23B-4771-BE27-B1F197A2A94E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Tests", "03. Tests", "{F86F52FE-D429-4970-A2AF-B73523A18094}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Misc", "04. Misc", "{60323417-5B16-47E8-BEB4-23B99B4860C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{AC6F5228-9A9B-408C-B55B-97626F52A6D5}"
+	ProjectSection(SolutionItems) = preProject
+		Mastering\Language.props = Mastering\Language.props
+		Mastering\Version.props = Mastering\Version.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Microsoft.PowerShell.Deployment", "Gapotchenko.Shields.Microsoft.PowerShell.Deployment\Gapotchenko.Shields.Microsoft.PowerShell.Deployment.csproj", "{824FF7CC-1753-4BAD-93D2-3A1D461B83C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Harness", "Harness", "{A1B207BE-1734-4EF9-B609-211AF3ECDFD8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Microsoft.PowerShell.Harness", "Gapotchenko.Shields.Microsoft.PowerShell.Harness\Gapotchenko.Shields.Microsoft.PowerShell.Harness.csproj", "{CC4CC40D-4F5A-4D5C-B379-948292AC10E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.Microsoft.PowerShell.Script", "Gapotchenko.Shields.Microsoft.PowerShell.Script\Gapotchenko.Shields.Microsoft.PowerShell.Script.csproj", "{3B258404-A3A1-4368-A68E-753CC4C8483F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{824FF7CC-1753-4BAD-93D2-3A1D461B83C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824FF7CC-1753-4BAD-93D2-3A1D461B83C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824FF7CC-1753-4BAD-93D2-3A1D461B83C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824FF7CC-1753-4BAD-93D2-3A1D461B83C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4CC40D-4F5A-4D5C-B379-948292AC10E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4CC40D-4F5A-4D5C-B379-948292AC10E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4CC40D-4F5A-4D5C-B379-948292AC10E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4CC40D-4F5A-4D5C-B379-948292AC10E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B258404-A3A1-4368-A68E-753CC4C8483F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B258404-A3A1-4368-A68E-753CC4C8483F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B258404-A3A1-4368-A68E-753CC4C8483F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B258404-A3A1-4368-A68E-753CC4C8483F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AC6F5228-9A9B-408C-B55B-97626F52A6D5} = {60323417-5B16-47E8-BEB4-23B99B4860C4}
+		{824FF7CC-1753-4BAD-93D2-3A1D461B83C3} = {01EBE76B-B23B-4771-BE27-B1F197A2A94E}
+		{A1B207BE-1734-4EF9-B609-211AF3ECDFD8} = {60323417-5B16-47E8-BEB4-23B99B4860C4}
+		{CC4CC40D-4F5A-4D5C-B379-948292AC10E1} = {A1B207BE-1734-4EF9-B609-211AF3ECDFD8}
+		{3B258404-A3A1-4368-A68E-753CC4C8483F} = {01EBE76B-B23B-4771-BE27-B1F197A2A94E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1FBE168-4BE7-434D-820F-E0E6CDB83E0B}
+	EndGlobalSection
+EndGlobal
