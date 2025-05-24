@@ -8,6 +8,7 @@
 [Ll]ogs/
 
 # Others
+.vs
 ~$*
 *~
 CodeCoverage/

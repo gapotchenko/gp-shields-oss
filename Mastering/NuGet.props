@@ -8,6 +8,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageOutputPath>bin\$(Configuration)\nuget</PackageOutputPath>
     <PackageReadmeFile Condition=" Exists('$(MSBuildProjectDirectory)\README.md') ">README.md</PackageReadmeFile>
+    <PackageTags>$(PackageTags) shield</PackageTags>
   </PropertyGroup>
 
 </Project>

@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Components", "01. Components", "{EB05A949-1C8C-45CD-850E-6BCFA4409F58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Modules", "02. Modules", "{E541F8C2-6F68-4FE2-8619-58F2B8B620C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Misc", "03. Misc", "{6F00F3D3-9C61-4E12-BDFA-3BCF682D1A4F}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{E5F2F87D-1B00-4538-BD83-825AE40FBCF1}"
+	ProjectSection(SolutionItems) = preProject
+		Mastering\Analysis.props = Mastering\Analysis.props
+		Mastering\Language.props = Mastering\Language.props
+		Mastering\NuGet.props = Mastering\NuGet.props
+		Mastering\Product.props = Mastering\Product.props
+		Mastering\Targeting.props = Mastering\Targeting.props
+		Mastering\Version.props = Mastering\Version.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Xdg.Directories.Base", "Gapotchenko.Shields.Xdg.Directories.Base\Gapotchenko.Shields.Xdg.Directories.Base.csproj", "{8D7A6A17-DCF7-43B0-95A3-B107E8DD059F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Xdg.Directories.User", "Gapotchenko.Shields.Xdg.Directories.User\Gapotchenko.Shields.Xdg.Directories.User.csproj", "{9182DE2B-DDDD-4F5C-9448-99CCAE4B428E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Harness", "Harness", "{DAFC7B1E-7FC2-4E08-8BBF-FCCE3476D0EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Xdg.Directories.Harness", "Gapotchenko.Shields.Xdg.Directories.Harness\Gapotchenko.Shields.Xdg.Directories.Harness.csproj", "{647B227D-8C29-494B-AC78-4B1F70BF891A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{EDDDF65F-C2B3-41B7-96FB-BC825A55ADD0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{1F54C890-F009-4ECA-8A2E-63CF1E19B99C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Xdg.Directories.Base.Tests", "Gapotchenko.Shields.Xdg.Directories.Base.Tests\Gapotchenko.Shields.Xdg.Directories.Base.Tests.csproj", "{47FB250E-0DB7-4CDE-9F67-1646FBC0D7D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Xdg.Directories.User.Tests", "Gapotchenko.Shields.Xdg.Directories.User.Tests\Gapotchenko.Shields.Xdg.Directories.User.Tests.csproj", "{44BCC52F-78AE-42CB-8DB2-70EAEDB26B56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D7A6A17-DCF7-43B0-95A3-B107E8DD059F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D7A6A17-DCF7-43B0-95A3-B107E8DD059F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D7A6A17-DCF7-43B0-95A3-B107E8DD059F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D7A6A17-DCF7-43B0-95A3-B107E8DD059F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9182DE2B-DDDD-4F5C-9448-99CCAE4B428E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9182DE2B-DDDD-4F5C-9448-99CCAE4B428E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9182DE2B-DDDD-4F5C-9448-99CCAE4B428E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9182DE2B-DDDD-4F5C-9448-99CCAE4B428E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{647B227D-8C29-494B-AC78-4B1F70BF891A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647B227D-8C29-494B-AC78-4B1F70BF891A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647B227D-8C29-494B-AC78-4B1F70BF891A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647B227D-8C29-494B-AC78-4B1F70BF891A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47FB250E-0DB7-4CDE-9F67-1646FBC0D7D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47FB250E-0DB7-4CDE-9F67-1646FBC0D7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47FB250E-0DB7-4CDE-9F67-1646FBC0D7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47FB250E-0DB7-4CDE-9F67-1646FBC0D7D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BCC52F-78AE-42CB-8DB2-70EAEDB26B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BCC52F-78AE-42CB-8DB2-70EAEDB26B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BCC52F-78AE-42CB-8DB2-70EAEDB26B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BCC52F-78AE-42CB-8DB2-70EAEDB26B56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E5F2F87D-1B00-4538-BD83-825AE40FBCF1} = {6F00F3D3-9C61-4E12-BDFA-3BCF682D1A4F}
+		{8D7A6A17-DCF7-43B0-95A3-B107E8DD059F} = {EDDDF65F-C2B3-41B7-96FB-BC825A55ADD0}
+		{9182DE2B-DDDD-4F5C-9448-99CCAE4B428E} = {1F54C890-F009-4ECA-8A2E-63CF1E19B99C}
+		{DAFC7B1E-7FC2-4E08-8BBF-FCCE3476D0EE} = {6F00F3D3-9C61-4E12-BDFA-3BCF682D1A4F}
+		{647B227D-8C29-494B-AC78-4B1F70BF891A} = {DAFC7B1E-7FC2-4E08-8BBF-FCCE3476D0EE}
+		{EDDDF65F-C2B3-41B7-96FB-BC825A55ADD0} = {E541F8C2-6F68-4FE2-8619-58F2B8B620C3}
+		{1F54C890-F009-4ECA-8A2E-63CF1E19B99C} = {E541F8C2-6F68-4FE2-8619-58F2B8B620C3}
+		{47FB250E-0DB7-4CDE-9F67-1646FBC0D7D6} = {EDDDF65F-C2B3-41B7-96FB-BC825A55ADD0}
+		{44BCC52F-78AE-42CB-8DB2-70EAEDB26B56} = {1F54C890-F009-4ECA-8A2E-63CF1E19B99C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {277DC545-DBE2-4229-8F85-A49578869B66}
+	EndGlobalSection
+EndGlobal

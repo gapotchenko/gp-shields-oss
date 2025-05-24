@@ -11,18 +11,9 @@
   <!-- =================================================================== -->
 
   <PropertyGroup>
-    <IsPublicProject>false</IsPublicProject>
-    <IsPublicProject Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPublicProject>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
-  </PropertyGroup>
-
-  <PropertyGroup>
+    <CLSCompliant Condition=" '$(MasteringProjectKind)' == 'module' ">true</CLSCompliant>
     <NeutralLanguage>en-US</NeutralLanguage>
     <GenerateDocumentationFile Condition=" '$(MasteringProjectKind)' == 'module' ">true</GenerateDocumentationFile>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gapotchenko.Shields.Xdg.Directories.Base\Gapotchenko.Shields.Xdg.Directories.Base.csproj" />
+    <ProjectReference Include="..\Gapotchenko.Shields.Xdg.Directories.User\Gapotchenko.Shields.Xdg.Directories.User.csproj" />
+  </ItemGroup>
+
+</Project>
