@@ -10,6 +10,9 @@ A technology shield addresses this by offering reliable, ready-to-use components
 
 ## Catalog of Shields
 
+Each shield covers a specific technology.
+Shields are grouped by a manufacturer.
+
 - Canonical
     - [Snap](Catalog/Canonical/Snap) - software packaging and deployment system
 - Microsoft
