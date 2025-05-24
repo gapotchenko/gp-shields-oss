@@ -1,4 +1,12 @@
-# Shield Catalog
+# Catalog
+
+The directory contains technology shields.
+Each shield covers a specific technology.
+Shields are grouped by a manufacturer.
+
+The full list of available open-source shields is presented below.
+
+## Available Shields
 
 - Canonical
     - [Snap](Canonical/Snap) - software packaging and deployment system
