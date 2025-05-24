@@ -8,7 +8,7 @@ Many software projects depend on external technologies to enable specific featur
 However, working with these technologies — especially when they are immature or poorly documented — can be challenging and prone to errors.
 A technology shield addresses this by offering reliable, ready-to-use components that make integrating with these technologies easier and more robust.
 
-## Shield Catalog
+## Catalog of Shields
 
 - Canonical
     - [Snap](Catalog/Canonical/Snap) - software packaging and deployment system
