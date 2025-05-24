@@ -1,0 +1,40 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <MasteringProjectModulePrefix>Gapotchenko.Shields</MasteringProjectModulePrefix>
+  </PropertyGroup>
+
+  <Import Project="Traits.props" />
+  <Import Project="Workarounds.props" />
+  <Import Project="Product.props" />
+
+  <!-- =================================================================== -->
+
+  <PropertyGroup>
+    <IsPublicProject>false</IsPublicProject>
+    <IsPublicProject Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPublicProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <GenerateDocumentationFile Condition=" '$(MasteringProjectKind)' == 'module' ">true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <!-- =================================================================== -->
+
+  <Import Project="Analysis.props" />
+  <Import Project="NuGet.props" />
+  <Import Project="AssemblySignature.props" />
+  <Import Project="Polyfills.props" />
+
+</Project>

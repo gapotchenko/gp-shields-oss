@@ -1,0 +1,9 @@
+<Project>
+
+  <!-- Product Information -->
+  <PropertyGroup>
+    <Company>Gapotchenko</Company>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) $(Company) and Contributors</Copyright>
+  </PropertyGroup>
+
+</Project>

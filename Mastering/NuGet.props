@@ -1,0 +1,13 @@
+<Project>
+
+  <!-- NuGet Specification -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsPackable Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPackable>
+    <Authors>$(Company)</Authors>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageOutputPath>bin\$(Configuration)\nuget</PackageOutputPath>
+    <PackageReadmeFile Condition=" Exists('$(MSBuildProjectDirectory)\README.md') ">README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+</Project>

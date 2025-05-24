@@ -1,0 +1,7 @@
+﻿<Project>
+
+  <Import Project="Workarounds.targets" />
+  <Import Project="NuGet.targets" />
+  <Import Project="AssemblySignature.targets" />
+
+</Project>
