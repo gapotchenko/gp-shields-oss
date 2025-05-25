@@ -7,7 +7,8 @@
 
 namespace Gapotchenko.Shields.Microsoft.PowerShell.Deployment;
 
-sealed class PowerShellSetupPackageReference(string id) : IPowerShellSetupPackageReference
+sealed class PowerShellSetupPackageReference(string id) :
+    IPowerShellSetupPackageReference
 {
     public string Id => id;
 }
