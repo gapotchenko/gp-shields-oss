@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Canonical.Snap.Management
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Canonical.Snap
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
@@ -20,8 +21,7 @@ public static class SnapManagement
     /// <returns>An <see cref="ISnapManager"/> instance.</returns>
     public static ISnapManager CreateManager(ISnapSetupInstance setupInstance)
     {
-        if (setupInstance == null)
-            throw new ArgumentNullException(nameof(setupInstance));
+        ArgumentNullException.ThrowIfNull(setupInstance);
 
         return new SnapManager(setupInstance);
     }

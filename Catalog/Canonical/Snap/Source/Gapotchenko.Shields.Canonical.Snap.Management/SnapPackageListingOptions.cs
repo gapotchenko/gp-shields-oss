@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Canonical.Snap.Management
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Canonical.Snap
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023

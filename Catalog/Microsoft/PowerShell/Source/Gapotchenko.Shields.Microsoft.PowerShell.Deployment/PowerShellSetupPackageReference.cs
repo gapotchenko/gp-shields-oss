@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Microsoft.PowerShell.Deployment
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Microsoft.PowerShell
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023

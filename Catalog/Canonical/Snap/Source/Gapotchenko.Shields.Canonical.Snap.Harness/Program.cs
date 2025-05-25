@@ -1,4 +1,5 @@
-﻿using Gapotchenko.Shields.Canonical.Snap.Deployment;
+﻿using Gapotchenko.FX.Linq;
+using Gapotchenko.Shields.Canonical.Snap.Deployment;
 using Gapotchenko.Shields.Canonical.Snap.Management;
 using Gapotchenko.Shields.Canonical.Snap.Resolution;
 
@@ -10,14 +11,15 @@ class Program
     {
         try
         {
-            //Run1();
-            //Run2();
+            Run1();
+            Run2();
             Run3();
         }
         catch (Exception e)
         {
-            Console.Write("Error: ");
-            Console.WriteLine(e);
+            var writer = Console.Error;
+            writer.Write("Error: ");
+            writer.WriteLine(e);
         }
     }
 
@@ -26,11 +28,9 @@ class Program
         Console.WriteLine("*** Canonical Snap Setup Instances ***");
         Console.WriteLine();
 
-        foreach (var (i, instance) in
-            Enumerable.Range(1, int.MaxValue)
-            .Zip(
-                SnapDeployment.EnumerateSetupInstances(),
-                ValueTuple.Create))
+        var query = SnapDeployment.EnumerateSetupInstances();
+
+        foreach (var (i, instance) in Enumerable.Range(1, int.MaxValue).Zip(query))
         {
             Console.WriteLine("#{0}", i);
             PrintSetupInstance(instance);
@@ -41,7 +41,7 @@ class Program
 
     static void PrintSetupInstance(ISnapSetupInstance instance, int level = 0)
     {
-        var padding = new string(' ', level * 4);
+        string padding = new(' ', level * 4);
 
         Console.Write(padding);
         Console.BackgroundColor = ConsoleColor.Blue;
@@ -65,15 +65,17 @@ class Program
         Console.WriteLine("*** Canonical Snap Packages ***");
         Console.WriteLine();
 
-        foreach (var (i, (manager, packageName)) in
-            Enumerable.Range(1, int.MaxValue)
-            .Zip(
-                SnapDeployment.EnumerateSetupInstances()
-                .Select(SnapManagement.CreateManager)
-                .SelectMany(m => m.EnumeratePackages(SnapPackageListingOptions.Current).Select(p => (m, p))),
-                ValueTuple.Create))
+        var query =
+            SnapDeployment.EnumerateSetupInstances()
+            .Select(SnapManagement.CreateManager)
+            .SelectMany(manager =>
+                manager.EnumeratePackages(SnapPackageListingOptions.Current)
+                .Select(package => (manager, package)));
+
+        Console.WriteLine("Installed snap packages of current revisions:");
+        foreach (var (i, (manager, package)) in Enumerable.Range(1, int.MaxValue).Zip(query))
         {
-            Console.WriteLine("{0}. {1}. Path: '{2}'.", i, packageName, manager.GetPackagePath(packageName));
+            Console.WriteLine("{0}. {1}. Path: '{2}'.", i, package, manager.GetPackagePath(package));
         }
     }
 
@@ -82,20 +84,15 @@ class Program
         Console.WriteLine("*** Canonical Snap Resolution ***");
         Console.WriteLine();
 
-        var paths = new[]
-        {
+        string[] paths =
+        [
             "/snap/bin/dotnet",
             "/snap/bin/firefox",
             "/snap/bin/example"
-        };
+        ];
 
-        int i = 0;
-        foreach (var path in paths)
-        {
-            Console.WriteLine("#{0}", ++i);
-            Console.WriteLine(SnapResolver.GetRealFilePath(path));
-
-            Console.WriteLine();
-        }
+        Console.WriteLine("Resolving real file paths:");
+        foreach (var (i, path) in Enumerable.Range(1, int.MaxValue).Zip(paths))
+            Console.WriteLine("{0}. {1} -> {2}", i, path, SnapResolution.GetRealFilePath(path));
     }
 }

@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Microsoft.PowerShell.Script
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Microsoft.PowerShell
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
@@ -22,7 +23,10 @@ public static class PowerShellScript
     /// <param name="script">The script.</param>
     /// <param name="options">The options.</param>
     /// <returns>The script exit code.</returns>
-    public static int Execute(IPowerShellSetupInstance setupInstance, string script, PowerShellScriptExecutionOptions? options = null)
+    public static int Execute(
+        IPowerShellSetupInstance setupInstance,
+        string script,
+        PowerShellScriptExecutionOptions? options = null)
     {
         if (setupInstance is null)
             throw new ArgumentNullException(nameof(setupInstance));
@@ -111,14 +115,16 @@ public static class PowerShellScript
     }
 
     /// <summary>
-    /// Gets a quoted PowerShell script string representation of the specified value.
+    /// Gets a quoted PowerShell script  representation of the specified string.
     /// </summary>
-    /// <param name="value">The value to quote.</param>
-    /// <returns>A quoted string representation of the specified <paramref name="value"/>.</returns>
+    /// <param name="value">The string value to quote.</param>
+    /// <returns>A quoted string representation of <paramref name="value"/>.</returns>
     public static string QuoteString(string? value)
     {
         if (value is null)
+        {
             return Null;
+        }
         else
         {
             var sb = new StringBuilder();

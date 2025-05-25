@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Canonical.Snap.Resolution
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Canonical.Snap
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
@@ -14,26 +15,26 @@ namespace Gapotchenko.Shields.Canonical.Snap.Resolution;
 /// <summary>
 /// Provides package resolution services for Canonical Snap technology.
 /// </summary>
-public static class SnapResolver
+public static class SnapResolution
 {
     /// <summary>
-    /// Gets a real path of the specified file managed by the Snap package manager.
-    /// If the file is not managed by the Snap, then the original file path is returned.
+    /// Gets a real path of the specified file managed by Canonical Snap package manager.
+    /// If the file is not managed by Canonical Snap, then the original file path is returned.
     /// </summary>
     /// <param name="filePath">The file path.</param>
     /// <returns>
     /// The path of the actual file location inside a snap package,
-    /// or the original file path if the file is not managed by the Snap package manager.
+    /// or the original file path if the file is not managed by Canonical Snap package manager.
     /// </returns>
     [return: NotNullIfNotNull(nameof(filePath))]
     public static string? GetRealFilePath(string? filePath)
     {
         if (File.Exists(filePath))
         {
-            string? fullFilePath = null;
+            string? cachedFullFilePath = null;
             return
                 SnapDeployment.EnumerateSetupInstances()
-                .Select(x => TryGetRealPath(x, fullFilePath ??= Path.GetFullPath(filePath)))
+                .Select(x => TryGetRealPath(x, cachedFullFilePath ??= Path.GetFullPath(filePath)))
                 .FirstOrDefault(x => x is not null) ??
                 filePath;
         }
@@ -45,7 +46,7 @@ public static class SnapResolver
 
     static string? TryGetRealPath(ISnapSetupInstance setupInstance, string filePath)
     {
-        if (!TryResolveLinkTarget(filePath, out var finalPath, out var penultimatePath))
+        if (!TryResolveLinkTarget(filePath, out string? finalPath, out string? penultimatePath))
             return null;
 
         //Console.WriteLine("Real path of '{0}' is '{1}'.", filePath, finalPath);
@@ -61,7 +62,7 @@ public static class SnapResolver
         string packageId;
         string appName;
 
-        var penultimateFileName = Path.GetFileName(penultimatePath);
+        string penultimateFileName = Path.GetFileName(penultimatePath);
 
         // Examples:
         //   - "dotnet-sdk.dotnet"
@@ -92,7 +93,7 @@ public static class SnapResolver
 
         //Console.WriteLine("Snap package: {0}", packageName);
 
-        var packagePath = snap.TryGetPackagePath(packageName);
+        string? packagePath = snap.TryGetPackagePath(packageName);
         if (packagePath is null)
             return null;
 
@@ -104,7 +105,7 @@ public static class SnapResolver
 
         // ------------------------------------------------------------------
 
-        var commandFilePath = CommandLine.Split(command).FirstOrDefault();
+        string? commandFilePath = CommandLine.Split(command).FirstOrDefault();
         if (commandFilePath is null)
             return null;
 
@@ -119,7 +120,7 @@ public static class SnapResolver
 #if NET6_0_OR_GREATER
         string? p0 = null, p1 = null;
 
-        for (var p = linkPath; ;)
+        for (string p = linkPath; ;)
         {
             var target = File.ResolveLinkTarget(p, false);
             if (target is null)
@@ -141,6 +142,8 @@ public static class SnapResolver
             penultimateTargetPath = default;
             return false;
         }
+#elif NETCOREAPP
+#error Not implemented for this .NET target framework.
 #else
         // This scenario should never occur in reality
         // because .NET Framework cannot work on platforms other than

@@ -1,14 +1,8 @@
 ﻿namespace Gapotchenko.Shields.Canonical.Snap.Deployment.Utils;
 
-readonly struct SinglePathResolver
+readonly struct SinglePathResolver(string rootPath)
 {
-    public SinglePathResolver(string rootPath)
-    {
-        RootPath = PathEx.TrimEndingDirectorySeparator(rootPath);
-    }
+    public string RootPath { get; } = PathEx.TrimEndingDirectorySeparator(rootPath);
 
-    public string RootPath { get; }
-
-    public string ResolvePath(string? relativePath) =>
-        PathUtil.ConstructPath(RootPath, relativePath);
+    public string ResolvePath(string? relativePath) => PathUtil.ConstructPath(RootPath, relativePath);
 }

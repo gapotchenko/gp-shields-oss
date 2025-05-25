@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Canonical.Snap.Management
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Canonical.Snap
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
@@ -19,11 +20,11 @@ sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
         if (packageId is not null)
             SnapPackageName.ValidateId(packageId);
 
-        foreach (var packagePath in EnumeratePackageDirectories(packageId))
+        foreach (string packagePath in EnumeratePackageDirectories(packageId))
         {
             if ((options & SnapPackageListingOptions.Current) != 0)
             {
-                var revisionPath = Path.Combine(packagePath, "current");
+                string revisionPath = Path.Combine(packagePath, "current");
                 if (Directory.Exists(revisionPath))
                 {
                     if (TryGetSnapPackageName(packagePath, FileSystem.GetRealPath(revisionPath), out var packageName))
@@ -36,7 +37,7 @@ sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
             }
             else
             {
-                foreach (var revisionPath in Directory.EnumerateDirectories(packagePath))
+                foreach (string revisionPath in Directory.EnumerateDirectories(packagePath))
                 {
                     if (TryGetSnapPackageName(packagePath, revisionPath, out var packageName))
                         yield return packageName;
@@ -60,7 +61,7 @@ sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
                 break;
         }
 
-        if (!int.TryParse(revisionName, NumberStyles.None, NumberFormatInfo.InvariantInfo, out var revision))
+        if (!int.TryParse(revisionName, NumberStyles.None, NumberFormatInfo.InvariantInfo, out int revision))
         {
             Debug.Fail($"Cannot parse the revision of a snap package in '{revisionPath}' directory.");
             packageName = default;
@@ -73,19 +74,19 @@ sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
 
     IEnumerable<string> EnumeratePackageDirectories(string? packageId)
     {
-        if (IsReservedPackageId(packageId))
+        if (packageId is [] || IsReservedPackageId(packageId))
             yield break;
 
-        var installationPath = setupInstance.InstallationPath;
+        string installationPath = setupInstance.InstallationPath;
         if (packageId is not null)
         {
-            var path = Path.Combine(installationPath, packageId);
+            string path = Path.Combine(installationPath, packageId);
             if (Directory.Exists(path))
                 yield return path;
         }
         else
         {
-            foreach (var path in Directory.EnumerateDirectories(installationPath))
+            foreach (string path in Directory.EnumerateDirectories(installationPath))
             {
                 if (!IsReservedPackageId(Path.GetFileName(path)))
                     yield return path;

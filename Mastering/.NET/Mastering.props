@@ -7,25 +7,26 @@
   <Import Project="Traits.props" />
   <Import Project="Workarounds.props" />
   <Import Project="Product.props" />
+  <Import Project="Debug.props" />
   <Import Project="Language.props" />
 
   <!-- =================================================================== -->
 
   <PropertyGroup>
-    <CLSCompliant Condition=" '$(MasteringProjectKind)' == 'module' ">true</CLSCompliant>
+    <Deterministic>true</Deterministic>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <GenerateDocumentationFile Condition=" '$(MasteringProjectKind)' == 'module' ">true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+  <PropertyGroup Condition=" '$(MasteringProjectKind)' == 'module' ">
+    <CLSCompliant>true</CLSCompliant>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- =================================================================== -->
 
   <Import Project="Analysis.props" />
   <Import Project="Targeting.props" />
+  <Import Project="Compatibility.props" />
   <Import Project="NuGet.props" />
   <Import Project="AssemblySignature.props" />
   <Import Project="Polyfills.props" />

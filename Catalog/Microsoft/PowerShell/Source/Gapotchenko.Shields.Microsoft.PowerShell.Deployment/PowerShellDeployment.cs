@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Microsoft.PowerShell.Deployment
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Microsoft.PowerShell
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
@@ -17,15 +18,12 @@ public static partial class PowerShellDeployment
     /// Gets the default setup instance of PowerShell.
     /// </summary>
     public static IPowerShellSetupInstance DefaultSetupInstance =>
-        m_CachedDefaultSetupInstance ??=
+        field ??=
         GetDefaultSetupInstanceCore();
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    static IPowerShellSetupInstance? m_CachedDefaultSetupInstance;
 
     static IPowerShellSetupInstance GetDefaultSetupInstanceCore() =>
         EnumerateSetupInstances(ValueInterval.Infinite<Version>()).FirstOrDefault() ??
-        throw new Exception("PowerShell setup instance is not found.");
+        throw new PowerShellDeploymentException("PowerShell setup instance is not found.");
 
     /// <summary>
     /// Enumerates setup instances of Microsoft PowerShell.

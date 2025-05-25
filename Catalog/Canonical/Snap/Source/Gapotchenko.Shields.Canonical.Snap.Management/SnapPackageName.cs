@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Canonical.Snap.Management
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Canonical.Snap
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
@@ -16,24 +17,16 @@ public readonly record struct SnapPackageName
     /// <summary>
     /// Initializes a new instance of the <see cref="SnapPackageName"/> record.
     /// </summary>
-    public SnapPackageName()
-    {
-        m_Id = string.Empty;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SnapPackageName"/> record.
-    /// </summary>
     /// <param name="id">The package identifier.</param>
     /// <param name="revision">The package revision.</param>
     public SnapPackageName(string id, int revision)
     {
-        if (id is null)
-            throw new ArgumentNullException(nameof(id));
+        ArgumentException.ThrowIfNullOrEmpty(id);
         ValidateId(id);
+        ValidateRevision(revision);
 
         m_Id = id;
-        Revision = revision;
+        m_Revision = revision;
     }
 
     /// <summary>
@@ -44,8 +37,7 @@ public readonly record struct SnapPackageName
         get => m_Id;
         init
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentException.ThrowIfNullOrEmpty(value);
             ValidateId(value);
 
             m_Id = value;
@@ -58,22 +50,42 @@ public readonly record struct SnapPackageName
     /// <summary>
     /// Gets or initializes the package revision.
     /// </summary>
-    public int Revision { get; init; }
+    public int Revision
+    {
+        get => m_Revision;
+        init
+        {
+            ValidateRevision(value);
+            m_Revision = value;
+        }
+    }
+
+    readonly int m_Revision;
 
     /// <inheritdoc/>
     public override string ToString() => Invariant($"{m_Id}/{Revision}");
 
     [StackTraceHidden]
-    internal static void ValidateId(string id, [CallerArgumentExpression(nameof(id))] string? parameterName = null)
+    internal static void ValidateId(
+        ReadOnlySpan<char> id,
+        [CallerArgumentExpression(nameof(id))] string? paramName = null)
     {
-        int j = id.AsSpan().IndexOfAny(new[] { '?', '*', Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
+        int j = id.IndexOfAny(['?', '*', Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
         if (j != -1)
         {
             throw new ArgumentException(
                 string.Format(
-                    "Snap package identifier contains a prohibited symbol '{0}'.",
+                    "The value contains a prohibited symbol '{0}'.",
                     id[j]),
-                parameterName);
+                paramName);
         }
+    }
+
+    [StackTraceHidden]
+    static void ValidateRevision(
+        int revision,
+        [CallerArgumentExpression(nameof(revision))] string? paramName = null)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(revision, paramName);
     }
 }
