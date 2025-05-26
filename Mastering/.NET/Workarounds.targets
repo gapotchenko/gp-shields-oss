@@ -1,6 +1,7 @@
 ﻿<Project>
 
-  <!-- Workaround for nullable checks under untraceable (not annotated or poorly annotated) target frameworks. -->
+  <!-- Workaround GP-MSB-WA-0001
+       Shapes nullable checks under untraceable (not annotated or poorly annotated) target frameworks. -->
   <Target Name="SuppressUntraceableNullableChecks" BeforeTargets="CoreCompile">
     <PropertyGroup>
       <_NullableSupportLevel>1</_NullableSupportLevel>
@@ -15,7 +16,8 @@
     </PropertyGroup>
   </Target>
 
-  <!-- Workaround for https://github.com/dotnet/sdk/issues/24146 -->
+  <!-- Workaround GP-MSB-WA-0002
+       Fixes https://github.com/dotnet/sdk/issues/24146. -->
   <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETFramework' ">
     <Using Remove="System.Net.Http" />
   </ItemGroup>

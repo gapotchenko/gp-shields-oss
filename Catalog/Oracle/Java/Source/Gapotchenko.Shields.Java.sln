@@ -11,10 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gapotchenko.Shields.Java.Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{4CF11003-3E47-4A4C-A605-6BA054689045}"
 	ProjectSection(SolutionItems) = preProject
-		Mastering\Analysis.props = Mastering\Analysis.props
 		Mastering\Language.props = Mastering\Language.props
 		Mastering\NuGet.props = Mastering\NuGet.props
-		Mastering\Targeting.props = Mastering\Targeting.props
 		Mastering\Version.props = Mastering\Version.props
 	EndProjectSection
 EndProject

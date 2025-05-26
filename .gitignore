@@ -8,10 +8,11 @@
 [Ll]ogs/
 
 # Others
-.vs
 ~$*
 *~
 CodeCoverage/
+.env
+.vs
 
 # MSTest Results
 [Tt]est[Rr]esult*/

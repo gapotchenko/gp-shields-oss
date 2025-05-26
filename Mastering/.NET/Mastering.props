@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <MasteringProjectModulePrefix>Gapotchenko.Shields</MasteringProjectModulePrefix>
+    <BaseMasteringDir>$(MSBuildThisFileDirectory)</BaseMasteringDir>
   </PropertyGroup>
 
   <Import Project="Traits.props" />
@@ -20,6 +21,12 @@
   <PropertyGroup Condition=" '$(MasteringProjectKind)' == 'module' ">
     <CLSCompliant>true</CLSCompliant>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
+    <!-- Ensure that all files can be cleaned in release configurations.
+         Otherwise, this can cause an artifact pollution. -->
+    <WarningsAsErrors>$(WarningsAsErrors),MSB3061</WarningsAsErrors>
   </PropertyGroup>
 
   <!-- =================================================================== -->

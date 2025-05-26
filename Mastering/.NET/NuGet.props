@@ -11,4 +11,9 @@
     <PackageTags>$(PackageTags) shield</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Clean Include="$(PackageOutputPath)/*.nupkg" />
+    <Clean Include="$(PackageOutputPath)/*.snupkg" />
+  </ItemGroup>   
+
 </Project>

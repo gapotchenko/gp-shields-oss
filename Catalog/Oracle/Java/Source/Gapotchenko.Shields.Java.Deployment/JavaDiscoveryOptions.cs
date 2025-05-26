@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Java.Deployment
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Java
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2019

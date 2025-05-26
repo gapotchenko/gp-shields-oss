@@ -9,10 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX" Version="2024.2.5" />
-    <PackageReference Include="Gapotchenko.FX.IO" Version="2024.2.5" />
-    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2024.2.5" />
-    <PackageReference Include="Gapotchenko.FX.Text" Version="2024.2.5" />
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.12-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.12-beta" />
+    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.12-beta" />
+    <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.12-beta" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" Condition=" '$(TargetFrameworkIdentifier)' != '.NETFramework' " />
   </ItemGroup>
 

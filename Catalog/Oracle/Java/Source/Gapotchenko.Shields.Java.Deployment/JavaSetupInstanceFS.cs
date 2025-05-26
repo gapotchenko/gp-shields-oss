@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Java.Deployment
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Java
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2019
@@ -13,7 +14,7 @@ class JavaSetupInstanceFS : IJavaSetupInstance
 {
     public JavaSetupInstanceFS(string homePath, string? productIDHint)
     {
-        HomePath = PathEx.TrimEndingDirectorySeparator(homePath);
+        HomePath = Path.TrimEndingDirectorySeparator(homePath);
         m_ProductIdHint = productIDHint;
 
         m_ReleaseManifest = new(GetReleaseManifestCore);
@@ -21,10 +22,7 @@ class JavaSetupInstanceFS : IJavaSetupInstance
 
     public string HomePath { get; }
 
-    public Version Version => m_CachedVersion ??= GetVersionCore();
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    Version? m_CachedVersion;
+    public Version Version => field ??= GetVersionCore();
 
     Version GetVersionCore()
     {
@@ -42,11 +40,8 @@ class JavaSetupInstanceFS : IJavaSetupInstance
     }
 
     public IJavaSetupPackageReference Product =>
-        m_CachedProduct ??=
+        field ??=
         new JavaSetupPackageReferenceFS(HomePath, m_ProductIdHint, m_ReleaseManifest);
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    IJavaSetupPackageReference? m_CachedProduct;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     readonly string? m_ProductIdHint;

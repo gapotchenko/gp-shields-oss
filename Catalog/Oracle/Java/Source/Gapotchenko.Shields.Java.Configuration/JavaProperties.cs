@@ -1,9 +1,11 @@
-﻿// Gapotchenko.Shields.Java.Configuration
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Java
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2019
 
+using Gapotchenko.FX;
 using Gapotchenko.FX.Text;
 using System.Collections;
 
@@ -14,9 +16,6 @@ namespace Gapotchenko.Shields.Java.Configuration;
 /// </summary>
 public sealed class JavaProperties : IEnumerable<KeyValuePair<string, string>>
 {
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    readonly Dictionary<string, string> m_Map = new(StringComparer.Ordinal);
-
     /// <summary>
     /// Gets or sets the value of property with a specified name.
     /// </summary>
@@ -26,16 +25,14 @@ public sealed class JavaProperties : IEnumerable<KeyValuePair<string, string>>
     {
         get
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
 
             m_Map.TryGetValue(name, out string? value);
             return value;
         }
         set
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
 
             if (value == null)
                 m_Map.Remove(name);
@@ -49,15 +46,34 @@ public sealed class JavaProperties : IEnumerable<KeyValuePair<string, string>>
     /// </summary>
     public void Clear() => m_Map.Clear();
 
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <inheritdoc/>
+    public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => m_Map.GetEnumerator();
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    readonly Dictionary<string, string> m_Map = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Loads properties from the file with a specified path.
+    /// </summary>
+    /// <param name="filePath">The file path.</param>
+    /// <returns>The properties.</returns>
+    public static JavaProperties Load(string filePath)
+    {
+        ArgumentNullException.ThrowIfNull(filePath);
+
+        return Load(File.OpenRead(filePath));
+    }
+
     /// <summary>
     /// Loads properties from a specified stream.
     /// </summary>
     /// <param name="stream">The stream.</param>
     /// <returns>The properties.</returns>
-    static JavaProperties Load(Stream stream)
+    public static JavaProperties Load(Stream stream)
     {
-        if (stream == null)
-            throw new ArgumentNullException(nameof(stream));
+        ArgumentNullException.ThrowIfNull(stream);
 
         // TODO: Needs a better and more thorough implementation.
 
@@ -80,7 +96,7 @@ public sealed class JavaProperties : IEnumerable<KeyValuePair<string, string>>
             string[] parts = line.Split(['='], 2);
             if (parts.Length != 2)
                 throw new InvalidDataException("Unexpected line structure in a Java property file.");
-           
+
             string name = parts[0].TrimEnd();
             string value = parts[1].TrimStart();
 
@@ -89,22 +105,4 @@ public sealed class JavaProperties : IEnumerable<KeyValuePair<string, string>>
 
         return properties;
     }
-
-    /// <summary>
-    /// Loads properties from the file with a specified path.
-    /// </summary>
-    /// <param name="filePath">The file path.</param>
-    /// <returns>The properties.</returns>
-    public static JavaProperties Load(string filePath)
-    {
-        if (filePath == null)
-            throw new ArgumentNullException(nameof(filePath));
-
-        return Load(File.OpenRead(filePath));
-    }
-
-    /// <inheritdoc/>
-    public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => m_Map.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

@@ -1,15 +1,7 @@
 <Project>
-
+ 
   <ItemGroup>
     <None Condition=" '$(PackageReadmeFile)' != '' " Include="$(PackageReadmeFile)" Pack="true" PackagePath="/" />
   </ItemGroup>
-
-  <Target Name="NuGetClean" AfterTargets="Clean">
-    <ItemGroup>
-        <FilesToDelete Include="$(PackageOutputPath)/*.nupkg" />
-        <FilesToDelete Include="$(PackageOutputPath)/*.snupkg" />
-    </ItemGroup>   
-    <Delete Files="@(FilesToDelete)" />
-  </Target>
 
 </Project>
