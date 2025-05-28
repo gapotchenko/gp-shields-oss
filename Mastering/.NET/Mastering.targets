@@ -1,7 +1,6 @@
 ﻿<Project>
 
-  <Import Project="Workarounds.targets" />
-  <Import Project="NuGet.targets" />
   <Import Project="AssemblySignature.targets" />
+  <Import Project="Gapotchenko.MSBuild.PatchKit/Profiles/GP2025.targets" />
 
 </Project>
