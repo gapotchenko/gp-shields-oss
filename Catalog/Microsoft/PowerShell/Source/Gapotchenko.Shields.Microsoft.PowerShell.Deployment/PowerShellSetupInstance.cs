@@ -15,7 +15,7 @@ sealed class PowerShellSetupInstance : IPowerShellSetupInstance
     public PowerShellSetupInstance(string installationPath, string productPath)
     {
         m_PathResolver = new(installationPath);
-        ProductPath = PathEx.GetRelativePath(installationPath, productPath);
+        ProductPath = Path.GetRelativePath(installationPath, productPath);
     }
 
     public string DisplayName => "Windows PowerShell";

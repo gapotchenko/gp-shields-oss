@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
 
+using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.Shields.Microsoft.PowerShell.Deployment;
 using System.Text;
@@ -28,10 +29,8 @@ public static class PowerShellScript
         string script,
         PowerShellScriptExecutionOptions? options = null)
     {
-        if (setupInstance is null)
-            throw new ArgumentNullException(nameof(setupInstance));
-        if (script is null)
-            throw new ArgumentNullException(nameof(script));
+        ArgumentNullException.ThrowIfNull(setupInstance);
+        ArgumentNullException.ThrowIfNull(script);
 
         using var process = CreateExecutionProcess(setupInstance, options);
 
@@ -64,10 +63,8 @@ public static class PowerShellScript
         PowerShellScriptExecutionOptions? options = null,
         CancellationToken cancellationToken = default)
     {
-        if (setupInstance is null)
-            throw new ArgumentNullException(nameof(setupInstance));
-        if (script is null)
-            throw new ArgumentNullException(nameof(script));
+        ArgumentNullException.ThrowIfNull(setupInstance);
+        ArgumentNullException.ThrowIfNull(script);
 
         using var process = CreateExecutionProcess(setupInstance, options);
 

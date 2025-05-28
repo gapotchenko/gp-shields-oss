@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX.Diagnostics.Process" Version="2024.2.5" />
+    <PackageReference Include="Gapotchenko.FX.Diagnostics.Process" Version="2025.1.12-beta" />
   </ItemGroup>
 
   <ItemGroup>
