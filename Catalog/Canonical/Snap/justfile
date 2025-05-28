@@ -1,5 +1,5 @@
 set working-directory := "Source"
-set dotenv-load
+set dotenv-load := true
 set windows-shell := ["cmd", "/c"]
 
 # Show the help for this justfile
@@ -9,6 +9,10 @@ set windows-shell := ["cmd", "/c"]
 # Build release artifacts
 build:
     dotnet build -c Release
+
+# Rebuild release artifacts
+rebuild:
+    dotnet build --no-incremental -c Release
 
 clean:
     dotnet clean -c Debug
