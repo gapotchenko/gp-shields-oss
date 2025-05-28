@@ -13,7 +13,8 @@
     <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.12-beta" />
     <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.12-beta" />
     <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.12-beta" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" Condition=" '$(TargetFrameworkIdentifier)' != '.NETFramework' " />
   </ItemGroup>
+
+  <Import Project="$(BaseMasteringDir)\OOB\Microsoft.Win32.Registry.props" />
 
 </Project>
