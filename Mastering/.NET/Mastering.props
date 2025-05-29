@@ -5,6 +5,7 @@
     <BaseMasteringDir>$(MSBuildThisFileDirectory)</BaseMasteringDir>
   </PropertyGroup>
 
+  <Import Project="Gapotchenko.MSBuild.PatchKit/Profiles/GP2025.props" />
   <Import Project="Traits.props" />
   <Import Project="Product.props" />
   <Import Project="Debug.props" />
@@ -15,7 +16,6 @@
   <PropertyGroup>
     <Deterministic>true</Deterministic>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.orig;**\launchSettings.json</DefaultItemExcludes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(MasteringProjectKind)' == 'module' ">
@@ -36,6 +36,5 @@
   <Import Project="Compatibility.props" />
   <Import Project="NuGet.props" />
   <Import Project="AssemblySignature.props" />
-  <Import Project="Gapotchenko.MSBuild.PatchKit/Profiles/GP2025.props" />
 
 </Project>

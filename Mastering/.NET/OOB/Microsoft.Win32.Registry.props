@@ -1,6 +1,6 @@
 <Project>
 
-  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThanOrEquals($(TargetFrameworkVersion), '2.0')) ">
+  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETStandard' OR ('$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThan($(TargetFrameworkVersion), '1.1')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '6.0'))) ">
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
 

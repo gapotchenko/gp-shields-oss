@@ -6,7 +6,6 @@
     <IsPackable Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPackable>
     <Authors>$(Company)</Authors>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageOutputPath>bin\$(Configuration)\nuget</PackageOutputPath>
     <PackageTags>$(PackageTags) shield</PackageTags>
   </PropertyGroup>
 
