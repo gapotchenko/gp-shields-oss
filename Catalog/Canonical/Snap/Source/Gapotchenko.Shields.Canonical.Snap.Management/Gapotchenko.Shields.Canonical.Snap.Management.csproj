@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX" Version="2025.1.12-beta" />
-    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.12-beta" />
-    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.12-beta" />
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.16-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.16-beta" />
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.16-beta" />
   </ItemGroup>
 
   <ItemGroup>
