@@ -6,6 +6,11 @@ set windows-shell := ["cmd", "/c"]
 @help:
     just --list
 
+# Start IDE using the project environment
+[windows]
+develop:
+    start Gapotchenko.Shields.Canonical.Snap.sln
+
 # Build release artifacts
 build:
     dotnet build -c Release
