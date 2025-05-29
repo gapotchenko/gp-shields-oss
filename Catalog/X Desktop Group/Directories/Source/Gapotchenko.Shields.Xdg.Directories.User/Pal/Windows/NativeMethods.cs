@@ -1,4 +1,11 @@
-﻿namespace Gapotchenko.Shields.Xdg.Directories.User.Pal.Windows;
+﻿// Gapotchenko.Shields.Xdg.Directories
+//
+// Copyright © Gapotchenko and Contributors
+//
+// File introduced by: Oleksiy Gapotchenko
+// Year of introduction: 2023
+
+namespace Gapotchenko.Shields.Xdg.Directories.User.Pal.Windows;
 
 #if NET
 [SupportedOSPlatform("windows")]

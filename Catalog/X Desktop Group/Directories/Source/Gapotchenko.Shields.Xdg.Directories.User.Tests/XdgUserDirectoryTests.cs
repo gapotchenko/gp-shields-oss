@@ -1,5 +1,6 @@
-﻿// Gapotchenko.Shields.Xdg.Directories.User.Tests
-// Copyright © Gapotchenko
+﻿// Gapotchenko.Shields.Xdg.Directories
+//
+// Copyright © Gapotchenko and Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
