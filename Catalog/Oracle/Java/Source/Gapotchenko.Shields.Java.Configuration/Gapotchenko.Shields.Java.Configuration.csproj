@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.12-beta" />
+    <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.16-beta" />
   </ItemGroup>
 
 </Project>
