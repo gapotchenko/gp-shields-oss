@@ -19,6 +19,7 @@ build:
 rebuild:
     dotnet build --no-incremental -c Release
 
+# Clean all build artifacts
 clean:
     dotnet clean -c Debug
     dotnet clean -c Release
