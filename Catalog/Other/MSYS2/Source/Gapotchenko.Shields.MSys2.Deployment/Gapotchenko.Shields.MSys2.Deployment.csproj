@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The deployment module of MSYS2 Shield.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.16-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.16-beta" />
+    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.16-beta" />
+    <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.16-beta" />
+  </ItemGroup>
+
+  <Import Project="$(BaseMasteringDir)\OOB\Microsoft.Win32.Registry.props" />
+
+</Project>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.MSys2.Deployment", "Gapotchenko.Shields.MSys2.Deployment\Gapotchenko.Shields.MSys2.Deployment.csproj", "{DBBEEA18-029F-4708-A849-4BAF97BCF4E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Modules", "02. Modules", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Components", "01. Components", "{30227160-2A30-4151-971F-520048AC3388}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Misc", "03. Misc", "{6007DD1E-64B1-4354-97BB-4F28B8D83380}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{32818300-7840-4D23-8F75-C9C245FAD870}"
+	ProjectSection(SolutionItems) = preProject
+		Mastering\Language.props = Mastering\Language.props
+		Mastering\NuGet.props = Mastering\NuGet.props
+		Mastering\Version.props = Mastering\Version.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Harness", "Harness", "{7643E199-9BC0-4377-8309-B29D10193771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.MSys2.Harness", "Gapotchenko.Shields.MSys2.Harness\Gapotchenko.Shields.MSys2.Harness.csproj", "{6CCF3CFB-34AF-4635-B98B-125B07B9283E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBBEEA18-029F-4708-A849-4BAF97BCF4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBBEEA18-029F-4708-A849-4BAF97BCF4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBBEEA18-029F-4708-A849-4BAF97BCF4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBBEEA18-029F-4708-A849-4BAF97BCF4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CCF3CFB-34AF-4635-B98B-125B07B9283E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CCF3CFB-34AF-4635-B98B-125B07B9283E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CCF3CFB-34AF-4635-B98B-125B07B9283E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CCF3CFB-34AF-4635-B98B-125B07B9283E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBBEEA18-029F-4708-A849-4BAF97BCF4E2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{32818300-7840-4D23-8F75-C9C245FAD870} = {6007DD1E-64B1-4354-97BB-4F28B8D83380}
+		{7643E199-9BC0-4377-8309-B29D10193771} = {6007DD1E-64B1-4354-97BB-4F28B8D83380}
+		{6CCF3CFB-34AF-4635-B98B-125B07B9283E} = {7643E199-9BC0-4377-8309-B29D10193771}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {634D9CBC-9D53-4641-BC54-D6C5AE159DF6}
+	EndGlobalSection
+EndGlobal

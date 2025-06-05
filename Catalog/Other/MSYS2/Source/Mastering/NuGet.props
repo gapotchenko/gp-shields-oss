@@ -1,0 +1,8 @@
+<Project>
+
+  <!-- NuGet Information -->
+  <PropertyGroup>
+    <PackageTags>$(PackageTags) msys2</PackageTags>
+  </PropertyGroup>
+
+</Project>
