@@ -27,12 +27,11 @@ public static partial class PowerShellDeployment
 
     /// <summary>
     /// Enumerates setup instances of Microsoft PowerShell.
-    /// The instances are sorted by product version.
-    /// The newest versions come first.
+    /// By default, the instances are sorted by the product version and the newest versions come first.
     /// </summary>
     /// <param name="versions">The interval of Microsoft PowerShell versions to enumerate.</param>
     /// <param name="options">The discovery options.</param>
-    /// <returns>Sequence of setup instances of Microsoft PowerShell.</returns>
+    /// <returns>A sequence of discovered setup instances of Microsoft PowerShell.</returns>
     public static IEnumerable<IPowerShellSetupInstance> EnumerateSetupInstances(
         ValueInterval<Version> versions,
         PowerShellDiscoveryOptions options = default)
@@ -43,9 +42,7 @@ public static partial class PowerShellDeployment
         var query = EnumerateSetupInstancesCore(versions, options);
 
         if ((options & PowerShellDiscoveryOptions.NoSort) == 0)
-        {
-            // TODO
-        }
+            query = query.OrderByDescending(x => x.Version);
 
         return query;
     }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Microsoft PowerShell scripting module of Microsoft PowerShell Shield.</Description>
+    <Description>The scripting module of Microsoft PowerShell Shield.</Description>
   </PropertyGroup>
 
   <ItemGroup>

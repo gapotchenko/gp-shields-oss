@@ -12,6 +12,7 @@ class Program
         Console.OutputEncoding = Encoding.UTF8;
         try
         {
+            Run1();
             await Run2();
         }
         catch (Exception e)
