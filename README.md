@@ -20,7 +20,7 @@ Shields are grouped by a manufacturer.
 - Oracle
     - [Java](Catalog/Oracle/Java) - high-level programming language and runtime
 - Red Hat
-    - [Cygwin](Catalog/Red Hat/Cygwin) - Unix-like environment and command-line interface for Microsoft Windows
+    - [Cygwin](Catalog/Red%20Hat/Cygwin) - Unix-like environment and command-line interface for Microsoft Windows
 - X Desktop Group
     - [XDG Directories](Catalog/X%20Desktop%20Group/Directories) - cross-platform specifications defining where application files should be located
 - Other
