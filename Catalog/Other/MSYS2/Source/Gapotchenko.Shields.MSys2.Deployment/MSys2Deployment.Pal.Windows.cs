@@ -8,7 +8,6 @@
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.FX.Text;
 using Microsoft.Win32;
-using System.Globalization;
 
 namespace Gapotchenko.Shields.MSys2.Deployment;
 
@@ -61,11 +60,8 @@ partial class MSys2Deployment
 
                 if (key.GetValue("DisplayVersion") is not string displayVersion)
                     return null;
-                if (!int.TryParse(displayVersion, NumberStyles.None, NumberFormatInfo.InvariantInfo, out int versionNumber))
-                    return null;
-                if (versionNumber < 2000_00_00)
-                    return null; // not a year based version, so it is something else
-                var version = new Version(versionNumber / 10000, versionNumber / 100 % 100, versionNumber % 100);
+                if (MSys2SetupInstance.TryParseVersion(displayVersion) is not { } version)
+                    return null; // cannot parse the version
                 if (!versions.Contains(version))
                     return null; // not asked for this version
 
@@ -73,16 +69,7 @@ partial class MSys2Deployment
                 if (!Directory.Exists(installLocation))
                     return null;
 
-                return TryGetInstance(version, installLocation);
-            }
-
-            static IMSys2SetupInstance? TryGetInstance(Version version, string installationPath)
-            {
-                string productPath = "msys2.exe";
-                if (!File.Exists(Path.Combine(installationPath, productPath)))
-                    return null;
-
-                return new MSys2SetupInstanceImpl(version, installationPath, productPath);
+                return MSys2SetupInstance.TryCreate(installLocation, version);
             }
         }
     }

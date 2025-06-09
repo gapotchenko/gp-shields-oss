@@ -12,7 +12,7 @@ namespace Gapotchenko.Shields.MSys2.Deployment;
 sealed class MSys2SetupInstanceImpl(Version version, string installationPath, string productPath) :
     IMSys2SetupInstance, IFormattable
 {
-    public string DisplayName => $"MSYS2 {version.Major}-{version.Minor}-{version.Build}";
+    public string DisplayName => $"MSYS2 {version.Major}-{version.Minor:D2}-{version.Build:D2}";
 
     public Version Version => version;
 
