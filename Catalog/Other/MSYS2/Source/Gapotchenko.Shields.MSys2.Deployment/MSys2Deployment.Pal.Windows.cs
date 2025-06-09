@@ -82,7 +82,7 @@ partial class MSys2Deployment
                 if (!File.Exists(Path.Combine(installationPath, productPath)))
                     return null;
 
-                return new MSys2SetupInstance(version, installationPath, productPath);
+                return new MSys2SetupInstanceImpl(version, installationPath, productPath);
             }
         }
     }

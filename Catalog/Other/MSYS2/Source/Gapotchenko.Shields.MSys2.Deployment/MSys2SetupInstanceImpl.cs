@@ -9,7 +9,7 @@ using Gapotchenko.FX.IO;
 
 namespace Gapotchenko.Shields.MSys2.Deployment;
 
-sealed class MSys2SetupInstance(Version version, string installationPath, string productPath) :
+sealed class MSys2SetupInstanceImpl(Version version, string installationPath, string productPath) :
     IMSys2SetupInstance, IFormattable
 {
     public string DisplayName => $"MSYS2 {version.Major}-{version.Minor}-{version.Build}";
