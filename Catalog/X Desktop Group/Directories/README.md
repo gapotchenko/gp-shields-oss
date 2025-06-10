@@ -8,9 +8,8 @@ freedesktop.org, formerly X Desktop Group (XDG), is a project to work on
 interoperability and shared base technology for desktop environments provided
 by various operating systems.
 
-XDG directory specifications define where application files should be looked
-for by defining one or more base directories relative to which files should be
-located.
+XDG directory specifications define where application files should be looked for
+in relation to predefined base directories provided by the standard.
 
 ## XDG Base Directories
 
@@ -25,6 +24,6 @@ The informal overview is available at https://wiki.archlinux.org/title/XDG_user_
 
 This functionality is provided by `Gapotchenko.Shields.Xdg.Directories.User` module.
 
-## Reference Implementations
+## Notable Implementations
 
   - https://github.com/adrg/xdg (golang)
