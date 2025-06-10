@@ -9,7 +9,7 @@ interoperability and shared base technology for desktop environments provided
 by various operating systems.
 
 XDG directory specifications define where application files should be looked for
-relative to one or more predefined base directories.
+in relation to predefined base directories provided by XDG Directory standard.
 
 ## XDG Base Directories
 
