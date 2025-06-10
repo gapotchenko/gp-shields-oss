@@ -37,26 +37,7 @@ partial class CygwinDeployment
                 if (!Directory.Exists(rootDir))
                     return null;
 
-                return TryGetInstance(rootDir, versions);
-            }
-
-            static ICygwinSetupInstance? TryGetInstance(string installationPath, Interval<Version> versions)
-            {
-                string productPath = "Cygwin.bat";
-                if (!File.Exists(Path.Combine(installationPath, productPath)))
-                    return null;
-
-                string mainModulePath = Path.Combine(installationPath, @"bin\cygwin1.dll");
-                if (!File.Exists(mainModulePath))
-                    return null;
-
-                var versionInfo = FileVersionInfo.GetVersionInfo(mainModulePath);
-                if (!Version.TryParse(versionInfo.ProductVersion, out var version))
-                    return null;
-                if (!versions.Contains(version))
-                    return null;
-
-                return new CygwinSetupInstanceImpl(version, installationPath, productPath);
+                return CygwinSetupInstance.TryCreate(rootDir, versions);
             }
         }
     }
