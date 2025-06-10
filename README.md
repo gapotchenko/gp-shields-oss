@@ -1,6 +1,6 @@
 # Gapotchenko Shields OSS
 
-Gapotchenko Shields OSS is a curated catalog of open-source .NET components that simplify integration with complementary technologies in your project.
+Gapotchenko Shields OSS is a curated catalog of open-source .NET components that simplify integration with complementary technologies in your projects.
 
 ## Overview
 
