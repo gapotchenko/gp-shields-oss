@@ -9,7 +9,7 @@ using Gapotchenko.FX.IO;
 
 namespace Gapotchenko.Shields.Cygwin.Deployment;
 
-sealed class CygwinSetupInstance(Version version, string installationPath, string productPath) :
+sealed class CygwinSetupInstanceImpl(Version version, string installationPath, string productPath) :
     ICygwinSetupInstance, IFormattable
 {
     public string DisplayName => $"Cygwin {version}";

@@ -56,7 +56,7 @@ partial class CygwinDeployment
                 if (!versions.Contains(version))
                     return null;
 
-                return new CygwinSetupInstance(version, installationPath, productPath);
+                return new CygwinSetupInstanceImpl(version, installationPath, productPath);
             }
         }
     }
