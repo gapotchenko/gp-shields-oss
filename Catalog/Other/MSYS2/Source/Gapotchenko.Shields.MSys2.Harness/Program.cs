@@ -17,8 +17,8 @@ class Program
     {
         try
         {
-            DumpInstalledSetupInstances();
-            DumpPortableSetupInstances();
+            ListInstalledSetupInstances();
+            ListPortableSetupInstances();
         }
         catch (Exception e)
         {
@@ -27,14 +27,14 @@ class Program
         }
     }
 
-    static void DumpInstalledSetupInstances()
+    static void ListInstalledSetupInstances()
     {
         Console.WriteLine("*** Installed MSys2 Setup Instances ***");
         Console.WriteLine();
 
-        foreach (var (i, instance) in
-            Enumerable.Range(1, int.MaxValue)
-            .Zip(MSys2Deployment.EnumerateSetupInstances(ValueInterval.Infinite<Version>())))
+        foreach (var (instance, i) in
+            MSys2Deployment.EnumerateSetupInstances(ValueInterval.Infinite<Version>())
+            .Zip(Enumerable.Range(1, int.MaxValue)))
         {
             Console.WriteLine("#{0}", i);
             PrintSetupInstance(instance);
@@ -43,14 +43,14 @@ class Program
         }
     }
 
-    static void DumpPortableSetupInstances()
+    static void ListPortableSetupInstances()
     {
         Console.WriteLine("*** Portable MSys2 Setup Instances ***");
         Console.WriteLine();
 
         string[] paths = [@"C:\msys64"];
 
-        foreach (var (i, path) in Enumerable.Range(1, int.MaxValue).Zip(paths))
+        foreach (var (path, i) in paths.Zip(Enumerable.Range(1, int.MaxValue)))
         {
             Console.WriteLine("#{0} at '{1}'", i, path);
 
