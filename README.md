@@ -6,7 +6,9 @@ Gapotchenko Shields OSS is a curated catalog of open-source .NET components that
 
 Many software projects depend on external technologies to enable specific features and integrations.
 However, working with these technologies — especially when they are immature or poorly documented — can be challenging and prone to errors.
-A technology shield addresses this by offering reliable, ready-to-use components that make integrating with a technology an easier and more robust process.
+A technology shield addresses this by offering reliable, ready-to-use components that make integrating with a technology easier and more robust.
+
+This is where the term "technology shield" originates: it shields you from intricate implementation details of a particular technology.
 
 ## Catalog of Shields
 
