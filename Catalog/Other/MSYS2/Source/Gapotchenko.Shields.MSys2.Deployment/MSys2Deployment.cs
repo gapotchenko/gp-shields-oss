@@ -33,7 +33,7 @@ public static partial class MSys2Deployment
         if (versions.IsEmpty)
             return [];
 
-        var query = EnumerateSetupInstancesCore(versions);
+        var query = EnumerateSetupInstancesCore(versions, options);
 
         if ((options & MSys2DiscoveryOptions.NoSort) == 0)
             query = query.OrderByDescending(x => x.Version);
@@ -41,10 +41,10 @@ public static partial class MSys2Deployment
         return query;
     }
 
-    static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions)
+    static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions, MSys2DiscoveryOptions options)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            return Pal.Windows.EnumerateSetupInstances(versions);
+            return Pal.Windows.EnumerateSetupInstances(versions, options);
         else
             return [];
     }

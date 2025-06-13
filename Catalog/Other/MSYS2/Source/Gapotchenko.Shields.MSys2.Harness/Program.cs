@@ -64,15 +64,47 @@ class Program
         }
     }
 
-    static void PrintSetupInstance(IMSys2SetupInstance instance)
+    static void PrintSetupInstance(IMSys2SetupInstance instance, int level = 0)
     {
+        string padding = new(' ', level * 4);
+
+        Console.Write(padding);
         Console.BackgroundColor = ConsoleColor.Blue;
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("Product ID: {0}", "MSYS2.Product");
         Console.ResetColor();
         Console.WriteLine();
+
+        Console.Write(padding);
         Console.WriteLine("Display name: {0}", instance.DisplayName);
+
+        Console.Write(padding);
         Console.WriteLine("Installation path: {0}", instance.InstallationPath);
+
+        Console.Write(padding);
         Console.WriteLine("Product path: {0}", instance.ResolvePath(instance.ProductPath));
+
+        Console.Write(padding);
+        Console.WriteLine("Environments:");
+        foreach (var environment in instance.EnumerateEnvironments())
+            PrintEnvironment(environment, level + 1);
+    }
+
+    static void PrintEnvironment(IMSys2Environment environment, int level = 0)
+    {
+        string padding = new(' ', level * 4);
+
+        Console.Write(padding);
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.Write("Name: {0}", environment.Name);
+        Console.ResetColor();
+        Console.WriteLine();
+
+        Console.Write(padding);
+        Console.WriteLine("Installation path: {0}", environment.InstallationPath);
+
+        Console.Write(padding);
+        Console.WriteLine("Product path: {0}", environment.SetupInstance.ResolvePath(environment.ProductPath));
     }
 }

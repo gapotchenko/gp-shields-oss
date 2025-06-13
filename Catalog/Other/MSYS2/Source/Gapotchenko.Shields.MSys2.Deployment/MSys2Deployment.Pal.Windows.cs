@@ -20,13 +20,16 @@ partial class MSys2Deployment
 #endif
         public static class Windows
         {
-            public static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstances(Interval<Version> versions)
+            public static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
             {
                 using var hkcu = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
-                return EnumerateSetupInstancesFromUserHive(hkcu, versions);
+                return EnumerateSetupInstancesFromUserHive(hkcu, versions, options);
             }
 
-            static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstancesFromUserHive(RegistryKey userHive, Interval<Version> versions)
+            static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstancesFromUserHive(
+                RegistryKey userHive,
+                Interval<Version> versions,
+                MSys2DiscoveryOptions options)
             {
                 using var uninstallKey = userHive.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
                 if (uninstallKey is not null)
@@ -42,7 +45,7 @@ partial class MSys2Deployment
                             using var key = uninstallKey.OpenSubKey(keyName);
                             if (key is not null)
                             {
-                                var instance = TryGetInstance(key, versions);
+                                var instance = TryGetInstance(key, versions, options);
                                 if (instance is not null)
                                     yield return instance;
                             }
@@ -51,7 +54,10 @@ partial class MSys2Deployment
                 }
             }
 
-            static IMSys2SetupInstance? TryGetInstance(RegistryKey key, Interval<Version> versions)
+            static IMSys2SetupInstance? TryGetInstance(
+                RegistryKey key,
+                Interval<Version> versions,
+                MSys2DiscoveryOptions options)
             {
                 if (key.GetValue("DisplayName") is not string displayName)
                     return null;
@@ -69,7 +75,7 @@ partial class MSys2Deployment
                 if (!Directory.Exists(installLocation))
                     return null;
 
-                return MSys2SetupInstance.TryCreate(installLocation, version);
+                return MSys2SetupInstance.TryCreate(installLocation, version, options);
             }
         }
     }

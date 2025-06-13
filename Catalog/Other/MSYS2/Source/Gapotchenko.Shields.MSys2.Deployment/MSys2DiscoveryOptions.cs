@@ -20,7 +20,12 @@ public enum MSys2DiscoveryOptions
     None = 0,
 
     /// <summary>
-    /// Do not sort product setup instances by version.
+    /// Neither sort nor prioritize product setup instances by version or architecture.
     /// </summary>
-    NoSort = 1 << 0
+    NoSort = 1 << 0,
+
+    /// <summary>
+    /// Do not prioritize setup instances with processor architecture identical to the current process and host OS architectures.
+    /// </summary>
+    ArchitectureInvariant = 1 << 1,
 }

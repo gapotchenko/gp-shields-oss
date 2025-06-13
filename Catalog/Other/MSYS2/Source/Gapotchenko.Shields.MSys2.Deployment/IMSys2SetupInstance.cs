@@ -59,6 +59,12 @@ public interface IMSys2SetupInstance
     /// </returns>
     string ResolvePath(string? relativePath);
 
+    /// <summary>
+    /// Enumerates MSYS2 environments.
+    /// </summary>
+    /// <returns>A sequence of MSYS2 environments.</returns>
+    IEnumerable<IMSys2Environment> EnumerateEnvironments();
+
     /// <inheritdoc cref="IFormattable.ToString(string?, IFormatProvider?)"/>
     string ToString(string? format);
 }

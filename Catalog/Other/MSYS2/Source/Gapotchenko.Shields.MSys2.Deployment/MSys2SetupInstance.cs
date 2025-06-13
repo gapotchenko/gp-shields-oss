@@ -20,32 +20,37 @@ public static class MSys2SetupInstance
     /// Opens a MSYS2 setup instance at the specified directory path.
     /// </summary>
     /// <param name="directoryPath">The directory path to open a MSYS2 setup instance at.</param>
+    /// <param name="options">The discovery options.</param>
     /// <returns>The opened MSYS2 setup instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="directoryPath"/> is <see langword="null"/>.</exception>
     /// <exception cref="IOException">An I/O error occurred while accessing the file system.</exception>
     /// <exception cref="MSys2DeploymentException">Cannot open a MSYS2 setup instance at the specified path.</exception>
-    public static IMSys2SetupInstance Open(string directoryPath) =>
-        TryOpen(directoryPath) ??
+    public static IMSys2SetupInstance Open(string directoryPath, MSys2DiscoveryOptions options = default) =>
+        TryOpen(directoryPath, options) ??
         throw new MSys2DeploymentException("Cannot open a MSYS2 setup instance at the specified path.");
 
     /// <summary>
     /// Tries to open a MSYS2 setup instance at the specified directory path of the file system view.
     /// </summary>
     /// <param name="directoryPath">The directory path to open a MSYS2 setup instance at.</param>
+    /// <param name="options">The discovery options.</param>
     /// <returns>
     /// The opened MSYS2 setup instance
     /// or <see langword="null"/> if <paramref name="directoryPath"/> does not contain it.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="directoryPath"/> is <see langword="null"/>.</exception>
     /// <exception cref="IOException">An I/O error occurred while accessing the file system.</exception>
-    public static IMSys2SetupInstance? TryOpen(string directoryPath)
+    public static IMSys2SetupInstance? TryOpen(string directoryPath, MSys2DiscoveryOptions options = default)
     {
         ArgumentNullException.ThrowIfNull(directoryPath);
 
-        return TryCreate(directoryPath, null);
+        return TryCreate(directoryPath, null, options);
     }
 
-    internal static IMSys2SetupInstance? TryCreate(string installationPath, Version? version)
+    internal static IMSys2SetupInstance? TryCreate(
+        string installationPath,
+        Version? version,
+        MSys2DiscoveryOptions options)
     {
         string productPath = "msys2.exe";
         if (!File.Exists(Path.Combine(installationPath, productPath)))
@@ -58,7 +63,7 @@ public static class MSys2SetupInstance
                 return null;
         }
 
-        return new MSys2SetupInstanceImpl(version, installationPath, productPath);
+        return new MSys2SetupInstanceImpl(version, installationPath, productPath, options);
     }
 
     /// <summary>

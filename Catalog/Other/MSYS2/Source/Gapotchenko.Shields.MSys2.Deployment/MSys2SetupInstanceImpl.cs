@@ -6,11 +6,18 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.IO;
+using Gapotchenko.FX.Linq;
+using Gapotchenko.Shields.MSys2.Deployment.Utils;
 
 namespace Gapotchenko.Shields.MSys2.Deployment;
 
-sealed class MSys2SetupInstanceImpl(Version version, string installationPath, string productPath) :
-    IMSys2SetupInstance, IFormattable
+sealed class MSys2SetupInstanceImpl(
+    Version version,
+    string installationPath,
+    string productPath,
+    MSys2DiscoveryOptions options) :
+    IMSys2SetupInstance,
+    IFormattable
 {
     public string DisplayName => $"MSYS2 {version.Major}-{version.Minor:D2}-{version.Build:D2}";
 
@@ -27,6 +34,103 @@ sealed class MSys2SetupInstanceImpl(Version version, string installationPath, st
             path += Path.DirectorySeparatorChar;
         return path;
     }
+
+    #region Environments
+
+    public IEnumerable<IMSys2Environment> EnumerateEnvironments() =>
+        m_CachedEnvironments ??=
+        DoEnumerateEnvironments().Memoize(true);
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    IEnumerable<IMSys2Environment>? m_CachedEnvironments;
+
+    IEnumerable<IMSys2Environment> DoEnumerateEnvironments()
+    {
+        var query = EnumerateEnvironmentsCore();
+
+        if ((options & MSys2DiscoveryOptions.NoSort) == 0)
+        {
+            var orderedQuery = query.OrderBy(x => GetEnvironmentPriority(x.Name));
+
+            static int GetEnvironmentPriority(string name) =>
+                name switch
+                {
+                    // "If you are unsure, go with UCRT64" (from https://www.msys2.org/docs/environments).
+                    "UCRT64" => 1,
+                    "CLANG64" => 2,
+                    "CLANG32" => 3,
+                    "CLANGARM64" => 4,
+                    "MSYS" => 5,
+                    "MINGW64" => 6,
+                    "MINGW32" => 7,
+                    _ => int.MaxValue
+                };
+
+            if ((options & MSys2DiscoveryOptions.ArchitectureInvariant) == 0)
+            {
+                // Prefer environments with a processor architecture similar to the current process.
+                var processArchitecture = RuntimeInformation.ProcessArchitecture;
+                orderedQuery = orderedQuery.OrderBy(x => GetArchitecturePriority(x.Architecture, processArchitecture));
+
+                // Prefer environments with a processor architecture similar to the host OS.
+                if (EnvironmentUtil.TryGetPreciseOSArchitecture() is { } osArchitecture &&
+                    osArchitecture != processArchitecture)
+                {
+                    orderedQuery = orderedQuery.ThenBy(x => GetArchitecturePriority(x.Architecture, osArchitecture));
+                }
+
+                static int GetArchitecturePriority(Architecture architecture, Architecture hostArchitecture) =>
+                    (hostArchitecture, architecture) switch
+                    {
+                        (var a, var b) when a == b => 1,
+                        (Architecture.X64, Architecture.X86) or
+                        (Architecture.Arm64, Architecture.Arm) => 2,
+                        _ => int.MaxValue
+                    };
+            }
+
+            query = orderedQuery;
+        }
+
+        return query;
+    }
+
+    IEnumerable<IMSys2Environment> EnumerateEnvironmentsCore()
+    {
+        string basePath = InstallationPath;
+
+        foreach (string productPath in Directory.EnumerateFiles(basePath, "*.exe"))
+        {
+            string iniFilePath = Path.ChangeExtension(productPath, ".ini");
+            if (!File.Exists(iniFilePath))
+                continue;
+
+            string? name = null;
+            using (var iniFile = File.OpenText(iniFilePath))
+            {
+                name =
+                    IniUtil.Read(iniFile)
+                    .FirstOrDefault(x => (x.Section, x.Key) is (null, "MSYSTEM"))
+                    .Value;
+            }
+
+            if (name is null)
+                continue;
+
+            string prefix =
+                name.Equals("MSYS", StringComparison.OrdinalIgnoreCase)
+                    ? "usr"
+                    : name.ToLowerInvariant();
+
+            string installationPath = Path.Combine(basePath, prefix);
+            if (!Directory.Exists(installationPath))
+                continue;
+
+            yield return new MSys2Environment(this, installationPath, productPath, name);
+        }
+    }
+
+    #endregion
 
     #region Formatting
 
