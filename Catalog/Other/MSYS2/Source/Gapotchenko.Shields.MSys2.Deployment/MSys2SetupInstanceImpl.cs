@@ -19,7 +19,17 @@ sealed class MSys2SetupInstanceImpl(
     IMSys2SetupInstance,
     IFormattable
 {
-    public string DisplayName => $"MSYS2 {version.Major}-{version.Minor:D2}-{version.Build:D2}";
+    public string DisplayName
+    {
+        get
+        {
+            const string name = "MSYS2";
+            return
+                version is (0, 0, 0)
+                    ? name // versionless
+                    : $"{name} {version.Major}-{version.Minor:D2}-{version.Build:D2}";
+        }
+    }
 
     public Version Version => version;
 

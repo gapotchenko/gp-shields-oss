@@ -56,12 +56,9 @@ public static class MSys2SetupInstance
         if (!File.Exists(Path.Combine(installationPath, productPath)))
             return null;
 
-        if (version is null)
-        {
-            version = TryReadVersion(installationPath);
-            if (version is null)
-                return null;
-        }
+        version ??=
+            TryReadVersion(installationPath) ??
+            new Version(0, 0, 0);
 
         return new MSys2SetupInstanceImpl(version, installationPath, productPath, options);
     }
@@ -78,6 +75,9 @@ public static class MSys2SetupInstance
         string filePath = Path.Combine(installationPath, "components.xml");
         if (File.Exists(filePath))
         {
+            // The manifest file is only present in the instances that were installed.
+            // Portable instances do not have it.
+
             using var stream = File.OpenRead(filePath);
             try
             {
