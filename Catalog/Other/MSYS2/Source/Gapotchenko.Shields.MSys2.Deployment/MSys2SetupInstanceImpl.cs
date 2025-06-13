@@ -68,25 +68,15 @@ sealed class MSys2SetupInstanceImpl(
 
             if ((options & MSys2DiscoveryOptions.ArchitectureInvariant) == 0)
             {
-                // Prefer environments with a processor architecture similar to the current process.
+                // Prefer environments with a processor architecture identical to the current process.
+                // User intent: programatically use dynamically-loadable modules inside the process.
                 var processArchitecture = RuntimeInformation.ProcessArchitecture;
-                orderedQuery = orderedQuery.OrderBy(x => GetArchitecturePriority(x.Architecture, processArchitecture));
+                orderedQuery = orderedQuery.OrderByDescending(x => x.Architecture == processArchitecture);
 
                 // Prefer environments with a processor architecture similar to the host OS.
-                if (EnvironmentUtil.TryGetPreciseOSArchitecture() is { } osArchitecture &&
-                    osArchitecture != processArchitecture)
-                {
-                    orderedQuery = orderedQuery.ThenBy(x => GetArchitecturePriority(x.Architecture, osArchitecture));
-                }
-
-                static int GetArchitecturePriority(Architecture architecture, Architecture hostArchitecture) =>
-                    (hostArchitecture, architecture) switch
-                    {
-                        (var a, var b) when a == b => 1,
-                        (Architecture.X64, Architecture.X86) or
-                        (Architecture.Arm64, Architecture.Arm) => 2,
-                        _ => int.MaxValue
-                    };
+                // User intent: run executable modules outside the process.
+                var osArchitecture = EnvironmentUtil.TryGetPreciseOSArchitecture() ?? processArchitecture;
+                orderedQuery = orderedQuery.ThenBy(x => EnvironmentUtil.GetArchitectureSimilarity(x.Architecture, osArchitecture));
             }
 
             query = orderedQuery;

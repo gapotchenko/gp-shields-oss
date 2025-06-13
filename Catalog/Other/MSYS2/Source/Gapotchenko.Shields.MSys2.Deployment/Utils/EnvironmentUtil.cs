@@ -24,4 +24,31 @@ static class EnvironmentUtil
 
         return osArchitecture;
     }
+
+    /// <summary>
+    /// Gets a similarity index between the specified architectures.
+    /// </summary>
+    /// <param name="guest">The guest architecture.</param>
+    /// <param name="host">The host architecture.</param>
+    /// <returns>
+    /// The similarity index,
+    /// where <c>0</c> corresponds to the equal architectures
+    /// and <see cref="int.MaxValue"/> to the most dissimilar.
+    /// </returns>
+    public static int GetArchitectureSimilarity(Architecture guest, Architecture host)
+    {
+        if (guest == host)
+            return 0;
+        else if (AreSimilar(guest, host))
+            return 1;
+        else if (AreSimilar(host, guest))
+            return 2;
+        else
+            return int.MaxValue;
+
+        static bool AreSimilar(Architecture guest, Architecture host) =>
+            (guest, host) is
+                (Architecture.X86, Architecture.X64) or
+                (Architecture.Arm, Architecture.Arm64);
+    }
 }
