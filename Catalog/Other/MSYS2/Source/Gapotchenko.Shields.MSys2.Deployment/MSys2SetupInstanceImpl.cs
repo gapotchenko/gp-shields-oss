@@ -27,7 +27,7 @@ sealed class MSys2SetupInstanceImpl(
             const string name = "MSYS2";
             return
                 version is (0, 0, 0)
-                    ? name // versionless
+                    ? name // version-less
                     : $"{name} {version.Major}-{version.Minor:D2}-{version.Build:D2}";
         }
     }
@@ -80,7 +80,7 @@ sealed class MSys2SetupInstanceImpl(
             if ((options & MSys2DiscoveryOptions.ArchitectureInvariant) == 0)
             {
                 // Prefer environments with a processor architecture identical to the current process.
-                // User intent: programatically use dynamically-loadable modules inside the process.
+                // User intent: programmatically use dynamically-loadable modules inside the process.
                 var processArchitecture = RuntimeInformation.ProcessArchitecture;
                 orderedQuery = orderedQuery.OrderByDescending(x => x.Architecture == processArchitecture);
 
@@ -106,7 +106,7 @@ sealed class MSys2SetupInstanceImpl(
             if (!File.Exists(iniFilePath))
                 continue;
 
-            string? name = null;
+            string? name;
             using (var iniFile = File.OpenText(iniFilePath))
             {
                 name =
