@@ -19,6 +19,7 @@ Shields are grouped by a manufacturer.
     - [Snap](Catalog/Canonical/Snap) - software packaging and deployment system
 - Microsoft
     - [PowerShell](Catalog/Microsoft/PowerShell) - shell program for task automation and configuration management
+    - [Windows Subsystem for Linux](Catalog/Microsoft/WSL) - a component of Microsoft Windows that allows the use of a GNU/Linux environment from within Windows
 - Oracle
     - [Java](Catalog/Oracle/Java) - high-level programming language and runtime
 - Red Hat

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Components", "01. Components", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Modules", "02. Modules", "{5D430184-FD2D-46CC-8117-19E92547FAC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Misc", "03. Misc", "{B9ECFAE6-9F2E-4B4D-A61E-740E1BE281D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{D8909346-15F6-43C1-9E86-B75DDE175116}"
+	ProjectSection(SolutionItems) = preProject
+		Mastering\Language.props = Mastering\Language.props
+		Mastering\NuGet.props = Mastering\NuGet.props
+		Mastering\Version.props = Mastering\Version.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.Microsoft.Wsl.Deployment", "Gapotchenko.Shields.Microsoft.Wsl.Deployment\Gapotchenko.Shields.Microsoft.Wsl.Deployment.csproj", "{36B3D17D-ED9C-4A35-8951-326B1BD2964A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Harness", "Harness", "{E09B222B-192A-4995-AA7D-00877156AE08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.Shields.Microsoft.Wsl.Harness", "Gapotchenko.Shields.Microsoft.Wsl.Harness\Gapotchenko.Shields.Microsoft.Wsl.Harness.csproj", "{93027D45-3B40-45C4-B167-12F3D8E71231}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36B3D17D-ED9C-4A35-8951-326B1BD2964A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B3D17D-ED9C-4A35-8951-326B1BD2964A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B3D17D-ED9C-4A35-8951-326B1BD2964A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B3D17D-ED9C-4A35-8951-326B1BD2964A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93027D45-3B40-45C4-B167-12F3D8E71231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93027D45-3B40-45C4-B167-12F3D8E71231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93027D45-3B40-45C4-B167-12F3D8E71231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93027D45-3B40-45C4-B167-12F3D8E71231}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D8909346-15F6-43C1-9E86-B75DDE175116} = {B9ECFAE6-9F2E-4B4D-A61E-740E1BE281D4}
+		{36B3D17D-ED9C-4A35-8951-326B1BD2964A} = {5D430184-FD2D-46CC-8117-19E92547FAC9}
+		{E09B222B-192A-4995-AA7D-00877156AE08} = {B9ECFAE6-9F2E-4B4D-A61E-740E1BE281D4}
+		{93027D45-3B40-45C4-B167-12F3D8E71231} = {E09B222B-192A-4995-AA7D-00877156AE08}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E5C7A96-86DE-487C-9083-C9261E17A09E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The deployment module of a shield for Microsoft Windows Subsystem for Linux.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.20-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.20-beta" />
+    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.20-beta" />
+  </ItemGroup>
+
+  <Import Project="$(BaseMasteringDir)\OOB\Microsoft.Win32.Registry.props" />
+
+</Project>
