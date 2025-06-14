@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>The deployment module of a shield for Microsoft Windows Subsystem for Linux.</Description>
+    <Description>Locates setup instances of "Microsoft Windows Subsystem for Linux".</Description>
   </PropertyGroup>
 
   <ItemGroup>
