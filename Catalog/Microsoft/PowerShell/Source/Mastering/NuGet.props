@@ -2,7 +2,7 @@
 
   <!-- NuGet Information -->
   <PropertyGroup>
-    <PackageTags>microsoft powershell shield</PackageTags>
+    <PackageTags>$(PackageTags) microsoft powershell</PackageTags>
   </PropertyGroup>
 
 </Project>
