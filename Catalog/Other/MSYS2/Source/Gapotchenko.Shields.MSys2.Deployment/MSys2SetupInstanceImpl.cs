@@ -7,6 +7,7 @@
 
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
+using Gapotchenko.FX.Versioning;
 using Gapotchenko.Shields.MSys2.Deployment.Utils;
 
 namespace Gapotchenko.Shields.MSys2.Deployment;
