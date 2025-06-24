@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gapotchenko.Shields.Homebrew.Deployment\Gapotchenko.Shields.Homebrew.Deployment.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.22-beta" />
+  </ItemGroup>
+
+</Project>

@@ -55,7 +55,11 @@ dotnet_naming_rule.constant_fields_with_pascal_case.severity = warning
 
 #endregion
 
+#region Spelling
+
 [*.{cs,vb}]
 
 spelling_languages = en-us
 spelling_exclusion_path = Mastering/Exclusion.dic
+
+#endregion

@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/01. Components/" />
+  <Folder Name="/02. Modules/">
+    <Project Path="Gapotchenko.Shields.Homebrew.Deployment/Gapotchenko.Shields.Homebrew.Deployment.csproj" Id="2fcf0395-50f4-43d8-ae78-6fe11c8eb5aa" />
+  </Folder>
+  <Folder Name="/03. Misc/" />
+  <Folder Name="/03. Misc/Harness/">
+    <Project Path="Gapotchenko.Shields.Homebrew.Harness/Gapotchenko.Shields.Homebrew.Harness.csproj" Id="1fbefe35-1f3b-4e60-ac7e-aa0b1d585c27" />
+  </Folder>
+  <Folder Name="/03. Misc/Mastering/">
+    <File Path="Mastering/Language.props" />
+    <File Path="Mastering/NuGet.props" />
+    <File Path="Mastering/Version.props" />
+  </Folder>
+</Solution>
