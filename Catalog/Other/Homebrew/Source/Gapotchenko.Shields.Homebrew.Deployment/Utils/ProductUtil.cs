@@ -11,7 +11,8 @@ static class ProductUtil
 {
     public static string GetProductFileName()
     {
-        // On other platforms, it may be different.
+        // FUTURE
+        // On other platforms, the product file name may be different.
         // For example, "brew.exe" on Windows if Homebrew ever supports Windows.
         return "brew";
     }

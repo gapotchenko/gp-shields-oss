@@ -131,6 +131,7 @@ public static partial class BrewDeployment
     [return: NotNullIfNotNull(nameof(path))]
     static string? GetRealPath(string? path)
     {
+        // FUTURE
         // If the product can ever be installed by other package managers,
         // this extension point can be used to get real product paths.
         return FileSystem.GetRealPath(path);
