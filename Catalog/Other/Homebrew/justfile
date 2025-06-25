@@ -9,7 +9,13 @@ set windows-shell := ["cmd", "/c"]
 # Start IDE using the project environment
 [windows]
 develop:
-    start Gapotchenko.Shields.Homebrew.sln
+    start Gapotchenko.Shields.Homebrew.slnx
+
+# Start IDE using the project environment
+[macos]
+[linux]
+develop:
+    open Gapotchenko.Shields.Homebrew.slnx
 
 # Build release artifacts
 build:
