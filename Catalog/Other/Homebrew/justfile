@@ -15,7 +15,7 @@ develop:
 [macos]
 [linux]
 develop:
-    open Gapotchenko.Shields.Homebrew.slnx
+    open *.sln?
 
 # Build release artifacts
 build:
