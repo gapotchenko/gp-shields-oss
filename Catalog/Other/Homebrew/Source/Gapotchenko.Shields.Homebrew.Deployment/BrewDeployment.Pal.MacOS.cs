@@ -16,7 +16,12 @@ partial class BrewDeployment
 #endif
         public static class MacOS
         {
-            public static IEnumerable<BrewSetupDescriptor> EnumerateSetupDescriptors() => [];
+            public static IEnumerable<BrewSetupDescriptor> EnumerateSetupDescriptors()
+            {
+                string probingPath = "/opt/homebrew";
+                if (Directory.Exists(probingPath))
+                    yield return new(probingPath);
+            }
         }
     }
 }

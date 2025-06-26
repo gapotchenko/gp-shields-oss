@@ -40,7 +40,7 @@ class Program
         string padding = new(' ', level * 4);
 
         Console.Write(padding);
-        Console.BackgroundColor = ConsoleColor.Blue;
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("Product ID: {0}", "Homebrew.Product");
         Console.ResetColor();

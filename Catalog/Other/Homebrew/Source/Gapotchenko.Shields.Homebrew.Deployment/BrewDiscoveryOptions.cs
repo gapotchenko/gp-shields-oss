@@ -10,6 +10,7 @@ namespace Gapotchenko.Shields.Homebrew.Deployment;
 /// <summary>
 /// Defines options for Homebrew deployment discovery operations.
 /// </summary>
+[Flags]
 public enum BrewDiscoveryOptions
 {
     /// <summary>

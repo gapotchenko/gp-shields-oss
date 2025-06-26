@@ -10,6 +10,7 @@ namespace Gapotchenko.Shields.Homebrew.Deployment;
 /// <summary>
 /// Specifies the attributes of a Homebrew package manager setup instance.
 /// </summary>
+[Flags]
 public enum BrewSetupInstanceAttributes
 {
     /// <summary>
