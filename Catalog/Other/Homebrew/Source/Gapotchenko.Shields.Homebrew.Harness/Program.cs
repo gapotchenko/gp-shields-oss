@@ -54,5 +54,8 @@ class Program
 
         Console.Write(padding);
         Console.WriteLine("Product path: {0}", instance.ResolvePath(instance.ProductPath));
+
+        Console.Write(padding);
+        Console.WriteLine("Cellar path: {0}", instance.ResolvePath("Cellar"));
     }
 }

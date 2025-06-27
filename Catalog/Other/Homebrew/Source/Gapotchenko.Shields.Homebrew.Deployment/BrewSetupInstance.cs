@@ -40,10 +40,10 @@ static class BrewSetupInstance
         var version = Lazy.Create(() => GetVersion(brewPath));
         if (!versions.IsInfinite && !versions.Contains(version.Value))
             return null;
-        
+
         return new BrewSetupInstanceImpl(
-            installationPath, 
-            productPath, 
+            installationPath,
+            productPath,
             version,
             descriptors.Select(x => x.Attributes).Aggregate((a, b) => a | b),
             descriptors.Select(x => x.CellarPath).FirstOrDefault(x => x != null),
@@ -56,7 +56,7 @@ static class BrewSetupInstance
             return false;
         return true;
     }
-    
+
     static Version GetVersion(string brewPath)
     {
         // There is no easy way to get Homebrew version except asking the app itself.
@@ -98,7 +98,7 @@ static class BrewSetupInstance
                         output.AppendLine(data);
                 }
             }
-            
+
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
 

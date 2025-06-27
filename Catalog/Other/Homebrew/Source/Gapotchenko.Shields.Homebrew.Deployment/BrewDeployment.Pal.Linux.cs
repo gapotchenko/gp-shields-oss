@@ -16,7 +16,12 @@ partial class BrewDeployment
 #endif
         public static class Linux
         {
-            public static IEnumerable<BrewSetupDescriptor> EnumerateSetupDescriptors() => [];
+            public static IEnumerable<BrewSetupDescriptor> EnumerateSetupDescriptors()
+            {
+                string probingPath = "/home/linuxbrew/.linuxbrew";
+                if (Directory.Exists(probingPath))
+                    yield return new(probingPath);
+            }
         }
     }
 }

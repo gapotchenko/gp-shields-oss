@@ -8,6 +8,7 @@
 using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.IO;
+using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Homebrew.Deployment.Utils;
 
@@ -40,17 +41,25 @@ public static partial class BrewDeployment
 
         if ((options & BrewDiscoveryOptions.NoSort) == 0)
         {
-            var prioritizedAttributeMask = BrewSetupInstanceAttributes.None;
-            if ((options & BrewDiscoveryOptions.EnvironmentInvariant) == 0)
+            query = query.Memoize();
+            if (query.CountIsAtLeast(2))
             {
-                // Prefer setup instances deducted from the environment
-                // because it gives a configuration flexibility to a user.
-                prioritizedAttributeMask |= BrewSetupInstanceAttributes.Environment;
-            }
+                // Sort only if there are two or more instances.
+                // This precaution is necessary to avoid expensive version retrieving operations
+                // when they are not strictly needed.
 
-            query = query
-                .OrderByDescending(x => (x.Attributes & prioritizedAttributeMask) != 0)
-                .ThenByDescending(x => x.Version);
+                var prioritizedAttributeMask = BrewSetupInstanceAttributes.None;
+                if ((options & BrewDiscoveryOptions.EnvironmentInvariant) == 0)
+                {
+                    // Prefer setup instances deducted from the environment
+                    // because it gives a configuration flexibility to a user.
+                    prioritizedAttributeMask |= BrewSetupInstanceAttributes.Environment;
+                }
+
+                query = query
+                    .OrderByDescending(x => (x.Attributes & prioritizedAttributeMask) != 0)
+                    .ThenByDescending(x => x.Version);
+            }
         }
 
         return query;

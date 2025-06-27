@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.IO;
+using Gapotchenko.FX.Linq;
 
 namespace Gapotchenko.Shields.Homebrew.Deployment;
 
@@ -29,9 +30,24 @@ sealed class BrewSetupInstanceImpl(
 
     public string ResolvePath(string? relativePath)
     {
+        if (!string.IsNullOrEmpty(relativePath))
+            relativePath = TranslatePath(relativePath);
+
         string path = Path.GetFullPath(Path.Combine(InstallationPath, relativePath ?? string.Empty));
         if (relativePath == null)
             path += Path.DirectorySeparatorChar;
+        return path;
+    }
+
+    string TranslatePath(string path)
+    {
+        if (cellarPath != null || repositoryPath != null)
+        {
+            var parts = FileSystem.SplitPath(path).Memoize();
+            if (cellarPath != null && parts.StartsWith(["Cellar"], FileSystem.PathComparer))
+                return Path.Combine([cellarPath, .. parts.Skip(1)]);
+        }
+
         return path;
     }
 
