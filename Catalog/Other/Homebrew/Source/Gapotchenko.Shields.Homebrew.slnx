@@ -2,6 +2,9 @@
   <Folder Name="/01. Components/" />
   <Folder Name="/02. Modules/">
     <Project Path="Gapotchenko.Shields.Homebrew.Deployment/Gapotchenko.Shields.Homebrew.Deployment.csproj" Id="2fcf0395-50f4-43d8-ae78-6fe11c8eb5aa" />
+  </Folder>
+  <Folder Name="/02. Modules/Management/">
+    <Project Path="Gapotchenko.Shields.Homebrew.Management.Tests/Gapotchenko.Shields.Homebrew.Management.Tests.csproj" Id="78489fdd-b3b1-470d-9309-524951389f25" />
     <Project Path="Gapotchenko.Shields.Homebrew.Management/Gapotchenko.Shields.Homebrew.Management.csproj" Id="4050530b-bccf-4308-942a-238afdcb0fc9" />
   </Folder>
   <Folder Name="/03. Misc/" />

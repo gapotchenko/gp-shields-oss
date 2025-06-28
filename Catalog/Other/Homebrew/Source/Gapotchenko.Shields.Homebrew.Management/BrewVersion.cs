@@ -45,19 +45,58 @@ public sealed partial record BrewVersion : IComparable<BrewVersion>
             ? m_Value[(HeadPrefix.Length + 1)..]
             : null;
 
+    #region Parsing
+
+    /// <summary>
+    /// Converts the string representation of a Homebrew package version to an equivalent <see cref="BrewVersion"/> object.
+    /// </summary>
+    /// <param name="input">A string that contains a Homebrew package version to convert.</param>
+    /// <returns>
+    /// An object that is equivalent to the Homebrew package version string specified in the <paramref name="input"/> parameter,
+    /// or <see langword="null"/> if <paramref name="input"/> parameter is <see langword="null"/>.
+    /// </returns>
+    /// <exception cref="FormatException"><paramref name="input"/> string has an invalid format.</exception>
+    [return: NotNullIfNotNull(nameof(input))]
+    public static BrewVersion? Parse(string? input)
+    {
+        if (input is null)
+            return null;
+
+        try
+        {
+            var version = new BrewVersion(input);
+            _ = version.Components;
+            return version;
+        }
+        catch (ArgumentException)
+        {
+            throw new FormatException("Homebrew version string has an invalid format.");
+        }
+    }
+
+    #endregion
+
     #region Comparison
 
     /// <inheritdoc/>
     public int CompareTo(BrewVersion? other)
     {
+        if (ReferenceEquals(this, other))
+            return 0;
         if (other is null)
             return 1;
         if (m_Value.Equals(other.m_Value, StringComparison.Ordinal))
             return 0;
-        if (IsHead && !other.IsHead)
-            return 1;
-        if (!IsHead && other.IsHead)
-            return -1;
+
+        switch (IsHead, other.IsHead)
+        {
+            case (true, false):
+                return 1;
+            case (false, true):
+                return -1;
+            case (true, true):
+                return 0;
+        }
 
         var leftComponents = Components;
         var rightComponents = other.Components;

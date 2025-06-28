@@ -42,10 +42,7 @@ partial record BrewVersion
     static IEnumerable<Component> ParseComponents(string s)
     {
         foreach (Match match in Regex.Matches(s, RegexPattern, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
-        {
-            if (match.Success)
-                yield return Component.From(match.Value);
-        }
+            yield return Component.From(match.Value);
     }
 
     static readonly string RegexPattern = string.Join("|",
@@ -205,6 +202,7 @@ partial record BrewVersion
         /// <summary>
         /// Gets a string value stored in the component.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new string Value { get; }
 
         /// <inheritdoc/>
@@ -216,6 +214,7 @@ partial record BrewVersion
             {
                 StringComponent sc => StringComparer.Ordinal.Compare(Value, sc.Value),
                 NumericComponent or NullComponent => -Math.Sign(other.CompareTo(this)),
+                null => 1,
                 _ => throw new InvalidOperationException()
             };
 
@@ -244,9 +243,9 @@ partial record BrewVersion
             other switch
             {
                 NumericComponent nc => Value.CompareTo(nc.Value),
-                StringComponent => 1,
+                StringComponent or null => 1,
                 NullComponent => -Math.Sign(other.CompareTo(this)),
-                _ => 1
+                _ => throw new InvalidOperationException()
             };
 
         /// <inheritdoc/>
@@ -278,7 +277,7 @@ partial record BrewVersion
             {
                 NullComponent => 0,
                 NumericComponent nc => nc.Value == 0 ? 0 : -1,
-                AlphaComponent or BetaComponent or PreComponent or RCComponent => 1,
+                AlphaComponent or BetaComponent or PreComponent or RCComponent or null => 1,
                 _ => -1
             };
 
