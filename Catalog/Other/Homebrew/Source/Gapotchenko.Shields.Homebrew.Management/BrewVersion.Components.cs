@@ -67,12 +67,12 @@ partial record BrewVersion
     public sealed class AlphaComponent(string value) : CompositeComponent(value)
     {
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 AlphaComponent alpha => Revision.CompareTo(alpha.Revision),
                 BetaComponent or RCComponent or PreComponent or PatchComponent or PostComponent => -1,
-                _ => base.TryCompareTo(other)
+                _ => base.CompareTo(other)
             };
 
         internal static new readonly Regex Regex = new("alpha[0-9]*|a[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -85,13 +85,13 @@ partial record BrewVersion
     public sealed class BetaComponent(string value) : CompositeComponent(value)
     {
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 BetaComponent beta => Revision.CompareTo(beta.Revision),
                 AlphaComponent => 1,
                 PreComponent or RCComponent or PatchComponent or PostComponent => -1,
-                _ => base.TryCompareTo(other)
+                _ => base.CompareTo(other)
             };
 
         internal static new readonly Regex Regex = new("beta[0-9]*|b[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -104,13 +104,13 @@ partial record BrewVersion
     public sealed class PreComponent(string value) : CompositeComponent(value)
     {
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 PreComponent pre => Revision.CompareTo(pre.Revision),
                 AlphaComponent or BetaComponent => 1,
                 RCComponent or PatchComponent or PostComponent => -1,
-                _ => base.TryCompareTo(other)
+                _ => base.CompareTo(other)
             };
 
         internal static new readonly Regex Regex = new("pre[0-9]*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -123,13 +123,13 @@ partial record BrewVersion
     public sealed class RCComponent(string value) : CompositeComponent(value)
     {
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 RCComponent rc => Revision.CompareTo(rc.Revision),
                 AlphaComponent or BetaComponent or PreComponent => 1,
                 PatchComponent or PostComponent => -1,
-                _ => base.TryCompareTo(other)
+                _ => base.CompareTo(other)
             };
 
         internal static new readonly Regex Regex = new("rc[0-9]*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -142,12 +142,12 @@ partial record BrewVersion
     public sealed class PatchComponent(string value) : CompositeComponent(value)
     {
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 PatchComponent patch => Revision.CompareTo(patch.Revision),
                 AlphaComponent or BetaComponent or RCComponent or PreComponent => 1,
-                _ => base.TryCompareTo(other)
+                _ => base.CompareTo(other)
             };
 
         internal static new readonly Regex Regex = new("p[0-9]*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -160,12 +160,12 @@ partial record BrewVersion
     public sealed class PostComponent(string value) : CompositeComponent(value)
     {
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 PostComponent post => Revision.CompareTo(post.Revision),
                 AlphaComponent or BetaComponent or RCComponent or PreComponent => 1,
-                _ => base.TryCompareTo(other)
+                _ => base.CompareTo(other)
             };
 
         internal static new readonly Regex Regex = new(".post[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -211,12 +211,12 @@ partial record BrewVersion
         protected override object? GetObjectValue() => Value;
 
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
-                StringComponent st => StringComparer.Ordinal.Compare(Value, st.Value),
-                NumericComponent or NullComponent => other.TryCompareTo(this) is { } comparison ? -Math.Sign(comparison) : null,
-                _ => null
+                StringComponent sc => StringComparer.Ordinal.Compare(Value, sc.Value),
+                NumericComponent or NullComponent => -Math.Sign(other.CompareTo(this)),
+                _ => throw new InvalidOperationException()
             };
 
         /// <inheritdoc/>
@@ -240,12 +240,13 @@ partial record BrewVersion
         protected override object? GetObjectValue() => Value;
 
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 NumericComponent nc => Value.CompareTo(nc.Value),
-                StringComponent or NullComponent => other.TryCompareTo(this) is { } comparison ? -Math.Sign(comparison) : null,
-                _ => null
+                StringComponent => 1,
+                NullComponent => -Math.Sign(other.CompareTo(this)),
+                _ => 1
             };
 
         /// <inheritdoc/>
@@ -272,7 +273,7 @@ partial record BrewVersion
         protected override object? GetObjectValue() => null;
 
         /// <inheritdoc/>
-        public override int? TryCompareTo(Component? other) =>
+        public override int CompareTo(Component? other) =>
             other switch
             {
                 NullComponent => 0,
@@ -336,31 +337,22 @@ partial record BrewVersion
         #region Comparison
 
         /// <inheritdoc/>
-        public int CompareTo(Component? other)
-        {
-            if (TryCompareTo(other) is { } comparison)
-                return comparison;
-            else
-                throw new InvalidOperationException("Comparison is not possible.");
-        }
+        public abstract int CompareTo(Component? other);
 
-        /// <inheritdoc cref="CompareTo(Component?)"/>
-        public abstract int? TryCompareTo(Component? other);
-
-        public static bool operator <(Component left, Component right) =>
+        public static bool operator <(Component? left, Component? right) =>
             left is null
                 ? right is not null
                 : left.CompareTo(right) < 0;
 
-        public static bool operator <=(Component left, Component right) =>
+        public static bool operator <=(Component? left, Component? right) =>
             left is null ||
             left.CompareTo(right) <= 0;
 
-        public static bool operator >(Component left, Component right) =>
+        public static bool operator >(Component? left, Component? right) =>
             left is not null &&
             left.CompareTo(right) > 0;
 
-        public static bool operator >=(Component left, Component right) =>
+        public static bool operator >=(Component? left, Component? right) =>
             left is null
                 ? right is null
                 : left.CompareTo(right) >= 0;
@@ -375,18 +367,18 @@ partial record BrewVersion
             Equals(component);
 
         /// <inheritdoc/>
-        public bool Equals(Component? other) => TryCompareTo(other) == 0;
+        public bool Equals(Component? other) => CompareTo(other) == 0;
 
         /// <inheritdoc/>
         public override int GetHashCode() =>
             throw new InvalidOperationException("Should be implemented in a derived class.");
 
-        public static bool operator ==(Component left, Component right) =>
+        public static bool operator ==(Component? left, Component? right) =>
             left is null
                 ? right is null
                 : left.Equals(right);
 
-        public static bool operator !=(Component left, Component right) => !(left == right);
+        public static bool operator !=(Component? left, Component? right) => !(left == right);
 
         #endregion
 

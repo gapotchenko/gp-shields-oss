@@ -68,17 +68,8 @@ public sealed partial record BrewVersion : IComparable<BrewVersion>
             var a = GetComponent(leftComponents, i);
             var b = GetComponent(rightComponents, i);
 
-            int? comparison = a.TryCompareTo(b);
-            if (comparison == 0)
-                continue;
-
-            if (a is NumericComponent && b is not NumericComponent)
-                return 1;
-            if (a is not NumericComponent && b is NumericComponent)
-                return -1;
-
-            if (comparison.HasValue && comparison != 0)
-                return comparison.Value;
+            if (a.CompareTo(b) is var comparison and not 0)
+                return comparison;
         }
 
         return 0;
