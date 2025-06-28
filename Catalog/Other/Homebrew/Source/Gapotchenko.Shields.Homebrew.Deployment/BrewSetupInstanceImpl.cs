@@ -41,15 +41,22 @@ sealed class BrewSetupInstanceImpl(
 
     string TranslatePath(string path)
     {
-        if (cellarPath != null || repositoryPath != null)
-        {
-            var parts = FileSystem.SplitPath(path).Memoize();
-            if (cellarPath != null && parts.StartsWith(["Cellar"], FileSystem.PathComparer))
-                return Path.Combine([cellarPath, .. parts.Skip(1)]);
-        }
-
+        var parts = FileSystem.SplitPath(path).Memoize();
+        if (cellarPath != null && parts.StartsWith(["Cellar"], FileSystem.PathComparer))
+            return Path.Combine([cellarPath, .. parts.Skip(1)]);
+        if (parts.StartsWith(["Homebrew"], FileSystem.PathComparer))
+            return Path.Combine([RepositoryPath, .. parts.Skip(1)]);
         return path;
     }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    string RepositoryPath => repositoryPath ?? DefaultRepositoryPath;
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    string DefaultRepositoryPath =>
+        RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && RuntimeInformation.OSArchitecture == Architecture.Arm64
+            ? InstallationPath
+            : Path.Combine(InstallationPath, "Homebrew");
 
     public BrewSetupInstanceAttributes Attributes => attributes;
 

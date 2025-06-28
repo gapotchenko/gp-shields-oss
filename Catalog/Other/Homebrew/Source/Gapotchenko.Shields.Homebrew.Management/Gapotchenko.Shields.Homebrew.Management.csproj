@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Provides ability to manage Homebrew packages.</Description>
+    <PackageTags>$(PackageTags) management</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gapotchenko.Shields.Homebrew.Deployment\Gapotchenko.Shields.Homebrew.Deployment.csproj" />
+  </ItemGroup>
+
+</Project>
