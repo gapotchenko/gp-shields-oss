@@ -9,7 +9,8 @@ set windows-shell := ["cmd", "/c"]
 # Start IDE using the project environment
 [windows]
 develop:
-    start Gapotchenko.Shields.Canonical.Snap.sln
+    #!cmd /c
+    @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
 
 # Build release artifacts
 build:
