@@ -1,6 +1,7 @@
 ﻿// Gapotchenko.Shields.Homebrew
 //
 // Copyright © Gapotchenko and Contributors
+// Portions © Homebrew Contributors
 //
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
