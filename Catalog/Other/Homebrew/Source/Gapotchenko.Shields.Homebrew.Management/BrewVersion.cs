@@ -7,13 +7,14 @@
 
 using Gapotchenko.FX;
 using Gapotchenko.FX.Text;
+using System.Text.RegularExpressions;
 
 namespace Gapotchenko.Shields.Homebrew.Management;
 
 /// <summary>
 /// Represents a Homebrew package version.
 /// </summary>
-public sealed partial record BrewVersion : IComparable<BrewVersion>
+public sealed record BrewVersion : IComparable<BrewVersion>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BrewVersion"/> class with a specified value.
@@ -25,6 +26,41 @@ public sealed partial record BrewVersion : IComparable<BrewVersion>
 
         m_Value = value;
     }
+
+    #region Components
+
+    /// <summary>
+    /// Gets the major version component.
+    /// </summary>
+    public BrewVersionComponent Major => GetComponent(0);
+
+    /// <summary>
+    /// Gets the minor version component.
+    /// </summary>
+    public BrewVersionComponent Minor => GetComponent(1);
+
+    /// <summary>
+    /// Gets the patch version component.
+    /// </summary>
+    public BrewVersionComponent Patch => GetComponent(2);
+
+    BrewVersionComponent GetComponent(int i) => GetComponent(Components, i);
+
+    static BrewVersionComponent GetComponent(IReadOnlyList<BrewVersionComponent> components, int i) =>
+        i < components.Count ? components[i] : BrewVersionComponent.Null.Instance;
+
+    /// <summary>
+    /// Gets the version components.
+    /// </summary>
+    public IReadOnlyList<BrewVersionComponent> Components => field ??= [.. ParseComponents(m_Value)];
+
+    static IEnumerable<BrewVersionComponent> ParseComponents(string s)
+    {
+        foreach (Match match in BrewVersionComponent.Regex.Matches(s))
+            yield return BrewVersionComponent.From(match.Value);
+    }
+
+    #endregion
 
     /// <summary>
     /// Gets a value indicating whether the version represents a head SCM version.

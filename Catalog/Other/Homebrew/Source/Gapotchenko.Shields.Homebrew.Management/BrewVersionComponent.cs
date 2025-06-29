@@ -23,10 +23,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
     /// <param name="value">The value.</param>
     /// <returns>A Homebrew package version component.</returns>
     /// <exception cref="ArgumentException">Cannot match a component pattern.</exception>
-    public static BrewVersionComponent From(string? value)
+    [return: NotNullIfNotNull(nameof(value))]
+    public static BrewVersionComponent? From(string? value)
     {
         if (value is null)
-            return Null.Instance;
+            return null;
         else if (Alpha.Regex.IsMatch(value))
             return new Alpha(value);
         if (Beta.Regex.IsMatch(value))
@@ -108,6 +109,14 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
     /// <inheritdoc/>
     public override string? ToString() => Value?.ToString();
 
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    internal static readonly Regex Regex = new(
+        Pattern,
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    const string Pattern = $"{Alpha.Pattern}|{Beta.Pattern}|{Prerelease.Pattern}|{ReleaseCandidate.Pattern}|{Patch.Pattern}|{Post.Pattern}|{Numeric.Pattern}|{Text.Pattern}";
+
     #region Definitions
 
     /// <summary>
@@ -125,7 +134,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
                 _ => base.CompareTo(other)
             };
 
-        internal static new readonly Regex Regex = new("alpha[0-9]*|a[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "(alpha[0-9]*|a[0-9]+)";
     }
 
     /// <summary>
@@ -144,7 +157,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
                 _ => base.CompareTo(other)
             };
 
-        internal static new readonly Regex Regex = new("beta[0-9]*|b[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "(beta[0-9]*|b[0-9]+)";
     }
 
     /// <summary>
@@ -163,7 +180,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
                 _ => base.CompareTo(other)
             };
 
-        internal static new readonly Regex Regex = new("pre[0-9]*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "(pre[0-9]*)";
     }
 
     /// <summary>
@@ -182,7 +203,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
                 _ => base.CompareTo(other)
             };
 
-        internal static new readonly Regex Regex = new("rc[0-9]*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "(rc[0-9]*)";
     }
 
     /// <summary>
@@ -200,7 +225,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
                 _ => base.CompareTo(other)
             };
 
-        internal static new readonly Regex Regex = new("p[0-9]*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "(p[0-9]*)";
     }
 
     /// <summary>
@@ -218,7 +247,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
                 _ => base.CompareTo(other)
             };
 
-        internal static new readonly Regex Regex = new(".post[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "(.post[0-9]+)";
     }
 
     /// <summary>
@@ -230,10 +263,13 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
         /// <summary>
         /// Gets a revision number stored in the component.
         /// </summary>
-        public int Revision { get; } = int.TryParse(Numeric.Regex.Match(value).Value, out int result) ? result : 0;
+        public int Revision { get; } = int.TryParse(m_RevisionRegex.Match(value).Value, out int result) ? result : 0;
 
         /// <inheritdoc/>
         public override int GetHashCode() => HashCode.Combine(Revision);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        static readonly Regex m_RevisionRegex = new("[0-9]+", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
     }
 
     /// <summary>
@@ -274,7 +310,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
         /// <inheritdoc/>
         public override int GetHashCode() => Value.GetHashCode(StringComparison.Ordinal);
 
-        internal static readonly Regex Regex = new("[a-z]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "([a-z]+)";
     }
 
     /// <summary>
@@ -304,7 +344,11 @@ public abstract class BrewVersionComponent : IComparable<BrewVersionComponent>, 
         /// <inheritdoc/>
         public override int GetHashCode() => HashCode.Combine(Value);
 
-        internal static readonly Regex Regex = new("[0-9]+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal static new readonly Regex Regex = new($"^{Pattern}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        internal new const string Pattern = "([0-9]+)";
     }
 
     /// <summary>
