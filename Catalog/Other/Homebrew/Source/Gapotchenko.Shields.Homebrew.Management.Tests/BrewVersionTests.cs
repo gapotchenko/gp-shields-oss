@@ -48,13 +48,21 @@ public class BrewVersionTests
         if (comparison != 0)
             DoCompare(versionB, versionA, -comparison);
 
-        //var equalityComparer = EqualityComparer<BrewVersion>.Default;
-        //if (comparison == 0)
-        //{
-        //    Assert.IsTrue(equalityComparer.Equals(versionA, versionB));
-        //    if (versionA is not null && versionB is not null)
-        //        Assert.AreEqual(equalityComparer.GetHashCode(versionA), equalityComparer.GetHashCode(versionB));
-        //}
+        var equalityComparer = EqualityComparer<BrewVersion>.Default;
+        if (comparison == 0)
+        {
+            Assert.IsTrue(equalityComparer.Equals(versionA, versionB));
+            if (versionA is not null && versionB is not null)
+            {
+                Assert.AreEqual(
+                    equalityComparer.GetHashCode(versionA),
+                    equalityComparer.GetHashCode(versionB));
+            }
+        }
+        else
+        {
+            Assert.IsFalse(equalityComparer.Equals(versionA, versionB));
+        }
 
         static void DoCompare(BrewVersion? a, BrewVersion? b, int comparison)
         {

@@ -14,7 +14,7 @@ namespace Gapotchenko.Shields.Homebrew.Management;
 /// <summary>
 /// Represents a Homebrew package version.
 /// </summary>
-public sealed record BrewVersion : IComparable<BrewVersion>
+public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BrewVersion"/> class with a specified value.
@@ -77,7 +77,7 @@ public sealed record BrewVersion : IComparable<BrewVersion>
     /// The commit information or <see langword="null"/> if the information is absent.
     /// </value>
     public string? Commit =>
-        IsHead && m_Value[HeadPrefix.Length] == '-'
+        IsHead && m_Value[HeadPrefix.Length] is '-'
             ? m_Value[(HeadPrefix.Length + 1)..]
             : null;
 
@@ -113,6 +113,18 @@ public sealed record BrewVersion : IComparable<BrewVersion>
     #endregion
 
     #region Comparison
+
+    /// <summary>
+    /// Compares the current <see cref="BrewVersion"/> object to a specified object and returns an indication of their relative values.
+    /// </summary>
+    /// <inheritdoc/>
+    public int CompareTo(object? obj) =>
+        obj switch
+        {
+            null => 1,
+            BrewVersion other => CompareTo(other),
+            _ => throw new ArgumentException("Argument must be an instance of BrewVersion type.", nameof(obj))
+        };
 
     /// <inheritdoc/>
     public int CompareTo(BrewVersion? other)
@@ -150,6 +162,59 @@ public sealed record BrewVersion : IComparable<BrewVersion>
         return 0;
     }
 
+    /// <summary>
+    /// Determines whether the left specified <see cref="BrewVersion"/> object is less than
+    /// the right specified <see cref="BrewVersion"/> object.
+    /// </summary>
+    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
+    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="left"/> is less than <paramref name="right"/>;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    public static bool operator <(BrewVersion? left, BrewVersion? right) =>
+        left is null
+            ? right is not null
+            : left.CompareTo(right) < 0;
+
+    /// <summary>
+    /// Determines whether the left specified <see cref="BrewVersion"/> object is less than or equal to
+    /// the right specified <see cref="BrewVersion"/> object.
+    /// </summary>
+    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
+    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="left"/> is less than or equal to <paramref name="right"/>;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    public static bool operator <=(BrewVersion? left, BrewVersion? right) =>
+        left is null ||
+        left.CompareTo(right) <= 0;
+
+    /// <summary>
+    /// Determines whether the left specified <see cref="BrewVersion"/> object is greater than
+    /// the right specified <see cref="BrewVersion"/> object.
+    /// </summary>
+    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
+    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="left"/> is greater than <paramref name="right"/>;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    public static bool operator >(BrewVersion? left, BrewVersion? right) => right < left;
+
+    /// <summary>
+    /// Determines whether the left specified <see cref="BrewVersion"/> object is greater than or equal to
+    /// the right specified <see cref="BrewVersion"/> object.
+    /// </summary>
+    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
+    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="left"/> is greater than or equal to <paramref name="right"/>;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    public static bool operator >=(BrewVersion? left, BrewVersion? right) => right <= left;
+
     #endregion
 
     #region Equality
@@ -158,7 +223,12 @@ public sealed record BrewVersion : IComparable<BrewVersion>
     public bool Equals(BrewVersion? other) => CompareTo(other) == 0;
 
     /// <inheritdoc/>
-    public override int GetHashCode() => Components.Select(x => x.GetHashCode()).Aggregate(HashCode.Combine);
+    public override int GetHashCode() =>
+        IsHead
+            ? HashCode.Combine(1)
+            : Components
+            .Where(x => x != BrewVersionComponent.Null.Instance)
+            .Select(x => x.GetHashCode()).Aggregate(HashCode.Combine);
 
     #endregion
 
