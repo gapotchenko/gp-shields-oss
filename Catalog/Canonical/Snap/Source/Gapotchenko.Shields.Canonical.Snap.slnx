@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/01. Components/" />
+  <Folder Name="/02. Modules/">
+    <Project Path="Gapotchenko.Shields.Canonical.Snap.Deployment/Gapotchenko.Shields.Canonical.Snap.Deployment.csproj" />
+    <Project Path="Gapotchenko.Shields.Canonical.Snap.Management/Gapotchenko.Shields.Canonical.Snap.Management.csproj" />
+    <Project Path="Gapotchenko.Shields.Canonical.Snap.Resolution/Gapotchenko.Shields.Canonical.Snap.Resolution.csproj" />
+  </Folder>
+  <Folder Name="/03. Misc/">
+    <File Path="../README.md" />
+  </Folder>
+  <Folder Name="/03. Misc/Harness/">
+    <Project Path="Gapotchenko.Shields.Canonical.Snap.Harness/Gapotchenko.Shields.Canonical.Snap.Harness.csproj" />
+  </Folder>
+  <Folder Name="/03. Misc/Mastering/">
+    <File Path="Mastering/Language.props" />
+    <File Path="Mastering/NuGet.props" />
+    <File Path="Mastering/Version.props" />
+  </Folder>
+</Solution>
