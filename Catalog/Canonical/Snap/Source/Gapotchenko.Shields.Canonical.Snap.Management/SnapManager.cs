@@ -12,17 +12,17 @@ namespace Gapotchenko.Shields.Canonical.Snap.Management;
 
 sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
 {
-    public IEnumerable<SnapPackageName> EnumeratePackages(SnapPackageListingOptions options) =>
+    public IEnumerable<SnapPackageName> EnumeratePackages(SnapPackageEnumerationOptions options) =>
         EnumeratePackages(null, options);
 
-    public IEnumerable<SnapPackageName> EnumeratePackages(string? packageId, SnapPackageListingOptions options)
+    public IEnumerable<SnapPackageName> EnumeratePackages(string? packageId, SnapPackageEnumerationOptions options)
     {
         if (packageId is not null)
             SnapPackageName.ValidateId(packageId);
 
         foreach (string packagePath in EnumeratePackageDirectories(packageId))
         {
-            if ((options & SnapPackageListingOptions.Current) != 0)
+            if ((options & SnapPackageEnumerationOptions.Current) != 0)
             {
                 string revisionPath = Path.Combine(packagePath, "current");
                 if (Directory.Exists(revisionPath))

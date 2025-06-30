@@ -86,7 +86,7 @@ public static class SnapResolution
         var snap = SnapManagement.CreateManager(setupInstance);
 
         var packageName =
-            snap.EnumeratePackages(packageId, SnapPackageListingOptions.Current)
+            snap.EnumeratePackages(packageId, SnapPackageEnumerationOptions.Current)
             .FirstOrDefault();
         if (packageName == default)
             return null;

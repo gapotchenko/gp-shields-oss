@@ -69,7 +69,7 @@ class Program
             SnapDeployment.EnumerateSetupInstances()
             .Select(SnapManagement.CreateManager)
             .SelectMany(manager =>
-                manager.EnumeratePackages(SnapPackageListingOptions.Current)
+                manager.EnumeratePackages(SnapPackageEnumerationOptions.Current)
                 .Select(package => (manager, package)));
 
         Console.WriteLine("Installed snap packages of current revisions:");

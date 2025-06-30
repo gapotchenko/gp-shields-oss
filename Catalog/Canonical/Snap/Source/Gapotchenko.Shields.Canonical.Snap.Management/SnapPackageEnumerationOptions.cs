@@ -8,10 +8,10 @@
 namespace Gapotchenko.Shields.Canonical.Snap.Management;
 
 /// <summary>
-/// Flags for snap package listing operations.
+/// Defines options for Snap package enumeration operations.
 /// </summary>
 [Flags]
-public enum SnapPackageListingOptions
+public enum SnapPackageEnumerationOptions
 {
     /// <summary>
     /// No options are specified.
@@ -20,7 +20,7 @@ public enum SnapPackageListingOptions
     None = 0,
 
     /// <summary>
-    /// List only current package revisions.
+    /// Enumerate only current package revisions.
     /// </summary>
     Current = 1 << 0
 }
