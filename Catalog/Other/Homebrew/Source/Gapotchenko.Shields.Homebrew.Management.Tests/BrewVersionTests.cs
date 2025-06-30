@@ -92,6 +92,8 @@ public class BrewVersionTests
 
     [TestMethod]
     [DataRow("2.1.0-p194", "2.1-p195", -1)]
+    [DataRow("2.1-p194", "2.1.0-p195", -1)]
+    [DataRow("2-p194", "2.1-p195", -1)]
     public void BrewVersion_Comparison_UnevenlyPadded(string? a, string? b, int comparison) => TestComparison(a, b, comparison);
 
     [TestMethod]
@@ -100,8 +102,7 @@ public class BrewVersionTests
     public void BrewVersion_Comparison_Null(string? a, string? b, int comparison) => TestComparison(a, b, comparison);
 
     [TestMethod]
-    // Erlang
-    [DataRow(["R13B02-1", "R13B03", "R13B04", "R14B", "R14B01", "R14B02", "R14B03", "R14B04", "R15B01", "R15B02", "R15B03", "R15B03-1", "R16B"])]
+    [DataRow(["R13B02-1", "R13B03", "R13B04", "R14B", "R14B01", "R14B02", "R14B03", "R14B04", "R15B01", "R15B02", "R15B03", "R15B03-1", "R16B"], DisplayName = $"{nameof(BrewVersion_Comparison_Order)}_Erlang")]
     public void BrewVersion_Comparison_Order(string?[] versions)
     {
         for (int i = 1; i < versions.Length; ++i)

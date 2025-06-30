@@ -16,6 +16,7 @@ namespace Gapotchenko.Shields.Homebrew.Management;
 /// <summary>
 /// Represents a component of the Homebrew package version.
 /// </summary>
+[DebuggerDisplay("Value = {Value}, Type = {GetType().Name,nq}")]
 public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersionComponent>, IEquatable<BrewVersionComponent>
 {
     /// <summary>
@@ -141,7 +142,10 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
     /// <inheritdoc/>
     public bool Equals(BrewVersionComponent? other) => CompareTo(other) == 0;
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Returns the hash code for the current version component object.
+    /// </summary>
+    /// <returns>A 32-bit signed integer hash code.</returns>
     public override int GetHashCode() =>
         throw new InvalidOperationException("Should be implemented in a derived class.");
 

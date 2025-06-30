@@ -15,7 +15,7 @@ namespace Gapotchenko.Shields.Homebrew.Management;
 /// <summary>
 /// Represents a Homebrew package version.
 /// </summary>
-public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
+public sealed partial record BrewVersion : IComparable, IComparable<BrewVersion>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BrewVersion"/> class with a specified value.
@@ -26,6 +26,7 @@ public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
         ArgumentException.ThrowIfNullOrEmpty(value);
 
         m_Value = value;
+        Components = [.. ParseComponents(value)];
     }
 
     #region Components
@@ -53,13 +54,7 @@ public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
     /// <summary>
     /// Gets the version components.
     /// </summary>
-    public IReadOnlyList<BrewVersionComponent> Components => field ??= [.. ParseComponents(m_Value)];
-
-    static IEnumerable<BrewVersionComponent> ParseComponents(string s)
-    {
-        foreach (Match match in BrewVersionComponent.Regex.Matches(s))
-            yield return BrewVersionComponent.From(match.Value);
-    }
+    public IReadOnlyList<BrewVersionComponent> Components { get; }
 
     #endregion
 
@@ -101,14 +96,18 @@ public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
 
         try
         {
-            var version = new BrewVersion(input);
-            _ = version.Components;
-            return version;
+            return new BrewVersion(input);
         }
         catch (ArgumentException)
         {
             throw new FormatException("Homebrew version string has an invalid format.");
         }
+    }
+
+    static IEnumerable<BrewVersionComponent> ParseComponents(string s)
+    {
+        foreach (Match match in BrewVersionComponent.Regex.Matches(s))
+            yield return BrewVersionComponent.From(match.Value);
     }
 
     #endregion
@@ -149,15 +148,33 @@ public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
 
         var leftComponents = Components;
         var rightComponents = other.Components;
-        int n = Math.Max(leftComponents.Count, rightComponents.Count);
 
-        for (int i = 0; i < n; i++)
+        for (int li = 0, ri = 0, n = Math.Max(leftComponents.Count, rightComponents.Count); li < n;)
         {
-            var a = GetComponent(leftComponents, i);
-            var b = GetComponent(rightComponents, i);
+            var l = GetComponent(leftComponents, li);
+            var r = GetComponent(rightComponents, ri);
 
-            if (a.CompareTo(b) is var comparison and not 0)
-                return comparison;
+            switch (l is BrewVersionComponent.Numeric, r is BrewVersionComponent.Numeric)
+            {
+                case (true, false):
+                    if (l != BrewVersionComponent.Null.Instance)
+                        return 1;
+                    ++li;
+                    break;
+
+                case (false, true):
+                    if (r != BrewVersionComponent.Null.Instance)
+                        return -1;
+                    ++ri;
+                    break;
+
+                default:
+                    if (l.CompareTo(r) is var comparison and not 0)
+                        return comparison;
+                    ++li;
+                    ++ri;
+                    break;
+            }
         }
 
         return 0;
@@ -223,7 +240,10 @@ public sealed record BrewVersion : IComparable, IComparable<BrewVersion>
     /// <inheritdoc/>
     public bool Equals(BrewVersion? other) => CompareTo(other) == 0;
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Returns the hash code for the current <see cref="BrewVersion"/> object.
+    /// </summary>
+    /// <returns>A 32-bit signed integer hash code.</returns>
     public override int GetHashCode() =>
         IsHead
             ? HashCode.Combine(1)
