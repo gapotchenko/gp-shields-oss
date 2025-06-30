@@ -6,30 +6,16 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-using Gapotchenko.FX;
-using Gapotchenko.FX.Text;
-using System.Text.RegularExpressions;
-
 namespace Gapotchenko.Shields.Homebrew.Management;
 
 /// <summary>
 /// Represents a Homebrew package version.
 /// </summary>
-public sealed partial record BrewVersion : IComparable, IComparable<BrewVersion>
+[ImmutableObject(true)]
+public sealed partial record BrewVersion
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BrewVersion"/> class with a specified value.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    public BrewVersion(string value)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(value);
-
-        m_Value = value;
-        Components = [.. ParseComponents(value)];
-    }
-
-    #region Components
+    // This type is partial.
+    // For the rest of the implementation, please take a look at the neighboring source files.
 
     /// <summary>
     /// Gets the major version component.
@@ -56,15 +42,10 @@ public sealed partial record BrewVersion : IComparable, IComparable<BrewVersion>
     /// </summary>
     public IReadOnlyList<BrewVersionComponent> Components { get; }
 
-    #endregion
-
     /// <summary>
     /// Gets a value indicating whether the version represents a head SCM version.
     /// </summary>
     public bool IsHead => m_Value.StartsWith(HeadPrefix, StringComparison.Ordinal);
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    const string HeadPrefix = "HEAD";
 
     /// <summary>
     /// Gets a SCM commit information.
@@ -77,184 +58,8 @@ public sealed partial record BrewVersion : IComparable, IComparable<BrewVersion>
             ? m_Value[(HeadPrefix.Length + 1)..]
             : null;
 
-    #region Parsing
-
-    /// <summary>
-    /// Converts the string representation of a Homebrew package version to an equivalent <see cref="BrewVersion"/> object.
-    /// </summary>
-    /// <param name="input">A string that contains a Homebrew package version to convert.</param>
-    /// <returns>
-    /// An object that is equivalent to the Homebrew package version string specified in the <paramref name="input"/> parameter,
-    /// or <see langword="null"/> if <paramref name="input"/> parameter is <see langword="null"/>.
-    /// </returns>
-    /// <exception cref="FormatException"><paramref name="input"/> string has an invalid format.</exception>
-    [return: NotNullIfNotNull(nameof(input))]
-    public static BrewVersion? Parse(string? input)
-    {
-        if (input is null)
-            return null;
-
-        try
-        {
-            return new BrewVersion(input);
-        }
-        catch (ArgumentException)
-        {
-            throw new FormatException("Homebrew version string has an invalid format.");
-        }
-    }
-
-    static IEnumerable<BrewVersionComponent> ParseComponents(string s)
-    {
-        foreach (Match match in BrewVersionComponent.Regex.Matches(s))
-            yield return BrewVersionComponent.From(match.Value);
-    }
-
-    #endregion
-
-    #region Comparison
-
-    /// <summary>
-    /// Compares the current <see cref="BrewVersion"/> object to a specified object and returns an indication of their relative values.
-    /// </summary>
-    /// <inheritdoc/>
-    public int CompareTo(object? obj) =>
-        obj switch
-        {
-            null => 1,
-            BrewVersion other => CompareTo(other),
-            _ => throw new ArgumentException("Argument must be an instance of BrewVersion type.", nameof(obj))
-        };
-
-    /// <inheritdoc/>
-    public int CompareTo(BrewVersion? other)
-    {
-        if (ReferenceEquals(this, other))
-            return 0;
-        if (other is null)
-            return 1;
-        if (m_Value.Equals(other.m_Value, StringComparison.Ordinal))
-            return 0;
-
-        switch (IsHead, other.IsHead)
-        {
-            case (true, false):
-                return 1;
-            case (false, true):
-                return -1;
-            case (true, true):
-                return 0;
-        }
-
-        var leftComponents = Components;
-        var rightComponents = other.Components;
-
-        for (int li = 0, ri = 0, n = Math.Max(leftComponents.Count, rightComponents.Count); li < n;)
-        {
-            var l = GetComponent(leftComponents, li);
-            var r = GetComponent(rightComponents, ri);
-
-            switch (l is BrewVersionComponent.Numeric, r is BrewVersionComponent.Numeric)
-            {
-                case (true, false):
-                    if (l != BrewVersionComponent.Null.Instance)
-                        return 1;
-                    ++li;
-                    break;
-
-                case (false, true):
-                    if (r != BrewVersionComponent.Null.Instance)
-                        return -1;
-                    ++ri;
-                    break;
-
-                default:
-                    if (l.CompareTo(r) is var comparison and not 0)
-                        return comparison;
-                    ++li;
-                    ++ri;
-                    break;
-            }
-        }
-
-        return 0;
-    }
-
-    /// <summary>
-    /// Determines whether the left specified <see cref="BrewVersion"/> object is less than
-    /// the right specified <see cref="BrewVersion"/> object.
-    /// </summary>
-    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
-    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
-    /// <returns>
-    /// <see langword="true"/> if <paramref name="left"/> is less than <paramref name="right"/>;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
-    public static bool operator <(BrewVersion? left, BrewVersion? right) =>
-        left is null
-            ? right is not null
-            : left.CompareTo(right) < 0;
-
-    /// <summary>
-    /// Determines whether the left specified <see cref="BrewVersion"/> object is less than or equal to
-    /// the right specified <see cref="BrewVersion"/> object.
-    /// </summary>
-    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
-    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
-    /// <returns>
-    /// <see langword="true"/> if <paramref name="left"/> is less than or equal to <paramref name="right"/>;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
-    public static bool operator <=(BrewVersion? left, BrewVersion? right) =>
-        left is null ||
-        left.CompareTo(right) <= 0;
-
-    /// <summary>
-    /// Determines whether the left specified <see cref="BrewVersion"/> object is greater than
-    /// the right specified <see cref="BrewVersion"/> object.
-    /// </summary>
-    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
-    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
-    /// <returns>
-    /// <see langword="true"/> if <paramref name="left"/> is greater than <paramref name="right"/>;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
-    public static bool operator >(BrewVersion? left, BrewVersion? right) => right < left;
-
-    /// <summary>
-    /// Determines whether the left specified <see cref="BrewVersion"/> object is greater than or equal to
-    /// the right specified <see cref="BrewVersion"/> object.
-    /// </summary>
-    /// <param name="left">The left <see cref="BrewVersion"/> object.</param>
-    /// <param name="right">The right <see cref="BrewVersion"/> object.</param>
-    /// <returns>
-    /// <see langword="true"/> if <paramref name="left"/> is greater than or equal to <paramref name="right"/>;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
-    public static bool operator >=(BrewVersion? left, BrewVersion? right) => right <= left;
-
-    #endregion
-
-    #region Equality
-
-    /// <inheritdoc/>
-    public bool Equals(BrewVersion? other) => CompareTo(other) == 0;
-
-    /// <summary>
-    /// Returns the hash code for the current <see cref="BrewVersion"/> object.
-    /// </summary>
-    /// <returns>A 32-bit signed integer hash code.</returns>
-    public override int GetHashCode() =>
-        IsHead
-            ? HashCode.Combine(1)
-            : Components
-            .Where(x => x != BrewVersionComponent.Null.Instance)
-            .Select(x => x.GetHashCode()).Aggregate(HashCode.Combine);
-
-    #endregion
-
-    /// <inheritdoc/>
-    public override string ToString() => m_Value;
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    const string HeadPrefix = "HEAD";
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     readonly string m_Value;
