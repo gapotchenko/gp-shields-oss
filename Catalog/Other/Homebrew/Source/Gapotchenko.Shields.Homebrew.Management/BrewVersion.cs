@@ -35,32 +35,35 @@ public sealed partial record BrewVersion
     BrewVersionComponent GetComponent(int i) => GetComponent(Components, i);
 
     static BrewVersionComponent GetComponent(IReadOnlyList<BrewVersionComponent> components, int i) =>
-        i < components.Count ? components[i] : BrewVersionComponent.Null.Instance;
+        i < components.Count ? components[i] : BrewVersionComponent.Empty;
 
     /// <summary>
-    /// Gets the version components.
+    /// Gets components of the version.
     /// </summary>
     public IReadOnlyList<BrewVersionComponent> Components { get; }
 
     /// <summary>
     /// Gets a value indicating whether the version represents a head SCM version.
     /// </summary>
-    public bool IsHead => m_Value.StartsWith(HeadPrefix, StringComparison.Ordinal);
+    public bool IsHead => m_Version.StartsWith(HeadPrefix, StringComparison.Ordinal);
 
     /// <summary>
-    /// Gets a SCM commit information.
+    /// Gets SCM commit information.
     /// </summary>
     /// <value>
-    /// The commit information or <see langword="null"/> if the information is absent.
+    /// The commit information, or <see langword="null"/> if the information is absent.
     /// </value>
     public string? Commit =>
-        IsHead && m_Value[HeadPrefix.Length] is '-'
-            ? m_Value[(HeadPrefix.Length + 1)..]
+        IsHead && m_Version[HeadPrefix.Length] is '-'
+            ? m_Version[(HeadPrefix.Length + 1)..]
             : null;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     const string HeadPrefix = "HEAD";
 
+    /// <summary>
+    /// A string representation of the version.
+    /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    readonly string m_Value;
+    readonly string m_Version;
 }

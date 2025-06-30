@@ -29,7 +29,7 @@ partial record BrewVersion : IComparable, IComparable<BrewVersion>
             return 0;
         if (other is null)
             return 1;
-        if (m_Value.Equals(other.m_Value, StringComparison.Ordinal))
+        if (m_Version.Equals(other.m_Version, StringComparison.Ordinal))
             return 0;
 
         switch (IsHead, other.IsHead)
@@ -53,13 +53,13 @@ partial record BrewVersion : IComparable, IComparable<BrewVersion>
             switch (l is BrewVersionComponent.Numeric, r is BrewVersionComponent.Numeric)
             {
                 case (true, false):
-                    if (l != BrewVersionComponent.Null.Instance)
+                    if (!l.IsEmpty)
                         return 1;
                     ++li;
                     break;
 
                 case (false, true):
-                    if (r != BrewVersionComponent.Null.Instance)
+                    if (!r.IsEmpty)
                         return -1;
                     ++ri;
                     break;

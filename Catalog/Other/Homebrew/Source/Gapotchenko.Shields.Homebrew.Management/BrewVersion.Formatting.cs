@@ -10,5 +10,5 @@ namespace Gapotchenko.Shields.Homebrew.Management;
 partial record BrewVersion
 {
     /// <inheritdoc/>
-    public override string ToString() => m_Value;
+    public override string ToString() => m_Version;
 }

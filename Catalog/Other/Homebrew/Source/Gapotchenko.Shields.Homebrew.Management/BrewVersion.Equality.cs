@@ -20,6 +20,6 @@ partial record BrewVersion
         IsHead
             ? HashCode.Combine(1)
             : Components
-            .Where(x => x != BrewVersionComponent.Null.Instance)
+            .Where(x => !x.IsEmpty)
             .Select(x => x.GetHashCode()).Aggregate(HashCode.Combine);
 }

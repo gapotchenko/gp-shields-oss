@@ -18,7 +18,10 @@ namespace Gapotchenko.Shields.Homebrew.Management;
 /// </summary>
 [ImmutableObject(true)]
 [DebuggerDisplay("Value = {Value}, Type = {GetType().Name,nq}")]
-public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersionComponent>, IEquatable<BrewVersionComponent>
+public abstract class BrewVersionComponent :
+    IEmptiable<BrewVersionComponent>,
+    IComparable, IComparable<BrewVersionComponent>,
+    IEquatable<BrewVersionComponent>
 {
     #region Construction
 
@@ -28,27 +31,83 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
     /// <param name="value">The value.</param>
     /// <returns>A version component.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException">Cannot match a component pattern.</exception>
+    /// <exception cref="ArgumentException">Cannot match a version component pattern.</exception>
     public static BrewVersionComponent Create(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         return
-            TryParse(value) ??
-            throw new ArgumentException("Cannot match a component pattern.", nameof(value));
+            TryParseCore(value) ??
+            throw new ArgumentException("Cannot match a version component pattern.", nameof(value));
+    }
+
+    #endregion
+
+    #region Emptiness
+
+    /// <inheritdoc/>
+    public bool IsEmpty => this == Empty;
+
+    /// <summary>
+    /// Gets the empty value of <see cref="BrewVersionComponent"/>.
+    /// </summary>
+    public static BrewVersionComponent Empty => EmptyComponent.Instance;
+
+    sealed class EmptyComponent : BrewVersionComponent
+    {
+        public static readonly EmptyComponent Instance = new();
+
+        EmptyComponent()
+        {
+        }
+
+        public override int CompareTo(BrewVersionComponent? other) =>
+            other switch
+            {
+                EmptyComponent => 0,
+                Numeric numeric => numeric.Value == 0 ? 0 : -1,
+                Alpha or Beta or Prerelease or ReleaseCandidate or null => 1,
+                Text text => text.Value is [] ? 0 : -1,
+                _ => -1
+            };
+
+        public override int GetHashCode() => HashCode.Combine(0);
+
+        public override string? ToString() => null;
     }
 
     #endregion
 
     #region Parsing
 
-    static BrewVersionComponent? TryParse(string? input)
+    [return: NotNullIfNotNull(nameof(input))]
+    internal static BrewVersionComponent? Parse(string? input)
+    {
+        if (input is null)
+        {
+            return null;
+        }
+        else
+        {
+            return
+                TryParseCore(input) ??
+                throw new FormatException("Cannot match a version component pattern.");
+        }
+    }
+
+    internal static BrewVersionComponent? TryParse(string? input)
     {
         if (input is null)
             return null;
+        else
+            return TryParseCore(input);
+    }
+
+    static BrewVersionComponent? TryParseCore(string input)
+    {
         if (Alpha.Regex.IsMatch(input))
             return new Alpha(input);
-        if (Beta.Regex.IsMatch(input))
+        else if (Beta.Regex.IsMatch(input))
             return new Beta(input);
         else if (ReleaseCandidate.Regex.IsMatch(input))
             return new ReleaseCandidate(input);
@@ -65,6 +124,14 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
         else
             return null;
     }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    internal static readonly Regex Regex = new(
+        Pattern,
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    const string Pattern = $"{Alpha.Pattern}|{Beta.Pattern}|{Prerelease.Pattern}|{ReleaseCandidate.Pattern}|{Patch.Pattern}|{Post.Pattern}|{Numeric.Pattern}|{Text.Pattern}";
 
     #endregion
 
@@ -184,14 +251,6 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
 
     #endregion
 
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    internal static readonly Regex Regex = new(
-        Pattern,
-        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    const string Pattern = $"{Alpha.Pattern}|{Beta.Pattern}|{Prerelease.Pattern}|{ReleaseCandidate.Pattern}|{Patch.Pattern}|{Post.Pattern}|{Numeric.Pattern}|{Text.Pattern}";
-
     #region Definitions
 
     /// <summary>
@@ -249,7 +308,7 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
         public override int CompareTo(BrewVersionComponent? other) =>
             other switch
             {
-                Prerelease pre => Revision.CompareTo(pre.Revision),
+                Prerelease prerelease => Revision.CompareTo(prerelease.Revision),
                 Alpha or Beta => 1,
                 ReleaseCandidate or Patch or Post => -1,
                 _ => base.CompareTo(other)
@@ -272,7 +331,7 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
         public override int CompareTo(BrewVersionComponent? other) =>
             other switch
             {
-                ReleaseCandidate rc => Revision.CompareTo(rc.Revision),
+                ReleaseCandidate releaseCandidate => Revision.CompareTo(releaseCandidate.Revision),
                 Alpha or Beta or Prerelease => 1,
                 Patch or Post => -1,
                 _ => base.CompareTo(other)
@@ -336,7 +395,7 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
     public abstract class Composite(string value) : Text(value)
     {
         /// <summary>
-        /// Gets a revision number stored in the component.
+        /// Gets a revision number stored in the current component.
         /// </summary>
         public int Revision { get; } = int.TryParse(m_RevisionRegex.Match(value).Value, out int result) ? result : 0;
 
@@ -350,31 +409,20 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
     /// <summary>
     /// Represents a text component of the <see cref="BrewVersion"/> record.
     /// </summary>
-    public class Text : BrewVersionComponent
+    /// <param name="value">The string value.</param>
+    public class Text(string value) : BrewVersionComponent
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Text"/> class with a specified string value.
+        /// Gets a string value stored in the current component.
         /// </summary>
-        /// <param name="value">The string value.</param>
-        public Text(string value)
-        {
-            ArgumentNullException.ThrowIfNull(value);
-
-            Value = value;
-        }
-
-        /// <summary>
-        /// Gets a string value stored in the component.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public string Value { get; }
+        public string Value { get; } = value ?? throw new ArgumentNullException(nameof(value));
 
         /// <inheritdoc/>
         public override int CompareTo(BrewVersionComponent? other) =>
             other switch
             {
                 Text sc => StringComparer.Ordinal.Compare(Value, sc.Value),
-                Numeric or Null => -Math.Sign(other.CompareTo(this)),
+                Numeric or EmptyComponent => -Math.Sign(other.CompareTo(this)),
                 null => 1,
                 _ => throw new InvalidOperationException()
             };
@@ -399,7 +447,7 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
     public sealed class Numeric(int value) : BrewVersionComponent
     {
         /// <summary>
-        /// Gets a numeric value stored in the component.
+        /// Gets a numeric value stored in the current component.
         /// </summary>
         public int Value { get; } = value;
 
@@ -407,9 +455,10 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
         public override int CompareTo(BrewVersionComponent? other) =>
             other switch
             {
-                Numeric nc => Value.CompareTo(nc.Value),
-                Text or null => 1,
-                Null => -Math.Sign(other.CompareTo(this)),
+                Numeric numeric => Value.CompareTo(numeric.Value),
+                Text text => Value is 0 && text.Value is [] ? 0 : 1,
+                EmptyComponent => -Math.Sign(other.CompareTo(this)),
+                null => 1,
                 _ => throw new InvalidOperationException()
             };
 
@@ -424,37 +473,6 @@ public abstract class BrewVersionComponent : IComparable, IComparable<BrewVersio
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         internal new const string Pattern = "([0-9]+)";
-    }
-
-    /// <summary>
-    /// Represents a null component of the <see cref="BrewVersion"/> record.
-    /// </summary>
-    public sealed class Null : BrewVersionComponent
-    {
-        /// <summary>
-        /// Gets the <see cref="Null"/> instance.
-        /// </summary>
-        public static readonly Null Instance = new();
-
-        Null()
-        {
-        }
-
-        /// <inheritdoc/>
-        public override int CompareTo(BrewVersionComponent? other) =>
-            other switch
-            {
-                Null => 0,
-                Numeric nc => nc.Value == 0 ? 0 : -1,
-                Alpha or Beta or Prerelease or ReleaseCandidate or null => 1,
-                _ => -1
-            };
-
-        /// <inheritdoc/>
-        public override int GetHashCode() => HashCode.Combine(0);
-
-        /// <inheritdoc/>
-        public override string? ToString() => null;
     }
 
     #endregion

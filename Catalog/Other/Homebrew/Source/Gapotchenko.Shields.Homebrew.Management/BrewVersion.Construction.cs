@@ -5,21 +5,19 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-using Gapotchenko.FX;
-
 namespace Gapotchenko.Shields.Homebrew.Management;
 
 partial record BrewVersion
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BrewVersion"/> class with a specified value.
+    /// Initializes a new instance of the <see cref="BrewVersion"/> record with the specified string.
     /// </summary>
-    /// <param name="value">The value.</param>
-    public BrewVersion(string value)
+    /// <param name="version">A string containing the Homebrew package version.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="version"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="version"/> is empty.</exception>
+    /// <exception cref="ArgumentException"><paramref name="version"/> has an invalid format.</exception>
+    public BrewVersion(string version) :
+        this(Model.Create(version))
     {
-        ArgumentException.ThrowIfNullOrEmpty(value);
-
-        m_Value = value;
-        Components = [.. ParseComponents(value)];
     }
 }
