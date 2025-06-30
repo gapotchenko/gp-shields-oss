@@ -16,10 +16,11 @@ namespace Gapotchenko.Shields.Homebrew.Management;
 public static class BrewManagement
 {
     /// <summary>
-    /// Creates a manager for the specified Homebrew setup instance.
+    /// Creates a manager for the specified setup instance.
     /// </summary>
-    /// <param name="setupInstance">The Homebrew setup instance.</param>
+    /// <param name="setupInstance">The setup instance.</param>
     /// <returns>An <see cref="IBrewManager"/> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="setupInstance"/> is <see langword="null"/>.</exception>
     public static IBrewManager CreateManager(IBrewSetupInstance setupInstance)
     {
         ArgumentNullException.ThrowIfNull(setupInstance);
