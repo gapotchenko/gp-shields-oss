@@ -32,7 +32,7 @@ sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
                 }
                 else
                 {
-                    Debug.Fail($"The current revision of a snap package is absent in '{packagePath}' directory.");
+                    Debug.Fail($"The current revision of a Snap package is absent in '{packagePath}' directory.");
                 }
             }
             else
@@ -63,7 +63,7 @@ sealed class SnapManager(ISnapSetupInstance setupInstance) : ISnapManager
 
         if (!int.TryParse(revisionName, NumberStyles.None, NumberFormatInfo.InvariantInfo, out int revision))
         {
-            Debug.Fail($"Cannot parse the revision of a snap package in '{revisionPath}' directory.");
+            Debug.Fail($"Cannot parse the revision of a Snap package in '{revisionPath}' directory.");
             packageName = default;
             return false;
         }
