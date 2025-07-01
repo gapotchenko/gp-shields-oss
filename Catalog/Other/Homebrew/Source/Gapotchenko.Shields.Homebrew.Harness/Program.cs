@@ -1,6 +1,7 @@
 ﻿using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Homebrew.Deployment;
+using Gapotchenko.Shields.Homebrew.Management;
 
 namespace Gapotchenko.Shields.Homebrew.Harness;
 
@@ -11,6 +12,8 @@ class Program
         try
         {
             ListSetupInstances();
+            ListFormulae();
+            ListCasks();
         }
         catch (Exception e)
         {
@@ -57,5 +60,44 @@ class Program
 
         Console.Write(padding);
         Console.WriteLine("Cellar path: {0}", instance.ResolvePath("Cellar"));
+    }
+
+    static void ListFormulae()
+    {
+        Console.WriteLine("*** Installed Formulae ***");
+        Console.WriteLine();
+
+        ListPackages(x => x.Formulae);
+    }
+
+    static void ListCasks()
+    {
+        Console.WriteLine("*** Installed Casks ***");
+        Console.WriteLine();
+
+        ListPackages(x => x.Casks);
+    }
+
+    static void ListPackages(Func<IBrewManager, IBrewPackageManagement> packageManagementSelector)
+    {
+        var packages =
+            BrewDeployment.EnumerateSetupInstances()
+            .Select(BrewManagement.CreateManager)
+            .Select(packageManagementSelector)
+            .SelectMany(packageManagement =>
+                packageManagement.EnumeratePackages()
+                .Select(package => (Package: package, PackageManagement: packageManagement)))
+            .OrderBy(x => x.Package.Name)
+            .ThenByDescending(x => x.Package.Version);
+
+        bool hasPackages = false;
+        foreach (var (package, packageManagement) in packages)
+        {
+            Console.WriteLine("{0}: {1}", package, packageManagement.GetPackagePath(package));
+            hasPackages = true;
+        }
+
+        if (hasPackages)
+            Console.WriteLine();
     }
 }

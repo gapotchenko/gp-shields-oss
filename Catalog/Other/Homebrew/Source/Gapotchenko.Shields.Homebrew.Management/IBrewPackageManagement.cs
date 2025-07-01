@@ -23,7 +23,7 @@ public interface IBrewPackageManagement
     /// </summary>
     /// <param name="name">
     /// The optional package name to enumerate the packages for.
-    /// The <see langword="null"/> value instructs to enumerate all of them.
+    /// The <see langword="null"/> value instructs to enumerate all packages.
     /// </param>
     /// <param name="options">The options.</param>
     /// <returns>A sequence of installed packages.</returns>

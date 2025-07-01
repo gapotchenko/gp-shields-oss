@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gapotchenko.Shields.Homebrew.Deployment\Gapotchenko.Shields.Homebrew.Deployment.csproj" />
+    <ProjectReference Include="..\Gapotchenko.Shields.Homebrew.Management\Gapotchenko.Shields.Homebrew.Management.csproj" />
   </ItemGroup>
 
   <ItemGroup>

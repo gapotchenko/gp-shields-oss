@@ -22,6 +22,7 @@ public readonly record struct BrewPackage
     /// <param name="version">The package version.</param>
     public BrewPackage(string name, BrewVersion version)
     {
+        ArgumentException.ThrowIfNullOrEmpty(name);
         ValidateName(name);
         ArgumentNullException.ThrowIfNull(version);
 
@@ -37,7 +38,9 @@ public readonly record struct BrewPackage
         get => m_Name;
         init
         {
+            ArgumentException.ThrowIfNullOrEmpty(value);
             ValidateName(value);
+
             m_Name = value;
         }
     }
@@ -54,6 +57,7 @@ public readonly record struct BrewPackage
         init
         {
             ArgumentNullException.ThrowIfNull(value);
+
             m_Version = value;
         }
     }
@@ -68,8 +72,6 @@ public readonly record struct BrewPackage
         string name,
         [CallerArgumentExpression(nameof(name))] string? paramName = null)
     {
-        ArgumentException.ThrowIfNullOrEmpty(name, paramName);
-
         int j = name.IndexOfAny(['?', '*', Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
         if (j != -1)
         {

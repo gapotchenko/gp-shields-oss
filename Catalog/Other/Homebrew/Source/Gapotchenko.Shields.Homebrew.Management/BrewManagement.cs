@@ -24,9 +24,6 @@ public static class BrewManagement
     public static IBrewManager CreateManager(IBrewSetupInstance setupInstance)
     {
         ArgumentNullException.ThrowIfNull(setupInstance);
-
-        //return new BrewManager(setupInstance);
-
-        throw new NotImplementedException();
+        return new BrewManager(setupInstance);
     }
 }
