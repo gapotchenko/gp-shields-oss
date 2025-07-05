@@ -20,7 +20,12 @@ public enum BrewPackageEnumerationOptions
     None = 0,
 
     /// <summary>
+    /// Enumerate only current package versions.
+    /// </summary>
+    Current = 1 << 0,
+
+    /// <summary>
     /// Enumerate only the highest package versions.
     /// </summary>
-    Top = 1 << 0
+    Top = 1 << 1
 }

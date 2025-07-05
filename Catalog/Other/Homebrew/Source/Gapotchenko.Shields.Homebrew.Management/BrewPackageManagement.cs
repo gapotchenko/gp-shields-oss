@@ -24,7 +24,8 @@ sealed class BrewPackageManagement(IBrewManager manager, string storagePath) : I
                 packagePath =>
                 {
                     var query = EnumeratePackageVersions(packagePath);
-                    if (options.HasFlag(BrewPackageEnumerationOptions.Top))
+                    // TODO: is this a correct way to determine the current package version?
+                    if ((options & (BrewPackageEnumerationOptions.Top | BrewPackageEnumerationOptions.Current)) != 0)
                         query = query.OrderByDescending(package => package.Version).Take(1);
                     return query;
                 });
@@ -44,6 +45,7 @@ sealed class BrewPackageManagement(IBrewManager manager, string storagePath) : I
         string versionName = Path.GetFileName(versionPath);
         if (versionName.StartsWith('.'))
         {
+            // A special directory.
             package = default;
             return false;
         }

@@ -1,4 +1,11 @@
-﻿using Gapotchenko.FX.Linq;
+﻿// Gapotchenko.Shields.Homebrew
+//
+// Copyright © Gapotchenko and Contributors
+//
+// File introduced by: Oleksiy Gapotchenko
+// Year of introduction: 2025
+
+using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Homebrew.Deployment;
 using Gapotchenko.Shields.Homebrew.Management;
@@ -60,6 +67,9 @@ class Program
 
         Console.Write(padding);
         Console.WriteLine("Cellar path: {0}", instance.ResolvePath("Cellar"));
+
+        Console.Write(padding);
+        Console.WriteLine("Repository path: {0}", instance.ResolvePath("Homebrew"));
     }
 
     static void ListFormulae()
