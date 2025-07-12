@@ -5,6 +5,7 @@
     <IsPackable>false</IsPackable>
     <IsPackable Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPackable>
     <Authors>$(Company)</Authors>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>$(PackageTags) shield</PackageTags>
   </PropertyGroup>
