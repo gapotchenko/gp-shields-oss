@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX" Version="2025.1.20-beta" />
-    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.20-beta" />
-    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.20-beta" />
-    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.20-beta" />
-    <PackageReference Include="Gapotchenko.FX.Memory" Version="2025.1.20-beta" />
-    <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.20-beta" />
-    <PackageReference Include="Gapotchenko.FX.Versioning" Version="2025.1.20-beta" />
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.23-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.23-beta" />
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.23-beta" />
+    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.23-beta" />
+    <PackageReference Include="Gapotchenko.FX.Memory" Version="2025.1.23-beta" />
+    <PackageReference Include="Gapotchenko.FX.Text" Version="2025.1.23-beta" />
+    <PackageReference Include="Gapotchenko.FX.Versioning" Version="2025.1.23-beta" />
   </ItemGroup>
 
   <Import Project="$(BaseMasteringDir)\OOB\Microsoft.Win32.Registry.props" />
