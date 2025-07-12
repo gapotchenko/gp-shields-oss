@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.22-beta" />
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.23-beta" />
   </ItemGroup>
 
 </Project>
