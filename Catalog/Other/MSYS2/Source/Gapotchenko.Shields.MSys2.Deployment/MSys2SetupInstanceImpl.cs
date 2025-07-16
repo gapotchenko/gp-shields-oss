@@ -85,9 +85,20 @@ sealed class MSys2SetupInstanceImpl(
                 orderedQuery = orderedQuery.OrderByDescending(x => x.Architecture == processArchitecture);
 
                 // Prefer environments with a processor architecture similar to the host OS.
-                // User intent: run executable modules outside the process.
+                // User intent: run executable modules outside of the process.
                 var osArchitecture = EnvironmentUtil.TryGetPreciseOSArchitecture() ?? processArchitecture;
                 orderedQuery = orderedQuery.ThenBy(x => EnvironmentUtil.GetArchitectureSimilarity(x.Architecture, osArchitecture));
+            }
+
+            if ((options & MSys2DiscoveryOptions.EnvironmentInvariant) == 0)
+            {
+                string? mSystem = Environment.GetEnvironmentVariable("MSYSTEM");
+                if (!string.IsNullOrEmpty(mSystem))
+                {
+                    // Prefer an environment specified by 'MSYSTEM' environment variable.
+                    // User intent: explicit environment configuration.
+                    orderedQuery = orderedQuery.OrderByDescending(x => x.Name.Equals(mSystem, StringComparison.OrdinalIgnoreCase));
+                }
             }
 
             query = orderedQuery;

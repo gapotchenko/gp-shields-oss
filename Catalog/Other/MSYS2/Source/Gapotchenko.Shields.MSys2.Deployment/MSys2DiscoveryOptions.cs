@@ -28,4 +28,9 @@ public enum MSys2DiscoveryOptions
     /// Do not prioritize setup instances with processor architecture identical to the current process and host OS architectures.
     /// </summary>
     ArchitectureInvariant = 1 << 1,
+
+    /// <summary>
+    /// Do not prioritize setup instances deducted from the environment.
+    /// </summary>
+    EnvironmentInvariant = 1 << 2
 }
