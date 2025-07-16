@@ -1,11 +1,18 @@
 # Template:
 # https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# Cryptographical Keys
+*.snk
+
 # Build results
 [Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+
+# MSTest Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
 
 # Others
 ~$*
@@ -15,10 +22,3 @@ CodeCoverage/
 .vs
 .idea
 launchSettings.json
-
-# MSTest Results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
-
-# Cryptographical Keys
-*.snk
