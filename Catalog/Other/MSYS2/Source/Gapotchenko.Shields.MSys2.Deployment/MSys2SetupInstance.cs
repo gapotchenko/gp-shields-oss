@@ -6,7 +6,9 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
+using Gapotchenko.FX.Text;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Gapotchenko.Shields.MSys2.Deployment;
@@ -69,13 +71,13 @@ public static class MSys2SetupInstance
     static Version? TryReadVersion(string installationPath)
     {
         // ------------------------------------------------------------------
-        // Trying to read from 'components.xml' manifest file
+        // Trying to read from 'components.xml' file
         // ------------------------------------------------------------------
 
         string filePath = Path.Combine(installationPath, "components.xml");
         if (File.Exists(filePath))
         {
-            // The manifest file is only present in the instances that were installed.
+            // The file is only present in the instances that were installed.
             // Portable instances do not have it.
 
             using var stream = File.OpenRead(filePath);
@@ -114,6 +116,31 @@ public static class MSys2SetupInstance
         }
 
         // ------------------------------------------------------------------
+        // Trying to read from 'var/log/pacman.log' file
+        // ------------------------------------------------------------------
+
+        filePath = Path.Combine(installationPath, "var", "log", "pacman.log");
+        if (File.Exists(filePath))
+        {
+            string? line;
+            using (var file = File.OpenText(filePath))
+                line = file.ReadLine();
+
+            if (line != null && line.StartsWith('['))
+            {
+                // Example lines:
+                //   - [2025-02-21T09:51:00+0000] [PACMAN] Running 'pacman -Syu --root /d/a/msys2-installer/msys2-installer/_build/newmsys/msys64'
+                var m = Regex.Match(line, @"^\[(?<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{4})]");
+                if (m.Success &&
+                    DateTime.TryParse(m.Groups["timestamp"].Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
+                {
+                    if (TryParseVersion(dateTime) is { } version)
+                        return version;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------
 
         // Nothing worked.
         return null;
@@ -137,8 +164,24 @@ public static class MSys2SetupInstance
                 return null;
             }
         }
+        else
+        {
+            // Nothing worked.
+            return null;
+        }
+    }
 
-        // Nothing worked.
-        return null;
+    static Version? TryParseVersion(DateTime dateTime)
+    {
+        if (dateTime.Year is >= 2000 and var year)
+        {
+            // Year based format.
+            return new Version(year, dateTime.Month, dateTime.Day);
+        }
+        else
+        {
+            // Nothing worked.
+            return null;
+        }
     }
 }
