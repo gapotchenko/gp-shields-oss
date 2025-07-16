@@ -34,7 +34,7 @@ partial class MSys2Deployment
                 using var uninstallKey = userHive.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
                 if (uninstallKey is not null)
                 {
-                    // 2025-06-05: this is the only way to precisely locate a MSYS2 setup,
+                    // 2025-06-05: this is the only way to precisely locate an MSYS2 setup,
                     // no other information is available. No HKLM keys, no upgrade codes, nothing
                     // except a tiny ARP record (ARP = "Add/Remove Programs") at the user registry hive.
                     foreach (string keyName in uninstallKey.GetSubKeyNames())

@@ -8,7 +8,7 @@
 namespace Gapotchenko.Shields.MSys2.Deployment;
 
 /// <summary>
-/// Represents a MSYS2 deployment error.
+/// Represents an MSYS2 deployment error.
 /// </summary>
 public class MSys2DeploymentException : Exception
 {

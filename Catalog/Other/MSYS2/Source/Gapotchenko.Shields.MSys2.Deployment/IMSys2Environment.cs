@@ -8,7 +8,7 @@
 namespace Gapotchenko.Shields.MSys2.Deployment;
 
 /// <summary>
-/// Provides information about a MSYS2 environment.
+/// Provides information about an MSYS2 environment.
 /// </summary>
 public interface IMSys2Environment
 {

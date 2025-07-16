@@ -19,22 +19,22 @@ namespace Gapotchenko.Shields.MSys2.Deployment;
 public static class MSys2SetupInstance
 {
     /// <summary>
-    /// Opens a MSYS2 setup instance at the specified directory path.
+    /// Opens an MSYS2 setup instance at the specified directory path.
     /// </summary>
-    /// <param name="directoryPath">The directory path to open a MSYS2 setup instance at.</param>
+    /// <param name="directoryPath">The directory path to open an MSYS2 setup instance at.</param>
     /// <param name="options">The discovery options.</param>
     /// <returns>The opened MSYS2 setup instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="directoryPath"/> is <see langword="null"/>.</exception>
     /// <exception cref="IOException">An I/O error occurred while accessing the file system.</exception>
-    /// <exception cref="MSys2DeploymentException">Cannot open a MSYS2 setup instance at the specified path.</exception>
+    /// <exception cref="MSys2DeploymentException">Cannot open an MSYS2 setup instance at the specified path.</exception>
     public static IMSys2SetupInstance Open(string directoryPath, MSys2DiscoveryOptions options = default) =>
         TryOpen(directoryPath, options) ??
-        throw new MSys2DeploymentException("Cannot open a MSYS2 setup instance at the specified path.");
+        throw new MSys2DeploymentException("Cannot open an MSYS2 setup instance at the specified path.");
 
     /// <summary>
-    /// Tries to open a MSYS2 setup instance at the specified directory path of the file system view.
+    /// Tries to open an MSYS2 setup instance at the specified directory path of the file system view.
     /// </summary>
-    /// <param name="directoryPath">The directory path to open a MSYS2 setup instance at.</param>
+    /// <param name="directoryPath">The directory path to open an MSYS2 setup instance at.</param>
     /// <param name="options">The discovery options.</param>
     /// <returns>
     /// The opened MSYS2 setup instance

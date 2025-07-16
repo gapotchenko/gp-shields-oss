@@ -35,7 +35,7 @@ sealed class MSys2Environment(
             // Legacy environments.
             "MINGW32" => Architecture.X86,
             "CLANG32" => Architecture.X86,
-            _ => throw new MSys2DeploymentException("Cannot determine the architecture of a MSYS2 environment.")
+            _ => throw new MSys2DeploymentException("Cannot determine the architecture of an MSYS2 environment.")
         };
 
     #region Formatting
