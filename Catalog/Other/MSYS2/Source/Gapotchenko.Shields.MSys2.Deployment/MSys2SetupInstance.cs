@@ -46,12 +46,13 @@ public static class MSys2SetupInstance
     {
         ArgumentNullException.ThrowIfNull(directoryPath);
 
-        return TryCreate(directoryPath, null, options);
+        return TryCreate(directoryPath, null, MSys2SetupInstanceAttributes.None, options);
     }
 
     internal static IMSys2SetupInstance? TryCreate(
         string installationPath,
         Version? version,
+        MSys2SetupInstanceAttributes attributes,
         MSys2DiscoveryOptions options)
     {
         string productPath = "msys2.exe";
@@ -62,7 +63,7 @@ public static class MSys2SetupInstance
             TryReadVersion(installationPath) ??
             new Version(0, 0, 0);
 
-        return new MSys2SetupInstanceImpl(version, installationPath, productPath, options);
+        return new MSys2SetupInstanceImpl(version, installationPath, productPath, attributes, options);
     }
 
     /// <summary>

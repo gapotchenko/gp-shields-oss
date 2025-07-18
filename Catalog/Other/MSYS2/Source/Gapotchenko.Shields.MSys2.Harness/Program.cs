@@ -85,6 +85,9 @@ class Program
         Console.WriteLine("Product path: {0}", instance.ResolvePath(instance.ProductPath));
 
         Console.Write(padding);
+        Console.WriteLine("Attributes: {0}", instance.Attributes);
+
+        Console.Write(padding);
         Console.WriteLine("Environments:");
         foreach (var environment in instance.EnumerateEnvironments())
             PrintEnvironment(environment, level + 1);

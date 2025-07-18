@@ -36,7 +36,19 @@ public static partial class MSys2Deployment
         var query = EnumerateSetupInstancesCore(versions, options);
 
         if ((options & MSys2DiscoveryOptions.NoSort) == 0)
-            query = query.OrderByDescending(x => x.Version);
+        {
+            var prioritizedAttributeMask = MSys2SetupInstanceAttributes.None;
+            if ((options & MSys2DiscoveryOptions.EnvironmentInvariant) == 0)
+            {
+                // Prefer setup instances deducted from the environment
+                // because it gives a configuration flexibility to a user.
+                prioritizedAttributeMask |= MSys2SetupInstanceAttributes.Environment;
+            }
+
+            query = query
+                .OrderByDescending(instance => (instance.Attributes & prioritizedAttributeMask) != 0)
+                .ThenByDescending(instance => instance.Version);
+        }
 
         return query;
     }

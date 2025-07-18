@@ -60,6 +60,11 @@ public interface IMSys2SetupInstance
     string ResolvePath(string? relativePath);
 
     /// <summary>
+    /// Gets the instance attributes.
+    /// </summary>
+    MSys2SetupInstanceAttributes Attributes { get; }
+
+    /// <summary>
     /// Enumerates MSYS2 environments.
     /// </summary>
     /// <returns>A sequence of MSYS2 environments.</returns>

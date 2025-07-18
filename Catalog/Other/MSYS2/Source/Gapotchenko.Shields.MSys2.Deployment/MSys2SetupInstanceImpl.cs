@@ -16,6 +16,7 @@ sealed class MSys2SetupInstanceImpl(
     Version version,
     string installationPath,
     string productPath,
+    MSys2SetupInstanceAttributes attributes,
     MSys2DiscoveryOptions options) :
     IMSys2SetupInstance,
     IFormattable
@@ -45,6 +46,8 @@ sealed class MSys2SetupInstanceImpl(
             path += Path.DirectorySeparatorChar;
         return path;
     }
+
+    public MSys2SetupInstanceAttributes Attributes => attributes;
 
     #region Environments
 

@@ -32,5 +32,10 @@ public enum MSys2DiscoveryOptions
     /// <summary>
     /// Do not prioritize setup instances deducted from the environment.
     /// </summary>
-    EnvironmentInvariant = 1 << 2
+    EnvironmentInvariant = 1 << 2,
+
+    /// <summary>
+    /// Do not prioritize setup instances by variant factors such as architecture and environment.
+    /// </summary>
+    Invariant = ArchitectureInvariant | EnvironmentInvariant
 }
