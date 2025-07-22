@@ -4,6 +4,9 @@
     <Project Path="Gapotchenko.Shields.Microsoft.Wsl.Deployment/Gapotchenko.Shields.Microsoft.Wsl.Deployment.csproj" />
   </Folder>
   <Folder Name="/03. Misc/" />
+  <Folder Name="/03. Misc/Documentation/">
+    <File Path="../README.md" />
+  </Folder>
   <Folder Name="/03. Misc/Harness/">
     <Project Path="Gapotchenko.Shields.Microsoft.Wsl.Harness/Gapotchenko.Shields.Microsoft.Wsl.Harness.csproj" />
   </Folder>
