@@ -1,8 +1,0 @@
-<Project>
-
-  <!-- NuGet Information -->
-  <PropertyGroup>
-    <PackageTags>$(PackageTags) xdg directories</PackageTags>
-  </PropertyGroup>
-
-</Project>
