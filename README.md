@@ -24,8 +24,6 @@ Shields are grouped by a manufacturer.
     - [Java](Catalog/Oracle/Java) - high-level programming language and runtime
 - Red Hat
     - [Cygwin](Catalog/Red%20Hat/Cygwin) - Unix-like environment and command-line interface for Microsoft Windows
-- X Desktop Group
-    - [XDG Directories](Catalog/X%20Desktop%20Group/Directories) - cross-platform specifications defining where application files should be located
 - Other
   - [Homebrew](Catalog/Other/Homebrew) - the missing package manager for macOS (or Linux)
   - [MSYS2](Catalog/Other/MSYS2) - software distribution and building platform for Microsoft Windows
