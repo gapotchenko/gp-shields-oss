@@ -7,9 +7,17 @@ set windows-shell := ["cmd", "/c"]
     just --list
 
 # Start IDE using the project environment
+[group("development")]
 [windows]
 develop:
-    start Gapotchenko.Shields.Java.sln
+    #!cmd /c
+    @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
+
+# Start IDE using the project environment
+[group("development")]
+[unix]
+develop:
+    open *.sln?
 
 # Build release artifacts
 build:
@@ -33,6 +41,3 @@ test:
 publish:
     dotnet clean -c Release
     dotnet pack -c Release
-
-# Make a release by testing and producing publishable project artifacts
-release: test publish

@@ -6,15 +6,16 @@ set windows-shell := ["cmd", "/c"]
 @help:
     just --list
 
+[group("development")]
 # Start IDE using the project environment
 [windows]
 develop:
     #!cmd /c
     @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
 
+[group("development")]
 # Start IDE using the project environment
-[linux]
-[macos]
+[unix]
 develop:
     open *.sln?
 
@@ -40,6 +41,3 @@ test:
 publish:
     dotnet clean -c Release
     dotnet pack -c Release
-
-# Make a release by testing and producing publishable project artifacts
-release: test publish
