@@ -6,15 +6,15 @@ set windows-shell := ["cmd", "/c"]
 @help:
     just --list
 
-[group("development")]
 # Start IDE using the project environment
+[group("development")]
 [windows]
 develop:
     #!cmd /c
     @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
 
-[group("development")]
 # Start IDE using the project environment
+[group("development")]
 [unix]
 develop:
     open *.sln?

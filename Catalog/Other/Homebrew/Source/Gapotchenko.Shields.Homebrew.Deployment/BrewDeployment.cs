@@ -131,7 +131,7 @@ public static partial class BrewDeployment
     }
 
     static IEnumerable<string> EnumeratePathRoots(string productFileName) =>
-        CommandShell.Which(productFileName)
+        CommandShell.Where(productFileName)
         .Select(x => Path.GetDirectoryName(GetRealPath(x)))
         .Where(x => Path.GetFileName(x) == "bin" && Directory.Exists(x))
         .Select(x => Path.GetDirectoryName(x)!) // go one level up out of "bin" directory
@@ -141,7 +141,7 @@ public static partial class BrewDeployment
     static string? GetRealPath(string? path)
     {
         // FUTURE
-        // If the product can ever be installed by other package managers,
+        // If Homebrew can ever be installed by other package managers,
         // this extension point can be used to get real product paths.
         return FileSystem.GetRealPath(path);
     }
