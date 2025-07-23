@@ -96,7 +96,7 @@ partial class MSys2Deployment
                     // https://www.msys2.org/docs/ci/
 
                     var query =
-                        CommandShell.Which("msys2.cmd")
+                        CommandShell.Where("msys2.cmd")
                         .Take(1)
                         .Select(msys2FilePath => TryGetInstanceFromCommandFile(msys2FilePath, versions, options));
 
@@ -132,7 +132,7 @@ partial class MSys2Deployment
                         {
                             if (!Path.IsPathRooted(installationPath))
                             {
-                                // Most probably the line was parsed incorrectly.
+                                // If we are here, it means that most probably the line was parsed incorrectly.
                                 return null;
                             }
                         }
