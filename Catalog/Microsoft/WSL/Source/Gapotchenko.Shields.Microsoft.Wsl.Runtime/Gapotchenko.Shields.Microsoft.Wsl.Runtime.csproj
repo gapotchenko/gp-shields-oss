@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Accesses and interacts with active runtime instances of Windows Subsystem for Linux (WSL).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gapotchenko.Shields.Microsoft.Wsl.Deployment\Gapotchenko.Shields.Microsoft.Wsl.Deployment.csproj" />
+  </ItemGroup>
+
+</Project>

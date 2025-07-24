@@ -2,6 +2,7 @@
   <Folder Name="/01. Components/" />
   <Folder Name="/02. Modules/">
     <Project Path="Gapotchenko.Shields.Microsoft.Wsl.Deployment/Gapotchenko.Shields.Microsoft.Wsl.Deployment.csproj" />
+    <Project Path="Gapotchenko.Shields.Microsoft.Wsl.Runtime/Gapotchenko.Shields.Microsoft.Wsl.Runtime.csproj" Id="275c809e-7799-4f36-bbdd-ecc5332b1e0d" />
   </Folder>
   <Folder Name="/03. Misc/" />
   <Folder Name="/03. Misc/Documentation/">

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Locates setup instances of "Microsoft Windows Subsystem for Linux".</Description>
+    <Description>Locates setup instances of Windows Subsystem for Linux (WSL).</Description>
   </PropertyGroup>
 
   <ItemGroup>
