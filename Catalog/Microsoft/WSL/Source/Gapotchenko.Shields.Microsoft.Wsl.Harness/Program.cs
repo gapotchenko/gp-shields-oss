@@ -1,6 +1,7 @@
 ﻿using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
+using Gapotchenko.Shields.Microsoft.Wsl.Runtime;
 
 namespace Gapotchenko.Shields.Microsoft.Wsl.Harness;
 
@@ -11,6 +12,7 @@ class Program
         try
         {
             ListSetupInstances();
+            ListRunningInstances();
         }
         catch (Exception e)
         {
@@ -33,6 +35,30 @@ class Program
 
             Console.WriteLine();
         }
+    }
+
+    static void ListRunningInstances()
+    {
+        Console.WriteLine("*** Running Instance ***");
+        Console.WriteLine();
+
+        var instance = WslRuntime.RunningInstance;
+        if (instance != null)
+            PrintRunningInstance(instance);
+        else
+            Console.WriteLine("Not running under WSL.");
+    }
+
+    static void PrintRunningInstance(IWslRunningInstance instance, int level = 0)
+    {
+        string padding = new(' ', level * 4);
+
+        Console.Write(padding);
+        Console.WriteLine("Distribution name: {0}", instance.DistributionName);
+
+        Console.Write(padding);
+        Console.WriteLine("Setup:");
+        PrintSetupInstance(instance.Setup, level + 1);
     }
 
     static void PrintSetupInstance(IWslSetupInstance instance, int level = 0)

@@ -16,7 +16,7 @@ public static class WslRuntime
 {
     /// <summary>
     /// Gets the instance of the currently running WSL,
-    /// or <see langword="null"/> if the current app is not being run under WSL.
+    /// or <see langword="null"/> if the current process is not being run under WSL.
     /// </summary>
     public static IWslRunningInstance? RunningInstance => m_CachedRunningInstance.Value;
 

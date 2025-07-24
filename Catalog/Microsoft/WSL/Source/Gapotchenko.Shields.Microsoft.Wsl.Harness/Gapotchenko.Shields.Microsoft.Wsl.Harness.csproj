@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gapotchenko.Shields.Microsoft.Wsl.Deployment\Gapotchenko.Shields.Microsoft.Wsl.Deployment.csproj" />
+    <ProjectReference Include="..\Gapotchenko.Shields.Microsoft.Wsl.Runtime\Gapotchenko.Shields.Microsoft.Wsl.Runtime.csproj" />
   </ItemGroup>
 
   <ItemGroup>

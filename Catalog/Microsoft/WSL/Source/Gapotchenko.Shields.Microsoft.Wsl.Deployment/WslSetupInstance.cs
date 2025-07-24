@@ -41,4 +41,13 @@ sealed class WslSetupInstance(string installationPath, Version version, string p
         };
 
     #endregion
+
+    public static IWslSetupInstance? TryCreate(string installationPath, Version version)
+    {
+        string productPath = "wsl.exe";
+        if (!File.Exists(Path.Combine(installationPath, productPath)))
+            return null;
+
+        return new WslSetupInstance(installationPath, version, productPath);
+    }
 }

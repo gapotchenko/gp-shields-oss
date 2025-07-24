@@ -6,6 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Gapotchenko.FX" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.Collections" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.Data.Encoding.Base16" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.Diagnostics.CommandLine" Version="2025.1.25-beta" />
     <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.25-beta" />
     <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.25-beta" />
   </ItemGroup>
