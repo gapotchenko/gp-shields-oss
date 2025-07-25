@@ -51,7 +51,10 @@ partial class WslDeployment
 
                 var psi = new ProcessStartInfo
                 {
-                    FileName = "cmd.exe"
+                    FileName = "cmd.exe",
+#if !(NETCOREAPP || NETSTANDARD2_1_OR_GREATER)
+                    UseShellExecute = false
+#endif
                 };
 
                 var args =
@@ -99,7 +102,10 @@ partial class WslDeployment
 
                 var psi = new ProcessStartInfo
                 {
-                    FileName = "wslpath"
+                    FileName = "wslpath",
+#if !(NETCOREAPP || NETSTANDARD2_1_OR_GREATER)
+                    UseShellExecute = false
+#endif
                 };
 
 #if TFF_PROCESS_ARGUMENTLIST
