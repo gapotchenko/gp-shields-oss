@@ -9,42 +9,20 @@ using Gapotchenko.FX;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Gapotchenko.Shields.Git.Deployment;
 
 static class GitSetupInstance
 {
     internal static IGitSetupInstance? TryCreate(
+        string installationPath,
         IEnumerable<GitSetupDescriptor> descriptors,
         Interval<Version> versions)
     {
         descriptors = descriptors.Memoize();
 
-        // ------------------------------------------------------------------
-
-        string? installationPath = null;
-        string? productPath = null;
-
-        foreach (var descriptor in descriptors)
-        {
-            if (descriptor.InstallationPath is { } path)
-            {
-                installationPath = path;
-                productPath = descriptor.ProductPath;
-                break;
-            }
-        }
-
-        productPath ??= descriptors.First().ProductPath;
-
-        if (installationPath is null)
-        {
-            installationPath = TryDetermineInstallationPath(productPath);
-            if (installationPath is null)
-                return null;
-        }
-
-        // ------------------------------------------------------------------
+        string productPath = descriptors.First().ProductPath;
 
         string gitPath = Path.Combine(installationPath, productPath);
         if (!File.Exists(gitPath))
@@ -68,13 +46,6 @@ static class GitSetupInstance
             productPath,
             version,
             descriptors.Select(x => x.Attributes).Aggregate((a, b) => a | b));
-    }
-
-    static string? TryDetermineInstallationPath(string productPath)
-    {
-        // TODO
-
-        return null;
     }
 
     static Version GetVersion(string gitPath)
@@ -160,12 +131,11 @@ static class GitSetupInstance
                 const string prefix = "git version ";
                 if (line.StartsWith(prefix, StringComparison.Ordinal))
                 {
-                    version = Version.Parse(
-                        line
-#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-                            .AsSpan()
-#endif
-                            [prefix.Length..]);
+                    // Git version resembles a semantic version but it is not.
+                    // For example, "2.50.1.windows.1" is not a valid semantic version.
+                    // Do the best effort by extracting the sure parts of the version.
+                    var match = Regex.Match(line[prefix.Length..], @"\d+\.\d+\.\d+", RegexOptions.CultureInvariant);
+                    version = Version.Parse(match.Value);
                     break;
                 }
             }

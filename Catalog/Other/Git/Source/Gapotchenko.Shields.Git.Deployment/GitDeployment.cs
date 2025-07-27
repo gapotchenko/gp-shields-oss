@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
@@ -63,15 +64,49 @@ public static partial class GitDeployment
     {
         return
             EnumerateSetupDescriptors(versions, options)
-            .GroupBy(x => x.KeyPath, FileSystem.PathEquivalenceComparer)
-            .Select(g => GitSetupInstance.TryCreate(g, versions))
+            .Select(descriptor => ResolveInstallationPath(descriptor))
+            .Where(descriptor => descriptor.InstallationPath != null)
+            .GroupBy(x => x.InstallationPath!, FileSystem.PathEquivalenceComparer)
+            .Select(g => GitSetupInstance.TryCreate(g.Key, g, versions))
             .Where(x => x != null)!;
+    }
+
+    static GitSetupDescriptor ResolveInstallationPath(in GitSetupDescriptor descriptor)
+    {
+        if (descriptor.InstallationPath is null &&
+            TryDetermineInstallationPath(descriptor, out string? installationPath, out string? productPath))
+        {
+            return
+                descriptor with
+                {
+                    InstallationPath = installationPath,
+                    ProductPath = productPath
+                };
+        }
+        else
+        {
+            return descriptor;
+        }
+
+        static bool TryDetermineInstallationPath(
+            in GitSetupDescriptor descriptor,
+            [MaybeNullWhen(false)] out string installationPath,
+            [MaybeNullWhen(false)] out string productPath)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (Pal.Windows.TryDetermineInstallationPath(descriptor, out installationPath, out productPath))
+                    return true;
+            }
+
+            installationPath = default;
+            productPath = default;
+            return false;
+        }
     }
 
     static IEnumerable<GitSetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, GitDiscoveryOptions options)
     {
-        // TODO
-
         IEnumerable<GitSetupDescriptor> osDescriptors;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             osDescriptors = Pal.Windows.EnumerateSetupDescriptors(versions);
@@ -80,5 +115,13 @@ public static partial class GitDeployment
 
         foreach (var i in osDescriptors)
             yield return i;
+
+        if ((options & (GitDiscoveryOptions.NoPath | GitDiscoveryOptions.NoEnvironment)) == 0)
+        {
+            foreach (string path in CommandShell.Where("git"))
+                yield return new(GetRealPath(path)) { Attributes = GitSetupInstanceAttributes.Path };
+        }
     }
+
+    static string GetRealPath(string path) => FileSystem.GetRealPath(path);
 }

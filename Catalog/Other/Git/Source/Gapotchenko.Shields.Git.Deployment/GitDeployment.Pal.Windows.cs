@@ -56,6 +56,39 @@ partial class GitDeployment
                         LibExecPath = libExecPath
                     };
             }
+
+            public static bool TryDetermineInstallationPath(
+                in GitSetupDescriptor descriptor,
+                [MaybeNullWhen(false)] out string installationPath,
+                [MaybeNullWhen(false)] out string productPath)
+            {
+                string path = descriptor.ProductPath;
+                if (path.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    string? directory = Path.GetDirectoryName(path);
+                    if (!string.IsNullOrEmpty(directory))
+                    {
+                        string container = Path.GetFileName(directory);
+                        if (container is "cmd" or "bin")
+                        {
+                            directory = Path.GetDirectoryName(directory);
+                            if (!string.IsNullOrEmpty(directory))
+                            {
+                                if (File.Exists(Path.Combine(directory, "git-cmd.exe")))
+                                {
+                                    installationPath = directory;
+                                    productPath = Path.Combine(container, Path.GetFileName(path));
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                installationPath = default;
+                productPath = default;
+                return false;
+            }
         }
     }
 }
