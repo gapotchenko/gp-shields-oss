@@ -13,8 +13,59 @@ using System.Text.RegularExpressions;
 
 namespace Gapotchenko.Shields.Git.Deployment;
 
-static class GitSetupInstance
+/// <summary>
+/// Provides static methods for working with Git setup instances.
+/// </summary>
+public static class GitSetupInstance
 {
+    /// <summary>
+    /// Opens an Git setup instance at the specified directory path.
+    /// </summary>
+    /// <param name="directoryPath">The directory path to open an Git setup instance at.</param>
+    /// <param name="options">The discovery options.</param>
+    /// <returns>The opened Git setup instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="directoryPath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="IOException">An I/O error occurred while accessing the file system.</exception>
+    /// <exception cref="GitDeploymentException">Cannot open an Git setup instance at the specified path.</exception>
+    public static IGitSetupInstance Open(string directoryPath, GitDiscoveryOptions options = default) =>
+        TryOpen(directoryPath, options) ??
+        throw new GitDeploymentException("Cannot open a Git setup instance at the specified path.");
+
+    /// <summary>
+    /// Tries to open an Git setup instance at the specified directory path of the file system view.
+    /// </summary>
+    /// <param name="directoryPath">The directory path to open an Git setup instance at.</param>
+    /// <param name="options">The discovery options.</param>
+    /// <returns>
+    /// The opened Git setup instance
+    /// or <see langword="null"/> if <paramref name="directoryPath"/> does not contain it.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="directoryPath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="IOException">An I/O error occurred while accessing the file system.</exception>
+    public static IGitSetupInstance? TryOpen(string directoryPath, GitDiscoveryOptions options = default)
+    {
+        ArgumentNullException.ThrowIfNull(directoryPath);
+
+        if (File.Exists(Path.Combine(directoryPath, "git-cmd.exe")))
+        {
+            // Git for Windows
+
+            string productPath = @"cmd\git.exe";
+
+            string gitPath = Path.Combine(directoryPath, productPath);
+            if (!File.Exists(gitPath))
+                return null;
+
+            return new GitSetupInstanceImpl(
+                directoryPath,
+                productPath,
+                new(() => GetVersion(gitPath)),
+                GitSetupInstanceAttributes.None);
+        }
+
+        return null;
+    }
+
     internal static IGitSetupInstance? TryCreate(
         string installationPath,
         IEnumerable<GitSetupDescriptor> descriptors,

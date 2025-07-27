@@ -1,4 +1,11 @@
-﻿using Gapotchenko.FX.Linq;
+﻿// Gapotchenko.Shields.Git
+//
+// Copyright © Gapotchenko and Contributors
+//
+// File introduced by: Oleksiy Gapotchenko
+// Year of introduction: 2025
+
+using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Git.Deployment;
 
@@ -11,6 +18,7 @@ class Program
         try
         {
             ListSetupInstances();
+            ListPortableSetupInstances();
         }
         catch (Exception e)
         {
@@ -21,7 +29,7 @@ class Program
 
     static void ListSetupInstances()
     {
-        Console.WriteLine("*** Setup Instances ***");
+        Console.WriteLine("*** Installed Setup Instances ***");
         Console.WriteLine();
 
         foreach (var (instance, i) in
@@ -30,6 +38,27 @@ class Program
         {
             Console.WriteLine("#{0}", i);
             PrintSetupInstance(instance);
+
+            Console.WriteLine();
+        }
+    }
+
+    static void ListPortableSetupInstances()
+    {
+        Console.WriteLine("*** Portable Setup Instances ***");
+        Console.WriteLine();
+
+        string[] paths = [@"C:\Program Files\Git"];
+
+        foreach (var (path, i) in paths.Zip(Enumerable.Range(1, int.MaxValue)))
+        {
+            Console.WriteLine("#{0} at '{1}'", i, path);
+
+            var instance = GitSetupInstance.TryOpen(path);
+            if (instance is null)
+                Console.WriteLine("Git setup instance is not found.");
+            else
+                PrintSetupInstance(instance);
 
             Console.WriteLine();
         }
