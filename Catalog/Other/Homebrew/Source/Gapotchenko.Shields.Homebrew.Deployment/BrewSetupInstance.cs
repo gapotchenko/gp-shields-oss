@@ -66,7 +66,7 @@ static class BrewSetupInstance
 #if !NETCOREAPP
             UseShellExecute = false,
 #endif
-            WindowStyle = ProcessWindowStyle.Hidden,
+            CreateNoWindow = true,
             RedirectStandardOutput = true,
             RedirectStandardError = true
         };
