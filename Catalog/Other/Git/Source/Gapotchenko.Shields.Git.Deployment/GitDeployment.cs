@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 
@@ -58,13 +59,26 @@ public static partial class GitDeployment
         return query;
     }
 
-    static IEnumerable<IGitSetupInstance> EnumerateSetupInstancesCore(
-        Interval<Version> versions,
-        GitDiscoveryOptions options)
+    static IEnumerable<IGitSetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions, GitDiscoveryOptions options)
     {
-        
+        return
+            EnumerateSetupDescriptors(versions, options)
+            .GroupBy(x => x.KeyPath, FileSystem.PathEquivalenceComparer)
+            .Select(g => GitSetupInstance.TryCreate(g, versions))
+            .Where(x => x != null)!;
+    }
+
+    static IEnumerable<GitSetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, GitDiscoveryOptions options)
+    {
         // TODO
 
-        throw new NotImplementedException();
+        IEnumerable<GitSetupDescriptor> osDescriptors;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            osDescriptors = Pal.Windows.EnumerateSetupDescriptors(versions);
+        else
+            osDescriptors = [];
+
+        foreach (var i in osDescriptors)
+            yield return i;
     }
 }

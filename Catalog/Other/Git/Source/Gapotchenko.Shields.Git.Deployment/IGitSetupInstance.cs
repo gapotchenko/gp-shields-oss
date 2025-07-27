@@ -10,7 +10,7 @@ namespace Gapotchenko.Shields.Git.Deployment;
 /// <summary>
 /// Provides information about a setup instance of Git.
 /// </summary>
-public interface IGitSetupInstance : IFormattable
+public interface IGitSetupInstance
 {
     /// <summary>
     /// Gets the display name (title) of the product installed in this instance.

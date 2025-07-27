@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/03. Misc/" />
   <Folder Name="/03. Misc/Harness/">
+    <Project Path="Gapotchenko.Shields.Git.Harness/Gapotchenko.Shields.Git.Harness.csproj" Id="8b4ce83f-b621-4467-9b94-953e5757481f" />
   </Folder>
   <Folder Name="/03. Misc/Mastering/">
     <File Path="Mastering/Language.props" />

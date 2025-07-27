@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gapotchenko.Shields.Git.Deployment\Gapotchenko.Shields.Git.Deployment.csproj" />
+  </ItemGroup>
+
+</Project>
