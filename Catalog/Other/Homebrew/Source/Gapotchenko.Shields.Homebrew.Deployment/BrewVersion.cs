@@ -68,13 +68,11 @@ public static class BrewVersion
     }
 
     /// <summary>
-    /// <para>
     /// Gets display name for the specified Homebrew version.
-    /// </para>
-    /// <para>
-    /// For example, display name is "4.5.7" for version <c>4.5.7</c>.
-    /// </para>
     /// </summary>
+    /// <remarks>
+    /// For example, display name is "4.5.7" for version <c>4.5.7</c>.
+    /// </remarks>
     /// <param name="version">The version.</param>
     /// <returns>The display name.</returns>
     [return: NotNullIfNotNull(nameof(version))]
