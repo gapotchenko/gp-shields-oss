@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Locates setup instances of Git version control system.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.25-beta" />
+  </ItemGroup>
+
+  <Import Project="$(BaseMasteringDir)\OOB\Microsoft.Win32.Registry.props" />
+
+</Project>

@@ -25,5 +25,6 @@ Shields are grouped by a manufacturer.
 - Red Hat
     - [Cygwin](Catalog/Red%20Hat/Cygwin) - Unix-like environment and command-line interface for Microsoft Windows
 - Other
+  - [Git](Catalog/Other/Git) - distributed revision control system
   - [Homebrew](Catalog/Other/Homebrew) - the missing package manager for macOS (or Linux)
   - [MSYS2](Catalog/Other/MSYS2) - software distribution and building platform for Microsoft Windows
