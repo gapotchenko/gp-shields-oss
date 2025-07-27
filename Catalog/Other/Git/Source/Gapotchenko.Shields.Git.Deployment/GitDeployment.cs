@@ -98,6 +98,15 @@ public static partial class GitDeployment
                 if (Pal.Windows.TryDetermineInstallationPath(descriptor, out installationPath, out productPath))
                     return true;
             }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+#if NETCOREAPP
+                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD) ||
+#endif
+                RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (Pal.Unix.TryDetermineInstallationPath(descriptor, out installationPath, out productPath))
+                    return true;
+            }
 
             installationPath = default;
             productPath = default;
@@ -109,12 +118,26 @@ public static partial class GitDeployment
     {
         IEnumerable<GitSetupDescriptor> osDescriptors;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
             osDescriptors = Pal.Windows.EnumerateSetupDescriptors(versions);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+#if NETCOREAPP
+            RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD) ||
+#endif
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            osDescriptors = Pal.Unix.EnumerateSetupDescriptors();
+        }
         else
+        {
             osDescriptors = [];
+        }
 
         foreach (var i in osDescriptors)
             yield return i;
+
+        // TODO: implement package managers support (homebrew)
 
         if ((options & (GitDiscoveryOptions.NoPath | GitDiscoveryOptions.NoEnvironment)) == 0)
         {

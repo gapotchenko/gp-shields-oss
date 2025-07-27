@@ -4,3 +4,6 @@ Caskroom
 hklm
 msys
 Dword
+linux
+macos
+freebsd
