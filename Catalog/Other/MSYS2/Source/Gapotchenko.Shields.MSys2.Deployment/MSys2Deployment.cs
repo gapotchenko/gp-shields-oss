@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
+using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 
@@ -64,8 +65,17 @@ public static partial class MSys2Deployment
 
     static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions, MSys2DiscoveryOptions options)
     {
+        return
+            EnumerateSetupDescriptors(versions, options)
+            .GroupBy(x => x.InstallationPath, FileSystem.PathEquivalenceComparer)
+            .Select(g => MSys2SetupInstance.TryCreate(g.Key, g, versions, options))
+            .Where(x => x != null)!;
+    }
+
+    static IEnumerable<MSys2SetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, MSys2DiscoveryOptions options)
+    {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            return Pal.Windows.EnumerateSetupInstances(versions, options);
+            return Pal.Windows.EnumerateSetupDescriptors(versions, options);
         else
             return [];
     }

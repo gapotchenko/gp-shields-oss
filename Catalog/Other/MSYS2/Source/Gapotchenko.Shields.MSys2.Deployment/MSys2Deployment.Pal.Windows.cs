@@ -23,25 +23,22 @@ partial class MSys2Deployment
 #endif
         public static class Windows
         {
-            public static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
+            public static IEnumerable<MSys2SetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, MSys2DiscoveryOptions options)
             {
-                var query = EnumerateRegistrySetupInstances(versions, options);
+                var query = EnumerateRegistry(versions);
 
                 if ((options & MSys2DiscoveryOptions.NoEnvironment) == 0)
-                    query = query.Concat(EnumerableEx.Lazy(() => EnumerateEnvironmentSetupInstances(versions, options)));
+                    query = query.Concat(EnumerableEx.Lazy(() => EnumerateEnvironment(options)));
 
                 return query;
             }
 
-            static IEnumerable<IMSys2SetupInstance> EnumerateRegistrySetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
+            static IEnumerable<MSys2SetupDescriptor> EnumerateRegistry(Interval<Version> versions)
             {
                 using var hkcu = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
-                return EnumerateFromUserHive(hkcu, versions, options);
+                return EnumerateFromUserHive(hkcu, versions);
 
-                static IEnumerable<IMSys2SetupInstance> EnumerateFromUserHive(
-                    RegistryKey userHive,
-                    Interval<Version> versions,
-                    MSys2DiscoveryOptions options)
+                static IEnumerable<MSys2SetupDescriptor> EnumerateFromUserHive(RegistryKey userHive, Interval<Version> versions)
                 {
                     using var uninstallKey = userHive.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
                     if (uninstallKey is not null)
@@ -57,19 +54,15 @@ partial class MSys2Deployment
                                 using var key = uninstallKey.OpenSubKey(keyName);
                                 if (key is not null)
                                 {
-                                    var instance = TryGetInstance(key, versions, options);
-                                    if (instance is not null)
-                                        yield return instance;
+                                    if (TryGetDescriptor(key, versions) is { } descriptor)
+                                        yield return descriptor;
                                 }
                             }
                         }
                     }
                 }
 
-                static IMSys2SetupInstance? TryGetInstance(
-                    RegistryKey key,
-                    Interval<Version> versions,
-                    MSys2DiscoveryOptions options)
+                static MSys2SetupDescriptor? TryGetDescriptor(RegistryKey key, Interval<Version> versions)
                 {
                     if (key.GetValue("DisplayName") is not string displayName)
                         return null;
@@ -87,32 +80,30 @@ partial class MSys2Deployment
                     if (!Directory.Exists(installLocation))
                         return null;
 
-                    return MSys2SetupInstance.TryCreate(installLocation, version, MSys2SetupInstanceAttributes.None, options);
+                    return new MSys2SetupDescriptor(installLocation) { Version = version };
                 }
             }
 
             #region Environment
 
-            static IEnumerable<IMSys2SetupInstance> EnumerateEnvironmentSetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
+            static IEnumerable<MSys2SetupDescriptor> EnumerateEnvironment(MSys2DiscoveryOptions options)
             {
                 if (Environment.GetEnvironmentVariable("GHCUP_MSYS2") is { } installationPath and not [])
                 {
                     // The value points to an MSYS2 instance provided by 'GHCup' utility which is related to GNU Haskell compiler.
                     // For example, this is a way MSYS2 is preinstalled on GitHub runners as of July 2025.
 
-                    var instance = MSys2SetupInstance.TryCreate(installationPath, null, MSys2SetupInstanceAttributes.Environment, options);
-                    if (instance != null && (versions.IsInfinite || versions.Contains(instance.Version)))
-                        yield return instance;
+                    yield return new MSys2SetupDescriptor(installationPath) { Attributes = MSys2SetupInstanceAttributes.Environment };
                 }
 
                 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_WORKFLOW")))
                 {
-                    foreach (var instance in EnumerateGitHubActionSetupInstances(versions, options))
-                        yield return instance;
+                    foreach (var descriptor in EnumerateGitHubAction(options))
+                        yield return descriptor;
                 }
             }
 
-            static IEnumerable<IMSys2SetupInstance> EnumerateGitHubActionSetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
+            static IEnumerable<MSys2SetupDescriptor> EnumerateGitHubAction(MSys2DiscoveryOptions options)
             {
                 // MSYS2 can be installed via GitHub action 'msys2/setup-msys2@v2'.
                 // https://www.msys2.org/docs/ci/
@@ -122,15 +113,15 @@ partial class MSys2Deployment
                     var query =
                         CommandShell.Where("msys2.cmd")
                         .Take(1)
-                        .Select(msys2FilePath => TryGetInstanceFromCommandFile(msys2FilePath, versions, options));
+                        .Select(msys2FilePath => TryGetDescriptorFromCommandFile(msys2FilePath, options));
 
-                    foreach (var instance in query)
+                    foreach (var descriptor in query)
                     {
-                        if (instance != null)
-                            yield return instance;
+                        if (descriptor is { } value)
+                            yield return value;
                     }
 
-                    static IMSys2SetupInstance? TryGetInstanceFromCommandFile(string msys2FilePath, Interval<Version> versions, MSys2DiscoveryOptions options)
+                    static MSys2SetupDescriptor? TryGetDescriptorFromCommandFile(string msys2FilePath, MSys2DiscoveryOptions options)
                     {
                         string? line =
                             File.ReadLines(msys2FilePath)
@@ -169,14 +160,7 @@ partial class MSys2Deployment
                         }
 #endif
 
-                        var instance = MSys2SetupInstance.TryCreate(installationPath, null, MSys2SetupInstanceAttributes.Environment, options);
-                        if (instance == null)
-                            return null;
-
-                        if (!versions.IsInfinite && !versions.Contains(instance.Version))
-                            return null;
-
-                        return instance;
+                        return new MSys2SetupDescriptor(installationPath) { Attributes = MSys2SetupInstanceAttributes.Environment };
                     }
                 }
             }

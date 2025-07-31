@@ -6,6 +6,8 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
+using Gapotchenko.FX.Linq;
+using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.FX.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -18,6 +20,21 @@ namespace Gapotchenko.Shields.MSys2.Deployment;
 /// </summary>
 public static class MSys2SetupInstance
 {
+    internal static IMSys2SetupInstance? TryCreate(
+        string installationPath,
+        IEnumerable<MSys2SetupDescriptor> descriptors,
+        Interval<Version> versions,
+        MSys2DiscoveryOptions options)
+    {
+        descriptors = descriptors.Memoize();
+        return TryCreate(
+            installationPath,
+            descriptors.Select(descriptor => descriptor.Version).FirstOrDefault(version => version is not null),
+            descriptors.Select(descriptor => descriptor.Attributes).Aggregate((a, b) => a | b),
+            versions,
+            options);
+    }
+
     /// <summary>
     /// Opens an MSYS2 setup instance at the specified directory path.
     /// </summary>
@@ -46,13 +63,14 @@ public static class MSys2SetupInstance
     {
         ArgumentNullException.ThrowIfNull(directoryPath);
 
-        return TryCreate(directoryPath, null, MSys2SetupInstanceAttributes.None, options);
+        return TryCreate(directoryPath, null, MSys2SetupInstanceAttributes.None, null, options);
     }
 
     internal static IMSys2SetupInstance? TryCreate(
         string installationPath,
         Version? version,
         MSys2SetupInstanceAttributes attributes,
+        Interval<Version>? versions,
         MSys2DiscoveryOptions options)
     {
         string productPath = "msys2.exe";
@@ -68,6 +86,9 @@ public static class MSys2SetupInstance
                 new(() => version)
 #endif
                 : new(() => TryReadVersion(installationPath) ?? new Version(0, 0, 0));
+
+        if (versions is not null && !versions.IsInfinite && !versions.Contains(lazyVersion.Value))
+            return null;
 
         return new MSys2SetupInstanceImpl(lazyVersion, installationPath, productPath, attributes, options);
     }
