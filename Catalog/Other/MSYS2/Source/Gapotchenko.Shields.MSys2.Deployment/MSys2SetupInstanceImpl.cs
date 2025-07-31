@@ -13,7 +13,7 @@ using Gapotchenko.Shields.MSys2.Deployment.Utils;
 namespace Gapotchenko.Shields.MSys2.Deployment;
 
 sealed class MSys2SetupInstanceImpl(
-    Version version,
+    Lazy<Version> version,
     string installationPath,
     string productPath,
     MSys2SetupInstanceAttributes attributes,
@@ -26,6 +26,8 @@ sealed class MSys2SetupInstanceImpl(
         get
         {
             const string name = "MSYS2";
+            var version = Version;
+
             return
                 version is (0, 0, 0)
                     ? name // version-less
@@ -33,7 +35,7 @@ sealed class MSys2SetupInstanceImpl(
         }
     }
 
-    public Version Version => version;
+    public Version Version => version.Value;
 
     public string InstallationPath { get; } = Path.TrimEndingDirectorySeparator(installationPath);
 

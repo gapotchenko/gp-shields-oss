@@ -59,11 +59,17 @@ public static class MSys2SetupInstance
         if (!File.Exists(Path.Combine(installationPath, productPath)))
             return null;
 
-        version ??=
-            TryReadVersion(installationPath) ??
-            new Version(0, 0, 0);
+        Lazy<Version> lazyVersion =
+            version is not null
+                ?
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                new(version)
+#else
+                new(() => version)
+#endif
+                : new(() => TryReadVersion(installationPath) ?? new Version(0, 0, 0));
 
-        return new MSys2SetupInstanceImpl(version, installationPath, productPath, attributes, options);
+        return new MSys2SetupInstanceImpl(lazyVersion, installationPath, productPath, attributes, options);
     }
 
     /// <summary>
