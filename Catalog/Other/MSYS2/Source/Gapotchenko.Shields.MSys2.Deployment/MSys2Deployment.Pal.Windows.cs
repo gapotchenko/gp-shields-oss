@@ -25,9 +25,12 @@ partial class MSys2Deployment
         {
             public static IEnumerable<IMSys2SetupInstance> EnumerateSetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
             {
-                return
-                    EnumerateRegistrySetupInstances(versions, options)
-                    .Concat(EnumerateEnvironmentSetupInstances(versions, options));
+                var query = EnumerateRegistrySetupInstances(versions, options);
+
+                if ((options & MSys2DiscoveryOptions.NoEnvironment) == 0)
+                    query = query.Concat(EnumerableEx.Lazy(() => EnumerateEnvironmentSetupInstances(versions, options)));
+
+                return query;
             }
 
             static IEnumerable<IMSys2SetupInstance> EnumerateRegistrySetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
@@ -90,69 +93,82 @@ partial class MSys2Deployment
 
             static IEnumerable<IMSys2SetupInstance> EnumerateEnvironmentSetupInstances(Interval<Version> versions, MSys2DiscoveryOptions options)
             {
+                if (Environment.GetEnvironmentVariable("GHCUP_MSYS2") is { } installationPath and not [])
+                {
+                    // The value points to an MSYS2 instance provided by 'GHCup' utility which is related to GNU Haskell compiler.
+                    // For example, this is a way MSYS2 is preinstalled on a GitHub runner as of July 2025.
+
+                    var instance = MSys2SetupInstance.TryCreate(installationPath, null, MSys2SetupInstanceAttributes.Environment, options);
+                    if (instance != null && (versions.IsInfinite || versions.Contains(instance.Version)))
+                        yield return instance;
+                }
+
                 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_WORKFLOW")))
                 {
                     // MSYS2 can be installed via GitHub action 'msys2/setup-msys2@v2'.
                     // https://www.msys2.org/docs/ci/
 
-                    var query =
-                        CommandShell.Where("msys2.cmd")
-                        .Take(1)
-                        .Select(msys2FilePath => TryGetInstanceFromCommandFile(msys2FilePath, versions, options));
-
-                    foreach (var instance in query)
+                    if ((options & MSys2DiscoveryOptions.NoPath) == 0)
                     {
-                        if (instance != null)
-                            yield return instance;
-                    }
+                        var query =
+                            CommandShell.Where("msys2.cmd")
+                            .Take(1)
+                            .Select(msys2FilePath => TryGetInstanceFromCommandFile(msys2FilePath, versions, options));
 
-                    static IMSys2SetupInstance? TryGetInstanceFromCommandFile(string msys2FilePath, Interval<Version> versions, MSys2DiscoveryOptions options)
-                    {
-                        string? line =
-                            File.ReadLines(msys2FilePath)
-                            .Select(line => line.Trim())
-                            .Where(line => line is not [] && !line.StartsWith("REM ", StringComparison.OrdinalIgnoreCase))
-                            .LastOrDefault();
+                        foreach (var instance in query)
+                        {
+                            if (instance != null)
+                                yield return instance;
+                        }
 
-                        if (line == null)
-                            return null;
+                        static IMSys2SetupInstance? TryGetInstanceFromCommandFile(string msys2FilePath, Interval<Version> versions, MSys2DiscoveryOptions options)
+                        {
+                            string? line =
+                                File.ReadLines(msys2FilePath)
+                                .Select(line => line.Trim())
+                                .Where(line => line is not [] && !line.StartsWith("REM ", StringComparison.OrdinalIgnoreCase))
+                                .LastOrDefault();
 
-                        // Line samples:
-                        //  - D:\a\_temp\msys64\usr\bin\bash.exe -leo pipefail %*
+                            if (line == null)
+                                return null;
 
-                        int j = line.IndexOf(@"\usr\bin\bash.exe ", FileSystem.PathComparison);
-                        if (j == -1)
-                            return null;
+                            // Line samples:
+                            //  - D:\a\_temp\msys64\usr\bin\bash.exe -leo pipefail %*
 
-                        string installationPath = line[..j].TrimStart('"');
+                            int j = line.IndexOf(@"\usr\bin\bash.exe ", FileSystem.PathComparison);
+                            if (j == -1)
+                                return null;
+
+                            string installationPath = line[..j].TrimStart('"');
 
 #if !NETCOREAPP2_1_OR_GREATER
-                        try
+                            try
 #endif
-                        {
-                            if (!Path.IsPathRooted(installationPath))
                             {
-                                // If we are here, it means that most probably the line was parsed incorrectly.
+                                if (!Path.IsPathRooted(installationPath))
+                                {
+                                    // If we are here, it means that most probably the line was parsed incorrectly.
+                                    return null;
+                                }
+                            }
+#if !NETCOREAPP2_1_OR_GREATER
+                            catch (ArgumentException)
+                            {
+                                // .NET Framework and .NET Core versions older than 2.1:
+                                // the path contains one or more invalid characters.
                                 return null;
                             }
-                        }
-#if !NETCOREAPP2_1_OR_GREATER
-                        catch (ArgumentException)
-                        {
-                            // .NET Framework and .NET Core versions older than 2.1:
-                            // the path contains one or more invalid characters.
-                            return null;
-                        }
 #endif
 
-                        var instance = MSys2SetupInstance.TryCreate(installationPath, null, MSys2SetupInstanceAttributes.Environment, options);
-                        if (instance == null)
-                            return null;
+                            var instance = MSys2SetupInstance.TryCreate(installationPath, null, MSys2SetupInstanceAttributes.Environment, options);
+                            if (instance == null)
+                                return null;
 
-                        if (!versions.Contains(instance.Version))
-                            return null;
+                            if (!versions.IsInfinite && !versions.Contains(instance.Version))
+                                return null;
 
-                        return instance;
+                            return instance;
+                        }
                     }
                 }
             }

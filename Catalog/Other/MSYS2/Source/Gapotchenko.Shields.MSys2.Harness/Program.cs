@@ -29,7 +29,7 @@ class Program
 
     static void ListInstalledSetupInstances()
     {
-        Console.WriteLine("*** Installed MSys2 Setup Instances ***");
+        Console.WriteLine("*** Installed Setup Instances ***");
         Console.WriteLine();
 
         foreach (var (instance, i) in
@@ -45,7 +45,7 @@ class Program
 
     static void ListPortableSetupInstances()
     {
-        Console.WriteLine("*** Portable MSys2 Setup Instances ***");
+        Console.WriteLine("*** Portable Setup Instances ***");
         Console.WriteLine();
 
         string[] paths = [@"C:\msys64"];
