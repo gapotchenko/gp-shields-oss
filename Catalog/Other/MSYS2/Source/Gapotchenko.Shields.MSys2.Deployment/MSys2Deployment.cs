@@ -43,8 +43,8 @@ public static partial class MSys2Deployment
             if (query.CountIsAtLeast(2))
             {
                 // Sort only if there are two or more instances.
-                // This precaution is necessary to avoid expensive version retrieving operations
-                // when they are not strictly needed.
+                // This precaution is necessary to avoid potentially expensive version
+                // retrieving operations when they are not strictly needed.
 
                 var prioritizedAttributeMask = MSys2SetupInstanceAttributes.None;
                 if ((options & MSys2DiscoveryOptions.EnvironmentInvariant) == 0)
