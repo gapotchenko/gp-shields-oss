@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
+using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
 
 namespace Gapotchenko.Shields.MSys2.Deployment;
@@ -37,17 +38,25 @@ public static partial class MSys2Deployment
 
         if ((options & MSys2DiscoveryOptions.NoSort) == 0)
         {
-            var prioritizedAttributeMask = MSys2SetupInstanceAttributes.None;
-            if ((options & MSys2DiscoveryOptions.EnvironmentInvariant) == 0)
+            query = query.Memoize();
+            if (query.CountIsAtLeast(2))
             {
-                // Prefer setup instances deducted from the environment
-                // because it gives a configuration flexibility to a user.
-                prioritizedAttributeMask |= MSys2SetupInstanceAttributes.Environment;
-            }
+                // Sort only if there are two or more instances.
+                // This precaution is necessary to avoid expensive version retrieving operations
+                // when they are not strictly needed.
 
-            query = query
-                .OrderByDescending(instance => (instance.Attributes & prioritizedAttributeMask) != 0)
-                .ThenByDescending(instance => instance.Version);
+                var prioritizedAttributeMask = MSys2SetupInstanceAttributes.None;
+                if ((options & MSys2DiscoveryOptions.EnvironmentInvariant) == 0)
+                {
+                    // Prefer setup instances deducted from the environment
+                    // because it gives a configuration flexibility to a user.
+                    prioritizedAttributeMask |= MSys2SetupInstanceAttributes.Environment;
+                }
+
+                query = query
+                    .OrderByDescending(instance => (instance.Attributes & prioritizedAttributeMask) != 0)
+                    .ThenByDescending(instance => instance.Version);
+            }
         }
 
         return query;
