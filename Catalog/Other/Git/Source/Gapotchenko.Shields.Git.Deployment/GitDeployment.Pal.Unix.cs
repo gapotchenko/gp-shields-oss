@@ -5,8 +5,6 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-using Gapotchenko.FX.Math.Intervals;
-
 namespace Gapotchenko.Shields.Git.Deployment;
 
 partial class GitDeployment

@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
@@ -142,7 +143,13 @@ public static partial class GitDeployment
         if ((options & (GitDiscoveryOptions.NoPath | GitDiscoveryOptions.NoEnvironment)) == 0)
         {
             foreach (string path in CommandShell.Where("git"))
-                yield return new(GetRealPath(path)) { Attributes = GitSetupInstanceAttributes.Path };
+            {
+                yield return new(GetRealPath(path))
+                {
+                    Attributes = GitSetupInstanceAttributes.Path,
+                    LibExecPath = Empty.Nullify(Environment.GetEnvironmentVariable("GIT_EXEC_PATH"))
+                };
+            }
         }
     }
 
