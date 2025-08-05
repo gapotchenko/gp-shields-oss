@@ -91,7 +91,7 @@ partial class MSys2Deployment
                 if (Environment.GetEnvironmentVariable("GHCUP_MSYS2") is { } installationPath and not [])
                 {
                     // The value points to an MSYS2 instance provided by 'GHCup' utility which is related to GNU Haskell compiler.
-                    // For example, this is a way MSYS2 is preinstalled on GitHub runners as of July 2025.
+                    // For example, this is the way how MSYS2 is preinstalled on GitHub action runners as of July 2025.
 
                     yield return new MSys2SetupDescriptor(installationPath) { Attributes = MSys2SetupInstanceAttributes.Environment };
                 }
