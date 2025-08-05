@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Locates setup instances of BusyBox toolkit.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gapotchenko.FX.Diagnostics.CommandShell" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.FX.Math.Intervals" Version="2025.1.25-beta" />
+  </ItemGroup>
+
+</Project>

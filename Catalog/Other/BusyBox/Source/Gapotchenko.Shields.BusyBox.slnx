@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/01. Components/" />
+  <Folder Name="/02. Modules/">
+    <Project Path="Gapotchenko.Shields.BusyBox.Deployment/Gapotchenko.Shields.BusyBox.Deployment.csproj" Id="69d4592c-5e3e-457f-9e28-34d434127ba6" />
+  </Folder>
+  <Folder Name="/03. Misc/" />
+  <Folder Name="/03. Misc/Harness/" />
+  <Folder Name="/03. Misc/Mastering/">
+    <File Path="Mastering/Language.props" />
+    <File Path="Mastering/NuGet.props" />
+    <File Path="Mastering/Version.props" />
+  </Folder>
+</Solution>

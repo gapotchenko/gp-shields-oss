@@ -1,0 +1,8 @@
+<Project>
+
+  <!-- Product Information -->
+  <PropertyGroup>
+    <Product>Gapotchenko.Shields.BusyBox</Product>
+  </PropertyGroup>
+
+</Project>

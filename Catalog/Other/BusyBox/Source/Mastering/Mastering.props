@@ -1,0 +1,12 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <MasteringDir>$(MSBuildThisFileDirectory)</MasteringDir>
+  </PropertyGroup>
+
+  <Import Project="Product.props" />
+  <Import Project="Version.props" />
+  <Import Project="Language.props" />
+  <Import Project="NuGet.props" />
+
+</Project>

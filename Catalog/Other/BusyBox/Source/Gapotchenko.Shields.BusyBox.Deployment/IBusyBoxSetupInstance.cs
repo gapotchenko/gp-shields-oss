@@ -1,0 +1,86 @@
+﻿// Gapotchenko.Shields.BusyBox
+//
+// Copyright © Gapotchenko and Contributors
+//
+// File introduced by: Oleksiy Gapotchenko
+// Year of introduction: 2025
+
+namespace Gapotchenko.Shields.BusyBox.Deployment;
+
+/// <summary>
+/// Provides information about a setup instance of BusyBox.
+/// </summary>
+public interface IBusyBoxSetupInstance
+{
+    /// <summary>
+    /// Gets the display name (title) of the product installed in this instance.
+    /// </summary>
+    /// <remarks>
+    /// For example: "BusyBox 1.37.0".
+    /// </remarks>
+    string DisplayName { get; }
+
+    /// <summary>
+    /// Gets the installed version of the product instance.
+    /// </summary>
+    /// <remarks>
+    /// For example: <c>1.37.0</c>.
+    /// </remarks>
+    Version Version { get; }
+
+    /// <summary>
+    /// Gets the manufacturer version of the product instance.
+    /// </summary>
+    /// <remarks>
+    /// Some examples:
+    /// <list type="bullet">
+    /// <item><c>1.3.7</c> (used by BusyBox for Unix)</item>
+    /// <item><c>FRP-5579-g5749feb35</c> (used by BusyBox for Windows)</item>
+    /// </list>
+    /// </remarks>
+    string ManufacturerVersion { get; }
+
+    /// <summary>
+    /// Gets the processor architecture of the product instance.
+    /// </summary>
+    Architecture Architecture { get; }
+
+    /// <summary>
+    /// Gets the root installation path.
+    /// </summary>
+    /// <remarks>
+    /// For example: "/usr/local".
+    /// </remarks>
+    string InstallationPath { get; }
+
+    /// <summary>
+    /// Gets a relative path to the main product executable.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// For example: "bin/busybox".
+    /// </para>
+    /// <para>
+    /// This path can be then used as an argument to <see cref="ResolvePath(string?)"/> method in order to get the absolute file path.
+    /// </para>
+    /// </remarks>
+    string ProductPath { get; }
+
+    /// <summary>
+    /// Resolves the relative path to the root path of the instance.
+    /// </summary>
+    /// <param name="relativePath">The relative path or <see langword="null"/>.</param>
+    /// <returns>
+    /// The full path to the relative path within the instance.
+    /// If the relative path is <see langword="null"/>, the root path will always terminate in a backslash.
+    /// </returns>
+    string ResolvePath(string? relativePath);
+
+    /// <summary>
+    /// Gets the instance attributes.
+    /// </summary>
+    BusyBoxSetupInstanceAttributes Attributes { get; }
+
+    /// <inheritdoc cref="IFormattable.ToString(string?, IFormatProvider?)"/>
+    string ToString(string? format);
+}
