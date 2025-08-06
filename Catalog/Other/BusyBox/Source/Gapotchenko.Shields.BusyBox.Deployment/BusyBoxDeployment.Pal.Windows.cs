@@ -30,6 +30,16 @@ partial class BusyBoxDeployment
                 return FripperyOrg.EnumerateSetupDescriptors(path);
             }
 
+            public static bool TryResolveInstallationPath(
+                in BusyBoxSetupDescriptor descriptor,
+                [MaybeNullWhen(false)] out string installationPath,
+                [MaybeNullWhen(false)] out string productPath)
+            {
+                installationPath = default;
+                productPath = default;
+                return false;
+            }
+
             /// <summary>
             /// Provides support of "BusyBox for Windows" project.
             /// </summary>
@@ -85,7 +95,7 @@ partial class BusyBoxDeployment
 
                 static readonly IEnumerable<ProductFileDescriptor> m_ProductFileDescriptors =
                 [
-                    // In accordance with the project information and in historical order.
+                    // In accordance with the project documentation and in historical order.
                     new("busybox.exe", Architecture.X86, BusyBoxSetupInstanceAttributes.None),
                     new("busybox64.exe", Architecture.X64, BusyBoxSetupInstanceAttributes.None),
                     new("busybox64u.exe", Architecture.X64, BusyBoxSetupInstanceAttributes.Unicode),
@@ -113,12 +123,15 @@ partial class BusyBoxDeployment
                     if (manufacturerVersion is null)
                         return null;
 
+                    var version = new Version(versionInfo.ProductMajorPart, versionInfo.ProductMinorPart, versionInfo.ProductBuildPart);
+
                     return
                         new(GetRealPath(filePath))
                         {
                             Architecture = productFileDescriptor.Architecture,
                             Attributes = productFileDescriptor.Attributes | BusyBoxSetupInstanceAttributes.Path,
                             // Since the file version information has been retrieved, pass it along.
+                            Version = version,
                             ManufacturerVersion = manufacturerVersion
                         };
                 }

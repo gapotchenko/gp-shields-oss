@@ -4,7 +4,9 @@
     <Project Path="Gapotchenko.Shields.BusyBox.Deployment/Gapotchenko.Shields.BusyBox.Deployment.csproj" Id="69d4592c-5e3e-457f-9e28-34d434127ba6" />
   </Folder>
   <Folder Name="/03. Misc/" />
-  <Folder Name="/03. Misc/Harness/" />
+  <Folder Name="/03. Misc/Harness/">
+    <Project Path="Gapotchenko.Shields.BusyBox.Harness/Gapotchenko.Shields.BusyBox.Harness.csproj" Id="d7a64b53-b495-4375-9a6c-743832764776" />
+  </Folder>
   <Folder Name="/03. Misc/Mastering/">
     <File Path="Mastering/Language.props" />
     <File Path="Mastering/NuGet.props" />

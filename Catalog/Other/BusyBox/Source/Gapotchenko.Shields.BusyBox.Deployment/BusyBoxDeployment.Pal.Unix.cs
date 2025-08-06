@@ -28,25 +28,33 @@ partial class BusyBoxDeployment
                 }
             }
 
-            public static bool TryDetermineInstallationPath(
+            public static bool TryResolveInstallationPath(
                 in BusyBoxSetupDescriptor descriptor,
                 [MaybeNullWhen(false)] out string installationPath,
                 [MaybeNullWhen(false)] out string productPath)
             {
+                const string productFileName = "busybox";
+
                 switch (descriptor.ProductPath)
                 {
-                    case "/bin/busybox":
+                    // Embedded into the system.
+                    case $"/bin/{productFileName}":
                         installationPath = "/";
-                        productPath = "bin/busybox";
+                        productPath = $"bin/{productFileName}";
                         return true;
-                    case "/usr/bin/busybox":
+
+                    // Preinstalled in the system.
+                    case $"/usr/bin/{productFileName}":
                         installationPath = "/usr";
-                        productPath = "bin/busybox";
+                        productPath = $"bin/{productFileName}";
                         return true;
-                    case "/usr/local/bin/busybox":
+
+                    // Installed on the system.
+                    case $"/usr/local/bin/{productFileName}":
                         installationPath = "/usr/local";
-                        productPath = "bin/busybox";
+                        productPath = $"bin/{productFileName}";
                         return true;
+
                     default:
                         installationPath = default;
                         productPath = default;

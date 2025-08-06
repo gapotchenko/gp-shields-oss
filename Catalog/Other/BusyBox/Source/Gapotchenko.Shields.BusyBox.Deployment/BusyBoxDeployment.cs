@@ -45,8 +45,8 @@ public static partial class BusyBoxDeployment
         if (query.CountIsAtLeast(2))
         {
             // Sort only if there are two or more instances.
-            // This precaution is necessary to avoid potentially expensive version retrieving operations
-            // when they are not strictly needed.
+            // This precaution is necessary to avoid potentially expensive
+            // data retrieving operations when they are not strictly needed.
 
             var prioritizedAttributeMask = BusyBoxSetupInstanceAttributes.None;
             if ((options & BusyBoxDiscoveryOptions.EnvironmentInvariant) == 0)
@@ -66,8 +66,66 @@ public static partial class BusyBoxDeployment
 
     static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions, BusyBoxDiscoveryOptions options)
     {
-        // TODO
-        throw new NotImplementedException();
+        return
+            EnumerateSetupDescriptors(versions, options)
+            .Select(descriptor => ResolveSetupDescriptor(descriptor))
+            .Where(descriptor => descriptor.InstallationPath != null)
+            // One installation directory can contain multiple setup instances
+            // (one BusyBox file = one instance).
+            .GroupBy(descriptor => Path.Combine(descriptor.InstallationPath!, descriptor.ProductPath), FileSystem.PathEquivalenceComparer)
+            .Select(group => BusyBoxSetupInstance.TryCreate(group, versions))
+            .Where(instance => instance != null)!;
+    }
+
+    static BusyBoxSetupDescriptor ResolveSetupDescriptor(in BusyBoxSetupDescriptor descriptor)
+    {
+        if (descriptor.InstallationPath is null &&
+            TryResolveInstallationPath(descriptor, out string? installationPath, out string? productPath))
+        {
+            return
+                descriptor with
+                {
+                    InstallationPath = installationPath,
+                    ProductPath = productPath
+                };
+        }
+        else
+        {
+            return descriptor;
+        }
+
+        static bool TryResolveInstallationPath(
+            in BusyBoxSetupDescriptor descriptor,
+            [MaybeNullWhen(false)] out string installationPath,
+            [MaybeNullWhen(false)] out string productPath)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (Pal.Windows.TryResolveInstallationPath(descriptor, out installationPath, out productPath))
+                    return true;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+#if NETCOREAPP
+                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD) ||
+#endif
+                RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (Pal.Unix.TryResolveInstallationPath(descriptor, out installationPath, out productPath))
+                    return true;
+            }
+
+            installationPath = Empty.Nullify(Path.GetDirectoryName(descriptor.ProductPath));
+            if (installationPath != null)
+            {
+                productPath = Path.GetFileName(descriptor.ProductPath);
+                return true;
+            }
+            else
+            {
+                productPath = default;
+                return false;
+            }
+        }
     }
 
     static IEnumerable<BusyBoxSetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, BusyBoxDiscoveryOptions options)
