@@ -44,9 +44,7 @@ public static class BusyBoxSetupInstance
     {
         ArgumentNullException.ThrowIfNull(path);
 
-        // TODO
-
-        return null;
+        return BusyBoxDeployment.EnumerateSetupInstances(path, ValueInterval.Infinite<Version>()).FirstOrDefault();
     }
 
     internal static IBusyBoxSetupInstance? TryCreate(

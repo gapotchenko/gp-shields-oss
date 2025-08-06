@@ -10,6 +10,7 @@ using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
+using Gapotchenko.Shields.BusyBox.Deployment.Utils;
 
 namespace Gapotchenko.Shields.BusyBox.Deployment;
 
@@ -39,35 +40,99 @@ public static partial class BusyBoxDeployment
         if (versions.IsEmpty)
             return [];
 
-        var query = EnumerateSetupInstancesCore(BusyBoxVersion.NaturalizeInterval(versions), options);
+        return DiscoverSetupInstances(
+            EnumerateSetupDescriptors(options),
+            versions,
+            options);
+    }
 
-        query = query.Memoize();
+    internal static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstances(
+        string path,
+        ValueInterval<Version> versions,
+        BusyBoxDiscoveryOptions options = default)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+
+        if (versions.IsEmpty)
+            return [];
+
+        return DiscoverSetupInstances(
+            EnumerateSetupDescriptors(path, options),
+            versions,
+            options);
+    }
+
+    static IEnumerable<IBusyBoxSetupInstance> DiscoverSetupInstances(
+        IEnumerable<BusyBoxSetupDescriptor> descriptors,
+        in ValueInterval<Version> versions,
+        BusyBoxDiscoveryOptions options)
+    {
+        return OrderSetupInstances(
+            EnumerateSetupInstancesCore(
+                descriptors,
+                BusyBoxVersion.NaturalizeInterval(versions),
+                options),
+            options);
+    }
+
+    static IEnumerable<IBusyBoxSetupInstance> OrderSetupInstances(IEnumerable<IBusyBoxSetupInstance> source, BusyBoxDiscoveryOptions options)
+    {
+        if ((options & BusyBoxDiscoveryOptions.NoSort) != 0)
+            return source;
+
+        var query = source.Memoize();
         if (query.CountIsAtLeast(2))
         {
             // Sort only if there are two or more instances.
             // This precaution is necessary to avoid potentially expensive
             // data retrieving operations when they are not strictly needed.
 
-            var prioritizedAttributeMask = BusyBoxSetupInstanceAttributes.None;
+            var primaryPrioritizedAttributeMask = BusyBoxSetupInstanceAttributes.None;
+            var secondaryPrioritizedAttributeMask = BusyBoxSetupInstanceAttributes.None;
             if ((options & BusyBoxDiscoveryOptions.EnvironmentInvariant) == 0)
             {
                 // Prefer setup instances deducted from the environment
                 // because it gives a configuration flexibility to a user.
-                prioritizedAttributeMask |= BusyBoxSetupInstanceAttributes.Environment;
+                primaryPrioritizedAttributeMask |= BusyBoxSetupInstanceAttributes.Environment;
+
+                var osVersion = Environment.OSVersion;
+                if (osVersion.Platform == PlatformID.Win32NT && osVersion.Version >= new Version(10, 0, 18362))
+                {
+                    // "For 64-bit systems running Windows 10 release 1903 and higher
+                    // there's even more advantage in using the busybox64u.exe binary,
+                    // as it has support for Unicode."
+                    //                               -- https://frippery.org/busybox/
+                    secondaryPrioritizedAttributeMask |= BusyBoxSetupInstanceAttributes.Unicode;
+                }
             }
 
-            query = query
-                .OrderByDescending(x => (x.Attributes & prioritizedAttributeMask) != 0)
+            var orderedQuery = query
+                .OrderByDescending(x => (x.Attributes & primaryPrioritizedAttributeMask) != 0)
                 .ThenByDescending(x => x.Version);
+
+            if (secondaryPrioritizedAttributeMask != BusyBoxSetupInstanceAttributes.None)
+                orderedQuery = orderedQuery.ThenByDescending(x => (x.Attributes & secondaryPrioritizedAttributeMask) != 0);
+
+            if ((options & BusyBoxDiscoveryOptions.ArchitectureInvariant) == 0)
+            {
+                // Prefer setup instances with a processor architecture similar to the host OS.
+                // User intent: run executable modules outside the process.
+                var osArchitecture = EnvironmentUtil.TryGetPreciseOSArchitecture() ?? RuntimeInformation.ProcessArchitecture;
+                orderedQuery = orderedQuery.ThenBy(x => EnvironmentUtil.GetArchitectureSimilarity(x.Architecture, osArchitecture));
+            }
+
+            query = orderedQuery;
         }
 
         return query;
     }
 
-    static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions, BusyBoxDiscoveryOptions options)
+    static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstancesCore(
+        IEnumerable<BusyBoxSetupDescriptor> descriptors,
+        Interval<Version> versions,
+        BusyBoxDiscoveryOptions options)
     {
-        return
-            EnumerateSetupDescriptors(versions, options)
+        return descriptors
             .Select(descriptor => ResolveSetupDescriptor(descriptor))
             .Where(descriptor => descriptor.InstallationPath != null)
             // One installation directory can contain multiple setup instances
@@ -128,7 +193,25 @@ public static partial class BusyBoxDeployment
         }
     }
 
-    static IEnumerable<BusyBoxSetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, BusyBoxDiscoveryOptions options)
+    static IEnumerable<BusyBoxSetupDescriptor> EnumerateSetupDescriptors(string path, BusyBoxDiscoveryOptions options)
+    {
+        IEnumerable<BusyBoxSetupDescriptor> osDescriptors;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            osDescriptors = Pal.Windows.EnumerateSetupDescriptors(path);
+        else
+            osDescriptors = [];
+
+        foreach (var i in osDescriptors)
+            yield return i;
+
+        if (Directory.Exists(path))
+        {
+            foreach (string busyBoxPath in CommandShell.Where(Path.Combine(path, "busybox")))
+                yield return new(GetRealPath(busyBoxPath));
+        }
+    }
+
+    static IEnumerable<BusyBoxSetupDescriptor> EnumerateSetupDescriptors(BusyBoxDiscoveryOptions options)
     {
         IEnumerable<BusyBoxSetupDescriptor> osDescriptors;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
