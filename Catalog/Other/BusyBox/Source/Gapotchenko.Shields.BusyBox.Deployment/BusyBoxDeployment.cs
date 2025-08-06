@@ -110,9 +110,6 @@ public static partial class BusyBoxDeployment
                 .OrderByDescending(x => (x.Attributes & primaryPrioritizedAttributeMask) != 0)
                 .ThenByDescending(x => x.Version);
 
-            if (secondaryPrioritizedAttributeMask != BusyBoxSetupInstanceAttributes.None)
-                orderedQuery = orderedQuery.ThenByDescending(x => (x.Attributes & secondaryPrioritizedAttributeMask) != 0);
-
             if ((options & BusyBoxDiscoveryOptions.ArchitectureInvariant) == 0)
             {
                 // Prefer setup instances with a processor architecture similar to the host OS.
@@ -120,6 +117,9 @@ public static partial class BusyBoxDeployment
                 var osArchitecture = EnvironmentUtil.TryGetPreciseOSArchitecture() ?? RuntimeInformation.ProcessArchitecture;
                 orderedQuery = orderedQuery.ThenBy(x => EnvironmentUtil.GetArchitectureSimilarity(x.Architecture, osArchitecture));
             }
+
+            if (secondaryPrioritizedAttributeMask != BusyBoxSetupInstanceAttributes.None)
+                orderedQuery = orderedQuery.ThenByDescending(x => (x.Attributes & secondaryPrioritizedAttributeMask) != 0);
 
             query = orderedQuery;
         }
@@ -136,7 +136,7 @@ public static partial class BusyBoxDeployment
             .Select(descriptor => ResolveSetupDescriptor(descriptor))
             .Where(descriptor => descriptor.InstallationPath != null)
             // One installation directory can contain multiple setup instances
-            // (one BusyBox file = one instance).
+            // (one BusyBox executable file = one instance).
             .GroupBy(descriptor => Path.Combine(descriptor.InstallationPath!, descriptor.ProductPath), FileSystem.PathEquivalenceComparer)
             .Select(group => BusyBoxSetupInstance.TryCreate(group, versions))
             .Where(instance => instance != null)!;

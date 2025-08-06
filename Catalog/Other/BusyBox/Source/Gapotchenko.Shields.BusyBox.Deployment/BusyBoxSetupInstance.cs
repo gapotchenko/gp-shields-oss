@@ -6,8 +6,10 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
+using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Math.Intervals;
+using System.Text;
 
 namespace Gapotchenko.Shields.BusyBox.Deployment;
 
@@ -94,12 +96,47 @@ public static class BusyBoxSetupInstance
         }
         else
         {
-            Version? version;
-
-            // TODO
-            version = null;
-
+            using var stream = File.OpenRead(busyBoxPath);
+            var version = TryGetVersionFromStream(stream);
             return version ?? throw new BusyBoxDeploymentException("Cannot determine BusyBox version.");
+        }
+    }
+
+    static Version? TryGetVersionFromStream(Stream stream)
+    {
+        using var enumerator = stream.AsEnumerable().GetEnumerator();
+
+        for (; ; )
+        {
+            // Search for version marker.
+            int j = enumerator.Rest().IndexOf(Encoding.ASCII.GetBytes("BusyBox v"));
+            if (j == -1)
+                return null; // EOF
+
+            // Move to the next significant symbol, rectifying 'IndexOf' implementation variations.
+            if (enumerator.Current == 'v')
+            {
+                if (!enumerator.MoveNext())
+                    return null; // EOF
+            }
+
+            var sb = new StringBuilder();
+            do
+            {
+                char c = (char)enumerator.Current;
+                if (!(c <= 0x7f && (c is '.' || char.IsDigit(c))))
+                    break;
+                sb.Append(c);
+            }
+            while (enumerator.MoveNext());
+
+            if (sb.Length == 0)
+                continue; // invalid data
+
+            if (!Version.TryParse(sb.ToString(), out var version))
+                continue; // invalid data
+
+            return version;
         }
     }
 }
