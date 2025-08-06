@@ -5,7 +5,6 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-using Gapotchenko.FX.Math.Intervals;
 using Microsoft.Win32;
 
 namespace Gapotchenko.Shields.Git.Deployment;
@@ -19,21 +18,19 @@ partial class GitDeployment
 #endif
         public static class Windows
         {
-            public static IEnumerable<GitSetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions)
+            public static IEnumerable<GitSetupDescriptor> EnumerateSetupDescriptors()
             {
                 using var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
                 using var key = hklm.OpenSubKey(@"SOFTWARE\GitForWindows");
-                if (key is not null && TryGetDescriptor(key, versions) is { } descriptor)
+                if (key is not null && TryGetDescriptor(key) is { } descriptor)
                     yield return descriptor;
             }
 
-            static GitSetupDescriptor? TryGetDescriptor(RegistryKey key, Interval<Version> versions)
+            static GitSetupDescriptor? TryGetDescriptor(RegistryKey key)
             {
                 if (key.GetValue("CurrentVersion") is not string versionString)
                     return null;
                 if (!Version.TryParse(versionString, out var version))
-                    return null;
-                if (!versions.Contains(version))
                     return null;
 
                 string? installationPath = key.GetValue("InstallPath") as string;

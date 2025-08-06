@@ -64,7 +64,7 @@ public static partial class GitDeployment
     static IEnumerable<IGitSetupInstance> EnumerateSetupInstancesCore(Interval<Version> versions, GitDiscoveryOptions options)
     {
         return
-            EnumerateSetupDescriptors(versions, options)
+            EnumerateSetupDescriptors(options)
             .Select(descriptor => ResolveSetupDescriptor(descriptor))
             .Where(descriptor => descriptor.InstallationPath != null)
             .GroupBy(descriptor => descriptor.InstallationPath!, FileSystem.PathEquivalenceComparer)
@@ -115,12 +115,12 @@ public static partial class GitDeployment
         }
     }
 
-    static IEnumerable<GitSetupDescriptor> EnumerateSetupDescriptors(Interval<Version> versions, GitDiscoveryOptions options)
+    static IEnumerable<GitSetupDescriptor> EnumerateSetupDescriptors(GitDiscoveryOptions options)
     {
         IEnumerable<GitSetupDescriptor> osDescriptors;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            osDescriptors = Pal.Windows.EnumerateSetupDescriptors(versions);
+            osDescriptors = Pal.Windows.EnumerateSetupDescriptors();
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
 #if NETCOREAPP
