@@ -25,22 +25,37 @@ partial class GitDeployment
                     yield return new GitSetupDescriptor(GetRealPath(path));
             }
 
-            public static bool TryDetermineInstallationPath(
+            public static bool TryResolveInstallationPath(
                 in GitSetupDescriptor descriptor,
                 [MaybeNullWhen(false)] out string installationPath,
                 [MaybeNullWhen(false)] out string productPath)
             {
-                if (descriptor.ProductPath is "/usr/bin/git")
+                const string productFileName = "git";
+
+                switch (descriptor.ProductPath)
                 {
-                    installationPath = "/usr";
-                    productPath = "bin/git";
-                    return true;
-                }
-                else
-                {
-                    installationPath = default;
-                    productPath = default;
-                    return false;
+                    // Embedded into the system.
+                    case $"/bin/{productFileName}":
+                        installationPath = "/";
+                        productPath = $"bin/{productFileName}";
+                        return true;
+
+                    // Preinstalled in the system.
+                    case $"/usr/bin/{productFileName}":
+                        installationPath = "/usr";
+                        productPath = $"bin/{productFileName}";
+                        return true;
+
+                    // Installed on the system.
+                    case $"/usr/local/bin/{productFileName}":
+                        installationPath = "/usr/local";
+                        productPath = $"bin/{productFileName}";
+                        return true;
+
+                    default:
+                        installationPath = default;
+                        productPath = default;
+                        return false;
                 }
             }
         }

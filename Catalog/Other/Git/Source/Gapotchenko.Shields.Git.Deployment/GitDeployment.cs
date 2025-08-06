@@ -65,17 +65,17 @@ public static partial class GitDeployment
     {
         return
             EnumerateSetupDescriptors(versions, options)
-            .Select(descriptor => ResolveInstallationPath(descriptor))
+            .Select(descriptor => ResolveSetupDescriptor(descriptor))
             .Where(descriptor => descriptor.InstallationPath != null)
-            .GroupBy(x => x.InstallationPath!, FileSystem.PathEquivalenceComparer)
-            .Select(g => GitSetupInstance.TryCreate(g.Key, g, versions))
-            .Where(x => x != null)!;
+            .GroupBy(descriptor => descriptor.InstallationPath!, FileSystem.PathEquivalenceComparer)
+            .Select(group => GitSetupInstance.TryCreate(group.Key, group, versions))
+            .Where(instance => instance != null)!;
     }
 
-    static GitSetupDescriptor ResolveInstallationPath(in GitSetupDescriptor descriptor)
+    static GitSetupDescriptor ResolveSetupDescriptor(in GitSetupDescriptor descriptor)
     {
         if (descriptor.InstallationPath is null &&
-            TryDetermineInstallationPath(descriptor, out string? installationPath, out string? productPath))
+            TryResolveInstallationPath(descriptor, out string? installationPath, out string? productPath))
         {
             return
                 descriptor with
@@ -89,14 +89,14 @@ public static partial class GitDeployment
             return descriptor;
         }
 
-        static bool TryDetermineInstallationPath(
+        static bool TryResolveInstallationPath(
             in GitSetupDescriptor descriptor,
             [MaybeNullWhen(false)] out string installationPath,
             [MaybeNullWhen(false)] out string productPath)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (Pal.Windows.TryDetermineInstallationPath(descriptor, out installationPath, out productPath))
+                if (Pal.Windows.TryResolveInstallationPath(descriptor, out installationPath, out productPath))
                     return true;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
@@ -105,7 +105,7 @@ public static partial class GitDeployment
 #endif
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                if (Pal.Unix.TryDetermineInstallationPath(descriptor, out installationPath, out productPath))
+                if (Pal.Unix.TryResolveInstallationPath(descriptor, out installationPath, out productPath))
                     return true;
             }
 

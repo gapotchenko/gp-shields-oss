@@ -57,7 +57,7 @@ partial class GitDeployment
                     };
             }
 
-            public static bool TryDetermineInstallationPath(
+            public static bool TryResolveInstallationPath(
                 in GitSetupDescriptor descriptor,
                 [MaybeNullWhen(false)] out string installationPath,
                 [MaybeNullWhen(false)] out string productPath)

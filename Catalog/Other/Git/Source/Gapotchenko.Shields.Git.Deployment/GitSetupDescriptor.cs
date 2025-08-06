@@ -16,9 +16,4 @@ readonly record struct GitSetupDescriptor(string ProductPath)
     public Version? Version { get; init; }
 
     public string? LibExecPath { get; init; }
-
-    public string KeyPath =>
-        InstallationPath is { } installationPath
-            ? Path.Combine(installationPath, ProductPath)
-            : ProductPath;
 }
