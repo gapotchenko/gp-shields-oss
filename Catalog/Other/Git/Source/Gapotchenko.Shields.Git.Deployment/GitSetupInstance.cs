@@ -82,7 +82,7 @@ public static class GitSetupInstance
         Lazy<Version> version =
             descriptors.Select(x => x.Version).FirstOrDefault(x => x != null) is { } determinedVersion
                 ?
-#if NETCOREAPP
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
                 new(determinedVersion)
 #else
                 new(() => determinedVersion)

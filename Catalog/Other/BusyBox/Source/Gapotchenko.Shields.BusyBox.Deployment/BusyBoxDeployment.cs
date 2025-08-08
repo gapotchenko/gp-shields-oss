@@ -24,7 +24,7 @@ public static partial class BusyBoxDeployment
         EnumerateSetupInstances(ValueInterval.Infinite<Version>(), options);
 
     /// <summary>
-    /// Enumerates setup instances of BusyBox.
+    /// Enumerates installed setup instances of BusyBox.
     /// </summary>
     /// <remarks>
     /// By default, BusyBox setup instances are sorted by the product version and edition.
@@ -46,7 +46,18 @@ public static partial class BusyBoxDeployment
             options);
     }
 
-    internal static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstances(
+    /// <summary>
+    /// Enumerates portable setup instances of BusyBox at the specified path.
+    /// </summary>
+    /// <remarks>
+    /// By default, BusyBox setup instances are sorted by the product version and edition.
+    /// The newest and most suitable versions come first.
+    /// </remarks>
+    /// <param name="path">The path to discover BusyBox setup instances at.</param>
+    /// <param name="versions">The interval of BusyBox versions to enumerate.</param>
+    /// <param name="options">The discovery options.</param>
+    /// <returns>A sequence of discovered setup instances of BusyBox.</returns>
+    public static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstances(
         string path,
         ValueInterval<Version> versions,
         BusyBoxDiscoveryOptions options = default)
