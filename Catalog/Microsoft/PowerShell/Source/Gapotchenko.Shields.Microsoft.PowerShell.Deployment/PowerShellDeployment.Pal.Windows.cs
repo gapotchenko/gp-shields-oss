@@ -23,6 +23,9 @@ partial class PowerShellDeployment
                 Interval<Version> versions,
                 PowerShellDiscoveryOptions options)
             {
+                // TODO: add support for PowerShell 7
+                // https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7
+
                 using var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
                 using var key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\PowerShell\1");
                 if (key is not null)
