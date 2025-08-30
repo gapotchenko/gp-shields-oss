@@ -7,15 +7,16 @@
 
   <ItemGroup>
     <Using Include="Gapotchenko.FX" />
+    <Using Include="Gapotchenko.FX.Diagnostics" />
     <Using Include="Gapotchenko.FX.IO" />
     <Using Include="Gapotchenko.FX.Linq" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX" Version="2025.1.25-beta" />
-    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.25-beta" />
-    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.25-beta" />
-    <PackageReference Include="Gapotchenko.Shards.Diagnostics.CommandLine.Shell" Version="2024.3.2" />
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.26-beta" />
+    <PackageReference Include="Gapotchenko.FX.Diagnostics.CommandShell" Version="2025.1.26-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.26-beta" />
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.26-beta" />
   </ItemGroup>
 
 </Project>

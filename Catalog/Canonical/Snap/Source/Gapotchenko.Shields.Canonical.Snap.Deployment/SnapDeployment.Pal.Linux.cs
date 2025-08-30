@@ -5,8 +5,6 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2023
 
-using Gapotchenko.Shards.Diagnostics.CommandLine.Shell;
-
 namespace Gapotchenko.Shields.Canonical.Snap.Deployment;
 
 partial class SnapDeployment
@@ -28,7 +26,7 @@ partial class SnapDeployment
                     string? productPath = "/usr/bin/snap";
                     if (!File.Exists(productPath))
                     {
-                        productPath = CommandLineShellOperations.Where("snap").FirstOrDefault();
+                        productPath = CommandShell.Where("snap").FirstOrDefault();
                         if (productPath != null)
                             attributes |= SnapSetupInstanceAttributes.Path;
                     }
