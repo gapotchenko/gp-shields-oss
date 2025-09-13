@@ -49,3 +49,18 @@ public static partial class WslDeployment
             return [];
     }
 }
+
+/*
+
+TODO:
+
+IWslSetupInstance:
+   IWslSetupInstanceDistributions Distributions { get; }
+
+IWslSetupInstanceDistributions
+   IEnumerable<IWslDistributionSetupInstance> EnumerateInstalled();
+
+IWslDistributionSetupInstance
+   string Name { get; }
+
+*/
