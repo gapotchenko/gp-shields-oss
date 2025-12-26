@@ -1,6 +1,8 @@
 set working-directory := "Source"
-set dotenv-load := true
 set windows-shell := ["gnu-tk", "-c"]
+set dotenv-load := true
+
+# ---------------------------------------------------------------------------
 
 # Show the help for this justfile
 @help:
