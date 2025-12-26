@@ -2,12 +2,20 @@
 
   <!-- NuGet Specification -->
   <PropertyGroup>
-    <IsPackable>false</IsPackable>
-    <IsPackable Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPackable>
     <Authors>$(Company)</Authors>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>$(PackageTags) shield</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsPackable Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(IsPackable)' == 'true' ">
+    <None Include="$(MSBuildThisFileDirectory)Resources\NuGet\Package Icon.png" Pack="true" PackagePath="$(PackageIcon)" Visible="false" />
+  </ItemGroup>
 
 </Project>
