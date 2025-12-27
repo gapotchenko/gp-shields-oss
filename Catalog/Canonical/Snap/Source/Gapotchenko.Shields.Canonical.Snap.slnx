@@ -8,6 +8,9 @@
   <Folder Name="/03. Misc/">
     <File Path="../README.md" />
   </Folder>
+  <Folder Name="/03. Misc/Documentation/">
+    <File Path="../Documentation/Changelog.md" />
+  </Folder>
   <Folder Name="/03. Misc/Harness/">
     <Project Path="Gapotchenko.Shields.Canonical.Snap.Harness/Gapotchenko.Shields.Canonical.Snap.Harness.csproj" />
   </Folder>
