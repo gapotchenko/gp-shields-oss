@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>The deployment module of the Gapotchenko Shield for Canonical Snap.</Description>
+    <Description>Provides deployment discovery services for identifying installed instances of Canonical Snap on a system.</Description>
     <PackageTags>$(PackageTags) deployment</PackageTags>
   </PropertyGroup>
 
