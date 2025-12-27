@@ -1,10 +1,5 @@
 <Project>
 
-  <PropertyGroup Condition=" '$(MasteringProjectKind)' == 'module' OR '$(MasteringProjectKind)' == 'profile' OR '$(MasteringProjectKind)' == 'test' ">
-    <!-- Disables NETSDK1138 warning -->
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(MasteringProjectKind)' == 'module' OR '$(MasteringProjectKind)' == 'test' ">
     <DefineConstants>$(DefineConstants),SOURCE_COMPATIBILITY,BINARY_COMPATIBILITY</DefineConstants>
   </PropertyGroup>
