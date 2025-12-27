@@ -16,16 +16,16 @@ Each shield covers a specific technology.
 Shields are grouped by a manufacturer.
 
 - Canonical
-    - [Snap](Catalog/Canonical/Snap) - software packaging and deployment system
+    - [Snap](Catalog/Canonical/Snap#readme) - software packaging and deployment system
 - Microsoft
-    - [PowerShell](Catalog/Microsoft/PowerShell) - shell program for task automation and configuration management
-    - [Windows Subsystem for Linux](Catalog/Microsoft/WSL) - a component of Microsoft Windows that allows the use of a GNU/Linux environment from within Windows
+    - [PowerShell](Catalog/Microsoft/PowerShell#readme) - shell program for task automation and configuration management
+    - [Windows Subsystem for Linux](Catalog/Microsoft/WSL#readme) - a component of Microsoft Windows that allows the use of a GNU/Linux environment from within Windows
 - Oracle
-    - [Java](Catalog/Oracle/Java) - high-level programming language and runtime
+    - [Java](Catalog/Oracle/Java#readme) - high-level programming language and runtime
 - Red Hat
-    - [Cygwin](Catalog/Red%20Hat/Cygwin) - Unix-like environment and command-line interface for Microsoft Windows
+    - [Cygwin](Catalog/Red%20Hat/Cygwin#readme) - Unix-like environment and command-line interface for Microsoft Windows
 - Other
-  - [BusyBox](Catalog/Other/BusyBox) - combines tiny versions of many common UNIX utilities into a single small executable
-  - [Git](Catalog/Other/Git) - distributed revision control system
-  - [Homebrew](Catalog/Other/Homebrew) - the missing package manager for macOS (or Linux)
-  - [MSYS2](Catalog/Other/MSYS2) - software distribution and building platform for Microsoft Windows
+  - [BusyBox](Catalog/Other/BusyBox#readme) - combines tiny versions of many common UNIX utilities into a single small executable
+  - [Git](Catalog/Other/Git#readme) - distributed revision control system
+  - [Homebrew](Catalog/Other/Homebrew#readme) - the missing package manager for macOS (or Linux)
+  - [MSYS2](Catalog/Other/MSYS2#readme) - software distribution and building platform for Microsoft Windows
