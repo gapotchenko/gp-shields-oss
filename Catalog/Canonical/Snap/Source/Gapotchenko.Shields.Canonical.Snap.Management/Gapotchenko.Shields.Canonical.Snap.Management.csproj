@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Description>Provides functionality to enumerate Snap packages, query their paths, and access package attributes.</Description>
     <PackageTags>$(PackageTags) management</PackageTags>
+    <PackageProjectUrl>https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap/Source/Gapotchenko.Shields.Canonical.Snap.Management</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

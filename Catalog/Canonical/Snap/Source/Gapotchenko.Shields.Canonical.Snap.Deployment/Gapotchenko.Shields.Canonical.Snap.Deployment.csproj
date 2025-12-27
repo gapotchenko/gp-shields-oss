@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Description>Provides deployment discovery services for identifying installed instances of Canonical Snap on a system.</Description>
     <PackageTags>$(PackageTags) deployment</PackageTags>
+    <PackageProjectUrl>https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap/Source/Gapotchenko.Shields.Canonical.Snap.Deployment</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

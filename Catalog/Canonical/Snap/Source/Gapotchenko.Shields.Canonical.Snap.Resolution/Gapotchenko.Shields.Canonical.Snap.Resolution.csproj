@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Description>The resolution module of the Gapotchenko Shield for Canonical Snap.</Description>
     <PackageTags>$(PackageTags) resolution</PackageTags>
+    <PackageProjectUrl>https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap/Source/Gapotchenko.Shields.Canonical.Snap.Resolution</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
