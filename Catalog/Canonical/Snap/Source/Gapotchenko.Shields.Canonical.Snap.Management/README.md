@@ -1,5 +1,8 @@
 # Gapotchenko.Shields.Canonical.Snap.Management
 
+[![License](https://img.shields.io/badge/license-MPL2.0-green.svg)](../../../../../LICENSE)
+[![NuGet](https://img.shields.io/nuget/v/Gapotchenko.Shields.Canonical.Snap.Management.svg)](https://www.nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Management)
+
 The management module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap). This module provides package management operations for Canonical Snap, allowing you to enumerate installed packages and access their properties.
 
 ## Overview
@@ -145,6 +148,14 @@ Flags for controlling package enumeration behavior.
 
 - `None` - Default options (enumerates all revisions)
 - `Current` - Enumerate only current package revisions
+
+## Distribution
+
+`Gapotchenko.Shields.Canonical.Snap.Management` module is available as a [NuGet package](https://nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Management):
+
+```
+dotnet package add Gapotchenko.Shields.Canonical.Snap.Management
+```
 
 ## Related Modules
 

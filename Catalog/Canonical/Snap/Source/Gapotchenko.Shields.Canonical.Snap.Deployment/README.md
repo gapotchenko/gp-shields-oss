@@ -1,5 +1,8 @@
 # Gapotchenko.Shields.Canonical.Snap.Deployment
 
+[![License](https://img.shields.io/badge/license-MPL2.0-green.svg)](../../../../../LICENSE)
+[![NuGet](https://img.shields.io/nuget/v/Gapotchenko.Shields.Canonical.Snap.Deployment.svg)](https://www.nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Deployment)
+
 The deployment module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap). This module provides deployment discovery services for identifying installed instances of Canonical Snap on a system.
 
 ## Overview
@@ -95,6 +98,14 @@ Attributes describing how an instance was discovered.
 
 - `None` - No special attributes
 - `Path` - Instance was discovered via PATH environment variable
+
+## Distribution
+
+`Gapotchenko.Shields.Canonical.Snap.Deployment` module is available as a [NuGet package](https://nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Deployment):
+
+```
+dotnet package add Gapotchenko.Shields.Canonical.Snap.Deployment
+```
 
 ## Related Modules
 

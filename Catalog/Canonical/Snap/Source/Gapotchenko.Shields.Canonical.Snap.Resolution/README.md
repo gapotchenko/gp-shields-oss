@@ -1,5 +1,8 @@
 # Gapotchenko.Shields.Canonical.Snap.Resolution
 
+[![License](https://img.shields.io/badge/license-MPL2.0-green.svg)](../../../../../LICENSE)
+[![NuGet](https://img.shields.io/nuget/v/Gapotchenko.Shields.Canonical.Snap.Resolution.svg)](https://www.nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Resolution)
+
 The resolution module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap). This module provides package resolution services for Canonical Snap, allowing you to resolve file paths to their actual locations within Snap packages.
 
 ## Overview
@@ -35,21 +38,6 @@ Console.WriteLine($"Real path: {realPath}");
 // Otherwise, GetRealFilePath function returns the original path.
 ```
 
-### Working with Snap-Managed Executables
-
-When a Snap package installs an executable, it typically creates a symbolic link in a system directory.
-The resolution module can trace these links to find the actual executable within the Snap package:
-
-```csharp
-// Example: Resolving a .NET SDK installed via Snap
-string dotnetPath = "/usr/bin/dotnet";
-string realDotnetPath = SnapResolution.GetRealFilePath(dotnetPath);
-
-// If dotnet is installed via Snap, realDotnetPath might be something like:
-// "/snap/dotnet-sdk/123/usr/share/dotnet/dotnet"
-// Otherwise, it returns the original path
-```
-
 ### Handling Non-Existent Files
 
 The method handles non-existent files gracefully:
@@ -80,8 +68,15 @@ Main entry point for package resolution operations.
 
 - `GetRealFilePath(string?)` - Gets the real path of a file managed by Canonical Snap package manager. If the file is not managed by Snap, returns the original file path.
 
+## Distribution
+
+`Gapotchenko.Shields.Canonical.Snap.Resolution` module is available as a [NuGet package](https://nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Resolution):
+
+```
+dotnet package add Gapotchenko.Shields.Canonical.Snap.Resolution
+```
+
 ## Related Modules
 
 - [Deployment](../Gapotchenko.Shields.Canonical.Snap.Deployment) - Deployment discovery services (this module depends on it)
 - [Management](../Gapotchenko.Shields.Canonical.Snap.Management) - Package management operations (this module depends on it)
-
