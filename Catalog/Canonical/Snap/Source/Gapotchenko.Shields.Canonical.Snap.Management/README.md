@@ -3,7 +3,8 @@
 [![License](https://img.shields.io/badge/license-MPL2.0-green.svg)](../../../../../LICENSE)
 [![NuGet](https://img.shields.io/nuget/v/Gapotchenko.Shields.Canonical.Snap.Management.svg)](https://www.nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Management)
 
-The management module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap). This module provides package management operations for Canonical Snap, allowing you to enumerate installed packages and access their properties.
+The management module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap#readme).
+This module provides package management operations for Canonical Snap, allowing you to enumerate installed packages and access their properties.
 
 ## Overview
 
@@ -159,6 +160,6 @@ dotnet package add Gapotchenko.Shields.Canonical.Snap.Management
 
 ## Related Modules
 
-- [Deployment](../Gapotchenko.Shields.Canonical.Snap.Deployment) - Deployment discovery services (this module depends on it)
-- [Resolution](../Gapotchenko.Shields.Canonical.Snap.Resolution) - Package resolution services (depends on this module)
+- [Deployment](../Gapotchenko.Shields.Canonical.Snap.Deployment#readme) - Deployment discovery services (this module depends on it)
+- [Resolution](../Gapotchenko.Shields.Canonical.Snap.Resolution#readme) - Package resolution services (depends on this module)
 

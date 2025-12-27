@@ -3,7 +3,8 @@
 [![License](https://img.shields.io/badge/license-MPL2.0-green.svg)](../../../../../LICENSE)
 [![NuGet](https://img.shields.io/nuget/v/Gapotchenko.Shields.Canonical.Snap.Resolution.svg)](https://www.nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Resolution)
 
-The resolution module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap). This module provides package resolution services for Canonical Snap, allowing you to resolve file paths to their actual locations within Snap packages.
+The resolution module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap#readme).
+This module provides package resolution services for Canonical Snap, allowing you to resolve file paths to their actual locations within Snap packages.
 
 ## Overview
 
@@ -52,7 +53,8 @@ string resolved = SnapResolution.GetRealFilePath(nonExistentPath);
 
 1. **Symbolic Link Resolution**: The module follows symbolic links to find the final target
 2. **Snap Detection**: It checks if the resolved path points to the Snap executable (`snap`)
-3. **Manifest Lookup**: It reads the `snap.yaml` manifest file to find the actual file path
+3. **Package Identification**: It finds the associated Snap package
+4. **Manifest Lookup**: It reads the `snap.yaml` package manifest file to find the actual file path within the package
 
 ## Platform Support
 
@@ -78,5 +80,5 @@ dotnet package add Gapotchenko.Shields.Canonical.Snap.Resolution
 
 ## Related Modules
 
-- [Deployment](../Gapotchenko.Shields.Canonical.Snap.Deployment) - Deployment discovery services (this module depends on it)
-- [Management](../Gapotchenko.Shields.Canonical.Snap.Management) - Package management operations (this module depends on it)
+- [Deployment](../Gapotchenko.Shields.Canonical.Snap.Deployment#readme) - Deployment discovery services (this module depends on it)
+- [Management](../Gapotchenko.Shields.Canonical.Snap.Management#readme) - Package management operations (this module depends on it)

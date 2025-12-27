@@ -18,7 +18,7 @@
 
   <ItemGroup Condition=" '$(IsPackable)' == 'true' ">
     <None Include="$(MSBuildThisFileDirectory)Resources\NuGet\Package Icon.png" Pack="true" PackagePath="$(PackageIcon)" Visible="false" />
-    <None Condition=" '$(NLP_ProjectReadmeFile)' != '' " Include="$(NLP_ProjectReadmeFile)" Pack="true" PackagePath="$(PackageReadmeFile)" Visible="false" />
+    <None Condition=" '$(NLP_ProjectReadmeFile)' != '' " Include="$(NLP_ProjectReadmeFile)" Pack="true" PackagePath="$(PackageReadmeFile)" />
   </ItemGroup>
 
 </Project>

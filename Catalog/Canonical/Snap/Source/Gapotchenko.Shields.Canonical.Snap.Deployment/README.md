@@ -3,7 +3,8 @@
 [![License](https://img.shields.io/badge/license-MPL2.0-green.svg)](../../../../../LICENSE)
 [![NuGet](https://img.shields.io/nuget/v/Gapotchenko.Shields.Canonical.Snap.Deployment.svg)](https://www.nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Deployment)
 
-The deployment module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap). This module provides deployment discovery services for identifying installed instances of Canonical Snap on a system.
+The deployment module of the [Gapotchenko Shield for Canonical Snap](https://github.com/gapotchenko/gp-shields-oss/tree/main/Catalog/Canonical/Snap#readme).
+This module provides deployment discovery services for identifying installed instances of Canonical Snap on a system.
 
 ## Overview
 
@@ -109,5 +110,5 @@ dotnet package add Gapotchenko.Shields.Canonical.Snap.Deployment
 
 ## Related Modules
 
-- [Management](../Gapotchenko.Shields.Canonical.Snap.Management) - Package management operations (depends on this module)
-- [Resolution](../Gapotchenko.Shields.Canonical.Snap.Resolution) - Package resolution services (depends on this module)
+- [Management](../Gapotchenko.Shields.Canonical.Snap.Management#readme) - Package management operations (depends on this module)
+- [Resolution](../Gapotchenko.Shields.Canonical.Snap.Resolution#readme) - Package resolution services (depends on this module)

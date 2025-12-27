@@ -8,9 +8,9 @@ Snap is a software packaging and deployment system developed by Canonical for op
 
 The shield consists of the following modules:
 
-- **[Deployment](Source/Gapotchenko.Shields.Canonical.Snap.Deployment)** - Identifies installed instances of Canonical Snap on a system
-- **[Management](Source/Gapotchenko.Shields.Canonical.Snap.Management)** - Enumerates installed Snap packages and accesses their properties
-- **[Resolution](Source/Gapotchenko.Shields.Canonical.Snap.Resolution)** - Resolves file paths to their actual locations within Snap packages
+- **[Deployment](Source/Gapotchenko.Shields.Canonical.Snap.Deployment#readme)** - Identifies installed instances of Canonical Snap on a system
+- **[Management](Source/Gapotchenko.Shields.Canonical.Snap.Management#readme)** - Enumerates installed Snap packages and accesses their properties
+- **[Resolution](Source/Gapotchenko.Shields.Canonical.Snap.Resolution#readme)** - Resolves file paths to their actual locations within Snap packages
 
 ## Quick Start
 
