@@ -100,7 +100,7 @@ Attributes describing how an instance was discovered.
 - `None` - No special attributes
 - `Path` - Instance was discovered via PATH environment variable
 
-## Distribution
+## Installation
 
 `Gapotchenko.Shields.Canonical.Snap.Deployment` module is available as a [NuGet package](https://nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Deployment):
 

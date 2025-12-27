@@ -150,7 +150,7 @@ Flags for controlling package enumeration behavior.
 - `None` - Default options (enumerates all revisions)
 - `Current` - Enumerate only current package revisions
 
-## Distribution
+## Installation
 
 `Gapotchenko.Shields.Canonical.Snap.Management` module is available as a [NuGet package](https://nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Management):
 

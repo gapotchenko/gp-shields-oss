@@ -70,7 +70,7 @@ Main entry point for package resolution operations.
 
 - `GetRealFilePath(string?)` - Gets the real path of a file managed by Canonical Snap package manager. If the file is not managed by Snap, returns the original file path.
 
-## Distribution
+## Installation
 
 `Gapotchenko.Shields.Canonical.Snap.Resolution` module is available as a [NuGet package](https://nuget.org/packages/Gapotchenko.Shields.Canonical.Snap.Resolution):
 
