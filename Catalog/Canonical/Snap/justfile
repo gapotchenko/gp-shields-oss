@@ -1,12 +1,17 @@
-set working-directory := "Source"
-set windows-shell := ["gnu-tk", "-c"]
 set dotenv-load := true
+set working-directory := "Source"
+set windows-shell := ["gnu-tk", "-i", "-c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Show the help for this justfile
 @help:
     just --list
+
+# -----------------------------------------------------------------------------
+# Development
+# -----------------------------------------------------------------------------
 
 # Start IDE using the project environment
 [group("development")]
@@ -20,24 +25,33 @@ develop:
 develop:
     open *.slnx
 
+# -----------------------------------------------------------------------------
+# Build
+# -----------------------------------------------------------------------------
+
 # Build release artifacts
+[group("build")]
 build:
     dotnet build -c Release
 
 # Rebuild release artifacts
+[group("build")]
 rebuild:
     dotnet build --no-incremental -c Release
 
 # Clean all build artifacts
+[group("build")]
 clean:
     dotnet clean -c Debug
     dotnet clean -c Release
 
 # Run all tests
+[group("build")]
 test:
     dotnet test -c Release
 
 # Produce publishable artifacts
+[group("build")]
 publish:
     dotnet clean -c Release
     dotnet pack -c Release
