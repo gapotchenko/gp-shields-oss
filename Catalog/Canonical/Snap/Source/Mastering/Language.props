@@ -2,7 +2,7 @@
 
   <!-- Language Configuration -->
   <PropertyGroup>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>14.0</LangVersion>
   </PropertyGroup>
   
 </Project>

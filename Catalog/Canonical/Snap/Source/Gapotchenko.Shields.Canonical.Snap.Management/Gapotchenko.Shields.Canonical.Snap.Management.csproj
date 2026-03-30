@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gapotchenko.FX" Version="2025.1.45" />
-    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.45" />
-    <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.45" />
+    <PackageReference Include="Gapotchenko.FX" Version="2026.6.2" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2026.6.2" />
+    <PackageReference Include="Gapotchenko.FX.Linq" Version="2026.6.2" />
   </ItemGroup>
 
   <ItemGroup>
